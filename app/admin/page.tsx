@@ -5,8 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
-  Newspaper,
+  LayoutDashboard,
   Trophy,
+  Newspaper,
   Image as ImageIcon,
   Video,
   Plus,
@@ -20,11 +21,13 @@ import {
   Eye,
   RefreshCw,
   Sparkles,
+  PlayCircle,
+  Radio,
   Calendar,
-  Tag,
-  Clock,
-  Layers,
-  PlayCircle
+  Save,
+  ArrowRight,
+  ShieldCheck,
+  Zap,
 } from "lucide-react";
 
 type NewsItem = {
@@ -56,6 +59,15 @@ type FixtureData = {
     location?: string;
     sourceUrl?: string;
   };
+  nextMatch?: {
+    opponent: string;
+    date: string;
+    competition?: string;
+  };
+  broadcast?: {
+    venue: string;
+    channel: string;
+  };
 };
 
 type GalleryItem = {
@@ -79,7 +91,7 @@ type VideoItem = {
 
 export default function AdminDashboardPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<"news" | "results" | "gallery" | "videos">("news");
+  const [activeTab, setActiveTab] = useState<"overview" | "results" | "news" | "gallery" | "videos">("overview");
   const [loading, setLoading] = useState(true);
   const [statusMessage, setStatusMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
@@ -89,7 +101,7 @@ export default function AdminDashboardPage() {
   const [gallery, setGallery] = useState<GalleryItem[]>([]);
   const [videos, setVideos] = useState<VideoItem[]>([]);
 
-  // Modals & form states
+  // News Modal State
   const [newsModalOpen, setNewsModalOpen] = useState(false);
   const [editingNews, setEditingNews] = useState<NewsItem | null>(null);
   const [newsForm, setNewsForm] = useState({
@@ -103,6 +115,7 @@ export default function AdminDashboardPage() {
     readTime: "3 min read",
   });
 
+  // Gallery Modal State
   const [galleryModalOpen, setGalleryModalOpen] = useState(false);
   const [galleryForm, setGalleryForm] = useState({
     title: "",
@@ -110,6 +123,7 @@ export default function AdminDashboardPage() {
     src: "",
   });
 
+  // Video Modal State
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [videoForm, setVideoForm] = useState({
     title: "",
@@ -131,7 +145,6 @@ export default function AdminDashboardPage() {
           router.push("/admin/login");
           return;
         }
-
         await fetchAllData();
       } catch (err) {
         router.push("/admin/login");
@@ -144,7 +157,7 @@ export default function AdminDashboardPage() {
 
   const showStatus = (text: string, type: "success" | "error" = "success") => {
     setStatusMessage({ type, text });
-    setTimeout(() => setStatusMessage(null), 4000);
+    setTimeout(() => setStatusMessage(null), 4500);
   };
 
   const fetchAllData = async () => {
@@ -255,20 +268,24 @@ export default function AdminDashboardPage() {
   };
 
   // ----------------- RESULTS ACTIONS -----------------
-  const handleSaveResult = async (e: React.FormEvent) => {
+  const handleSaveMatchStrip = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!fixtures?.lastResult) return;
+    if (!fixtures) return;
     try {
       const res = await fetch("/api/admin/results", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(fixtures.lastResult),
+        body: JSON.stringify({
+          ...fixtures.lastResult,
+          nextMatch: fixtures.nextMatch,
+          broadcast: fixtures.broadcast,
+        }),
       });
-      if (!res.ok) throw new Error("Failed to update result");
-      showStatus("Homepage Latest Result updated successfully!");
+      if (!res.ok) throw new Error("Failed to update Match Strip");
+      showStatus("Homepage Match Strip (Latest Results, Next Match & Broadcast) updated live!");
       fetchAllData();
     } catch (err: any) {
-      showStatus(err.message || "Error updating result", "error");
+      showStatus(err.message || "Error updating Match Strip", "error");
     }
   };
 
@@ -282,7 +299,7 @@ export default function AdminDashboardPage() {
         body: JSON.stringify(galleryForm),
       });
       if (!res.ok) throw new Error("Failed to add photo");
-      showStatus("Photo added to club gallery!");
+      showStatus("Photo uploaded and added to club gallery!");
       setGalleryModalOpen(false);
       setGalleryForm({ title: "", tag: "Squad", src: "" });
       fetchAllData();
@@ -313,7 +330,7 @@ export default function AdminDashboardPage() {
         body: JSON.stringify(videoForm),
       });
       if (!res.ok) throw new Error("Failed to add video");
-      showStatus("Video added to BSSFC TV & Gallery!");
+      showStatus("Video added to BSSFC TV & Gallery with auto HD thumbnail!");
       setVideoModalOpen(false);
       setVideoForm({
         title: "",
@@ -344,18 +361,18 @@ export default function AdminDashboardPage() {
     return (
       <div className="min-h-screen bg-[#070b19] flex items-center justify-center text-white">
         <RefreshCw size={24} className="animate-spin text-[#e9d319] mr-3" />
-        <span className="font-display font-bold uppercase tracking-wider text-sm">Loading BSSFC Admin...</span>
+        <span className="font-display font-bold uppercase tracking-wider text-sm">Loading BSSFC Admin Portal...</span>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#F8F9FC] text-[#11123c] flex flex-col font-sans selection:bg-[#e9d319] selection:text-[#11123c]">
+    <div className="min-h-screen bg-[#F4F6FB] text-[#11123c] flex flex-col font-sans selection:bg-[#e9d319] selection:text-[#11123c]">
       {/* Top Navbar */}
-      <header className="bg-[#11123c] text-white border-b border-white/10 sticky top-0 z-40 shadow-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="relative w-10 h-10 shrink-0">
+      <header className="bg-[#11123c] text-white border-b border-white/10 sticky top-0 z-40 shadow-lg">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-3.5">
+            <div className="relative w-12 h-12 shrink-0 drop-shadow-md">
               <Image
                 src="/assets/imgs/crests/bangalore-crest.png"
                 alt="BSSFC Crest"
@@ -364,13 +381,15 @@ export default function AdminDashboardPage() {
               />
             </div>
             <div>
-              <h1 className="font-display font-black text-sm sm:text-base uppercase tracking-tight text-white flex items-center gap-2">
-                <span>BSSFC Control Center</span>
-                <span className="bg-[#e9d319] text-[#11123c] text-[10px] font-black uppercase px-2 py-0.5 rounded">
-                  Admin
+              <div className="flex items-center gap-2">
+                <h1 className="font-display font-black text-base sm:text-lg uppercase tracking-tight text-white">
+                  BSSFC Control Panel
+                </h1>
+                <span className="bg-[#e9d319] text-[#11123c] text-[10px] font-black uppercase px-2 py-0.5 rounded shadow-xs">
+                  ADMIN
                 </span>
-              </h1>
-              <p className="text-[11px] text-white/60">Bangalore Super Strikers FC Content Management</p>
+              </div>
+              <p className="text-xs text-white/60">Bangalore Super Strikers FC Official Management</p>
             </div>
           </div>
 
@@ -378,15 +397,15 @@ export default function AdminDashboardPage() {
             <Link
               href="/"
               target="_blank"
-              className="inline-flex items-center gap-1.5 text-xs font-bold uppercase text-white/80 hover:text-[#e9d319] py-2 px-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-[#e9d319] hover:text-white py-2 px-3.5 rounded-xl bg-white/10 hover:bg-[#1B4193] transition-all"
             >
-              <span>Live Website</span>
+              <span>View Website</span>
               <ExternalLink size={13} />
             </Link>
 
             <button
               onClick={handleLogout}
-              className="inline-flex items-center gap-1.5 text-xs font-bold uppercase text-red-300 hover:text-white py-2 px-3 rounded-lg bg-red-500/10 hover:bg-red-500 transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-red-300 hover:text-white py-2 px-3.5 rounded-xl bg-red-500/10 hover:bg-red-600 transition-colors cursor-pointer"
             >
               <LogOut size={13} />
               <span className="hidden sm:inline">Logout</span>
@@ -395,329 +414,380 @@ export default function AdminDashboardPage() {
         </div>
       </header>
 
-      {/* Main Container */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
-        {/* Toast status alert */}
-        {statusMessage && (
-          <div
-            className={`mb-6 p-4 rounded-xl flex items-center gap-3 text-sm font-semibold shadow-md transition-all ${
-              statusMessage.type === "success"
-                ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
-                : "bg-red-50 text-red-800 border border-red-200"
-            }`}
-          >
-            {statusMessage.type === "success" ? (
-              <CheckCircle2 size={18} className="text-emerald-600 shrink-0" />
-            ) : (
-              <AlertCircle size={18} className="text-red-600 shrink-0" />
-            )}
-            <span>{statusMessage.text}</span>
-          </div>
-        )}
+      {/* Main Layout: Sidebar Navigation + Content Area */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1 flex flex-col lg:flex-row gap-8 items-start">
+        
+        {/* Left Sidebar Navigation */}
+        <aside className="w-full lg:w-64 shrink-0 bg-white rounded-2xl border border-gray-200 shadow-sm p-3.5 flex flex-col gap-1.5 sticky lg:top-28">
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 px-3 py-2">
+            MANAGEMENT MODULES
+          </p>
 
-        {/* Navigation Tabs */}
-        <div className="flex items-center gap-2 sm:gap-3 border-b border-gray-200 pb-4 mb-8 overflow-x-auto">
           <button
-            onClick={() => setActiveTab("news")}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-display font-black text-xs uppercase tracking-wider transition-all cursor-pointer shrink-0 ${
-              activeTab === "news"
-                ? "bg-[#1B4193] text-white shadow-md"
-                : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-200"
+            onClick={() => setActiveTab("overview")}
+            className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl font-display font-black text-xs uppercase tracking-wider transition-all text-left cursor-pointer ${
+              activeTab === "overview"
+                ? "bg-[#11123c] text-[#e9d319] shadow-md"
+                : "text-gray-600 hover:bg-gray-100"
             }`}
           >
-            <Newspaper size={15} />
-            <span>1. News &amp; Reports ({news.length})</span>
+            <LayoutDashboard size={17} />
+            <span>Overview Hub</span>
           </button>
 
           <button
             onClick={() => setActiveTab("results")}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-display font-black text-xs uppercase tracking-wider transition-all cursor-pointer shrink-0 ${
+            className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl font-display font-black text-xs uppercase tracking-wider transition-all text-left cursor-pointer ${
               activeTab === "results"
                 ? "bg-[#1B4193] text-white shadow-md"
-                : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-200"
+                : "text-gray-600 hover:bg-gray-100"
             }`}
           >
-            <Trophy size={15} />
-            <span>2. Latest Results</span>
+            <div className="flex items-center gap-3">
+              <Trophy size={17} />
+              <span>Hero Match Strip</span>
+            </div>
+            <span className="text-[10px] bg-[#e9d319] text-[#11123c] px-2 py-0.5 rounded font-black">
+              HOME
+            </span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("news")}
+            className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl font-display font-black text-xs uppercase tracking-wider transition-all text-left cursor-pointer ${
+              activeTab === "news"
+                ? "bg-[#1B4193] text-white shadow-md"
+                : "text-gray-600 hover:bg-gray-100"
+            }`}
+          >
+            <div className="flex items-center gap-3">
+              <Newspaper size={17} />
+              <span>News &amp; Reports</span>
+            </div>
+            <span className="text-[10px] bg-gray-150 text-gray-700 px-2 py-0.5 rounded font-bold">
+              {news.length}
+            </span>
           </button>
 
           <button
             onClick={() => setActiveTab("gallery")}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-display font-black text-xs uppercase tracking-wider transition-all cursor-pointer shrink-0 ${
+            className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl font-display font-black text-xs uppercase tracking-wider transition-all text-left cursor-pointer ${
               activeTab === "gallery"
                 ? "bg-[#1B4193] text-white shadow-md"
-                : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-200"
+                : "text-gray-600 hover:bg-gray-100"
             }`}
           >
-            <ImageIcon size={15} />
-            <span>3. Photo Gallery ({gallery.length})</span>
+            <div className="flex items-center gap-3">
+              <ImageIcon size={17} />
+              <span>Photo Gallery</span>
+            </div>
+            <span className="text-[10px] bg-gray-150 text-gray-700 px-2 py-0.5 rounded font-bold">
+              {gallery.length}
+            </span>
           </button>
 
           <button
             onClick={() => setActiveTab("videos")}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-display font-black text-xs uppercase tracking-wider transition-all cursor-pointer shrink-0 ${
+            className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl font-display font-black text-xs uppercase tracking-wider transition-all text-left cursor-pointer ${
               activeTab === "videos"
                 ? "bg-[#1B4193] text-white shadow-md"
-                : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-200"
+                : "text-gray-600 hover:bg-gray-100"
             }`}
           >
-            <Video size={15} />
-            <span>4. Video Hub &amp; BSSFC TV ({videos.length})</span>
+            <div className="flex items-center gap-3">
+              <Video size={17} />
+              <span>Video Hub &amp; TV</span>
+            </div>
+            <span className="text-[10px] bg-gray-150 text-gray-700 px-2 py-0.5 rounded font-bold">
+              {videos.length}
+            </span>
           </button>
-        </div>
+        </aside>
 
-        {/* TAB 1: NEWS & MATCH REPORTS */}
-        {activeTab === "news" && (
-          <div className="space-y-6">
-            {/* Header banner */}
-            <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div>
-                <h2 className="font-display font-black text-xl uppercase tracking-tight text-[#11123c]">
-                  News &amp; Match Reports Manager
+        {/* Right Main Content */}
+        <main className="flex-1 w-full space-y-6">
+          {/* Toast Notification */}
+          {statusMessage && (
+            <div
+              className={`p-4 rounded-xl flex items-center gap-3 text-sm font-bold shadow-md transition-all ${
+                statusMessage.type === "success"
+                  ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
+                  : "bg-red-50 text-red-800 border border-red-200"
+              }`}
+            >
+              {statusMessage.type === "success" ? (
+                <CheckCircle2 size={19} className="text-emerald-600 shrink-0" />
+              ) : (
+                <AlertCircle size={19} className="text-red-600 shrink-0" />
+              )}
+              <span>{statusMessage.text}</span>
+            </div>
+          )}
+
+          {/* ================= SECTION 0: OVERVIEW HUB ================= */}
+          {activeTab === "overview" && (
+            <div className="space-y-6">
+              <div className="bg-gradient-to-r from-[#11123c] to-[#1B4193] rounded-2xl p-6 sm:p-8 text-white shadow-md relative overflow-hidden">
+                <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-[#e9d319]/10 blur-3xl pointer-events-none" />
+                <span className="text-[11px] font-black uppercase tracking-[0.2em] text-[#e9d319] bg-white/10 px-3 py-1 rounded-full border border-white/10 inline-block mb-3">
+                  CONTROL OVERVIEW
+                </span>
+                <h2 className="font-display font-black text-2xl sm:text-3xl uppercase tracking-tight text-white mb-2">
+                  Welcome to BSSFC Admin
                 </h2>
-                <p className="text-xs text-gray-500 mt-1 max-w-2xl leading-relaxed">
-                  <span className="font-bold text-[#1B4193]">Zero-Distortion Guarantee:</span> The homepage displays strictly the latest <strong>6 news cards</strong> in an aligned grid. When you publish a new article, it automatically becomes <strong>#1 on the homepage</strong>, and older articles smoothly stay archived in the full News Page (<code>/blogs</code>) with no removals.
+                <p className="text-sm text-white/80 max-w-xl font-sans">
+                  Select any section below to update live content. All updates automatically align with the website design without disturbing the responsive layout.
                 </p>
               </div>
 
-              <button
-                onClick={() => {
-                  setEditingNews(null);
-                  setNewsForm({
-                    title: "",
-                    tag: "KSFA Super Division",
-                    source: "BSSFC Match Centre",
-                    date: new Date().toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }),
-                    excerpt: "",
-                    content: "",
-                    image: "/assets/imgs/clubs/news-scouting.jpg",
-                    readTime: "3 min read",
-                  });
-                  setNewsModalOpen(true);
-                }}
-                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#e9d319] text-[#11123c] hover:bg-[#1B4193] hover:text-white font-display font-black text-xs uppercase tracking-wider transition-colors shadow-md cursor-pointer shrink-0"
-              >
-                <Plus size={16} />
-                <span>Publish New Article</span>
-              </button>
-            </div>
-
-            {/* News Cards List */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {news.map((item, index) => {
-                const isHomepageCard = index < 6;
-                return (
-                  <div
-                    key={item.id}
-                    className={`bg-white rounded-2xl border overflow-hidden shadow-xs flex flex-col transition-all ${
-                      isHomepageCard ? "border-[#1B4193]/30 ring-1 ring-[#1B4193]/20" : "border-gray-200 opacity-90"
-                    }`}
-                  >
-                    {/* Thumbnail & Position Tag */}
-                    <div className="relative aspect-[16/9] w-full bg-gray-100">
-                      <Image
-                        src={item.image}
-                        alt={item.title}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                      />
-                      <div className="absolute top-3 left-3 flex items-center gap-1.5 flex-wrap">
-                        {isHomepageCard ? (
-                          <span className="bg-[#e9d319] text-[#11123c] font-black text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-md shadow-md flex items-center gap-1">
-                            <Sparkles size={11} />
-                            <span>HOMEPAGE #{index + 1}</span>
-                          </span>
-                        ) : (
-                          <span className="bg-[#11123c]/80 text-white font-bold text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-md backdrop-blur-xs">
-                            NEWS ARCHIVE ONLY
-                          </span>
-                        )}
-                        <span className="bg-white/90 text-[#11123c] font-black text-[10px] uppercase px-2 py-0.5 rounded-md">
-                          {item.tag}
-                        </span>
+              {/* 4 Interactive Quick Action Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* 1. Match Strip Card */}
+                <div
+                  onClick={() => setActiveTab("results")}
+                  className="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs hover:shadow-lg transition-all cursor-pointer group flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-11 h-11 rounded-xl bg-[#1B4193]/10 text-[#1B4193] flex items-center justify-center">
+                        <Trophy size={22} />
                       </div>
+                      <span className="text-[10px] font-black uppercase text-[#1B4193] bg-[#1B4193]/10 px-2.5 py-1 rounded-full">
+                        After Hero Section
+                      </span>
                     </div>
-
-                    {/* Content */}
-                    <div className="p-5 flex-1 flex flex-col justify-between">
-                      <div>
-                        <p className="text-[11px] text-gray-400 uppercase tracking-wide mb-1.5">
-                          {item.source} · {item.date}
-                        </p>
-                        <h3 className="font-display font-bold text-sm leading-snug text-[#11123c] line-clamp-2 mb-2">
-                          {item.title}
-                        </h3>
-                        <p className="text-xs text-gray-500 line-clamp-3 leading-relaxed mb-4">
-                          {item.excerpt}
-                        </p>
-                      </div>
-
-                      {/* Card Actions */}
-                      <div className="pt-3 border-t border-gray-100 flex items-center justify-between gap-2">
-                        <Link
-                          href={`/blogs/${item.id}`}
-                          target="_blank"
-                          className="text-xs font-bold text-[#1B4193] hover:text-[#e9d319] flex items-center gap-1"
-                        >
-                          <Eye size={13} />
-                          <span>View</span>
-                        </Link>
-
-                        <div className="flex items-center gap-1">
-                          <button
-                            onClick={() => {
-                              setEditingNews(item);
-                              setNewsForm({
-                                title: item.title,
-                                tag: item.tag,
-                                source: item.source,
-                                date: item.date,
-                                excerpt: item.excerpt,
-                                content: Array.isArray(item.content) ? item.content.join("\n\n") : item.excerpt,
-                                image: item.image,
-                                readTime: item.readTime || "3 min read",
-                              });
-                              setNewsModalOpen(true);
-                            }}
-                            className="p-2 text-gray-500 hover:text-[#1B4193] hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
-                            title="Edit Article"
-                          >
-                            <Edit3 size={15} />
-                          </button>
-                          <button
-                            onClick={() => handleDeleteNews(item.id)}
-                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
-                            title="Delete Article"
-                          >
-                            <Trash2 size={15} />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
+                    <h3 className="font-display font-black text-lg uppercase text-[#11123c] mb-1 group-hover:text-[#1B4193] transition-colors">
+                      Latest Results &amp; Match Strip
+                    </h3>
+                    <p className="text-xs text-gray-500 mb-4 leading-relaxed">
+                      Update the scoreline ({fixtures?.lastResult.homeTeam} {fixtures?.lastResult.homeScore}–{fixtures?.lastResult.awayScore} {fixtures?.lastResult.awayTeam}), opponent name, Next Match (TBA), and stadium broadcast block right under the hero slider.
+                    </p>
                   </div>
-                );
-              })}
+                  <div className="pt-4 border-t border-gray-150 flex items-center justify-between">
+                    <span className="text-xs font-black uppercase text-[#1B4193] flex items-center gap-1 group-hover:gap-2 transition-all">
+                      <span>Update Match Strip</span>
+                      <ArrowRight size={14} />
+                    </span>
+                  </div>
+                </div>
+
+                {/* 2. News Cards */}
+                <div
+                  onClick={() => setActiveTab("news")}
+                  className="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs hover:shadow-lg transition-all cursor-pointer group flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-11 h-11 rounded-xl bg-[#e9d319]/20 text-[#11123c] flex items-center justify-center">
+                        <Newspaper size={22} />
+                      </div>
+                      <span className="text-[10px] font-black uppercase text-[#11123c] bg-[#e9d319] px-2.5 py-1 rounded-full">
+                        Strict 6 on Home · {news.length} Total
+                      </span>
+                    </div>
+                    <h3 className="font-display font-black text-lg uppercase text-[#11123c] mb-1 group-hover:text-[#1B4193] transition-colors">
+                      News &amp; Match Reports
+                    </h3>
+                    <p className="text-xs text-gray-500 mb-4 leading-relaxed">
+                      Publish new news. It instantly takes the #1 spot on the homepage while the 6th slides smoothly into the full News Page archive (<code>/blogs</code>).
+                    </p>
+                  </div>
+                  <div className="pt-4 border-t border-gray-150 flex items-center justify-between">
+                    <span className="text-xs font-black uppercase text-[#1B4193] flex items-center gap-1 group-hover:gap-2 transition-all">
+                      <span>Manage News Articles</span>
+                      <ArrowRight size={14} />
+                    </span>
+                  </div>
+                </div>
+
+                {/* 3. Photo Gallery */}
+                <div
+                  onClick={() => setActiveTab("gallery")}
+                  className="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs hover:shadow-lg transition-all cursor-pointer group flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-11 h-11 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center">
+                        <ImageIcon size={22} />
+                      </div>
+                      <span className="text-[10px] font-black uppercase text-purple-700 bg-purple-100 px-2.5 py-1 rounded-full">
+                        {gallery.length} Photos
+                      </span>
+                    </div>
+                    <h3 className="font-display font-black text-lg uppercase text-[#11123c] mb-1 group-hover:text-[#1B4193] transition-colors">
+                      Photo Gallery Manager
+                    </h3>
+                    <p className="text-xs text-gray-500 mb-4 leading-relaxed">
+                      Upload high-res matchday action photos, training drills, and squad portraits into the <code>/gallery</code> page with category tags.
+                    </p>
+                  </div>
+                  <div className="pt-4 border-t border-gray-150 flex items-center justify-between">
+                    <span className="text-xs font-black uppercase text-[#1B4193] flex items-center gap-1 group-hover:gap-2 transition-all">
+                      <span>Upload &amp; Manage Photos</span>
+                      <ArrowRight size={14} />
+                    </span>
+                  </div>
+                </div>
+
+                {/* 4. Video Hub */}
+                <div
+                  onClick={() => setActiveTab("videos")}
+                  className="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs hover:shadow-lg transition-all cursor-pointer group flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-11 h-11 rounded-xl bg-red-50 text-red-600 flex items-center justify-center">
+                        <Video size={22} />
+                      </div>
+                      <span className="text-[10px] font-black uppercase text-red-700 bg-red-100 px-2.5 py-1 rounded-full">
+                        {videos.length} Videos · BSSFC TV
+                      </span>
+                    </div>
+                    <h3 className="font-display font-black text-lg uppercase text-[#11123c] mb-1 group-hover:text-[#1B4193] transition-colors">
+                      Video Hub &amp; BSSFC TV
+                    </h3>
+                    <p className="text-xs text-gray-500 mb-4 leading-relaxed">
+                      Add YouTube videos with auto HD thumbnail generation. Displays inside the <strong>Gallery Page Video Tab</strong> and the <strong>Homepage BSSFC TV Section</strong>.
+                    </p>
+                  </div>
+                  <div className="pt-4 border-t border-gray-150 flex items-center justify-between">
+                    <span className="text-xs font-black uppercase text-[#1B4193] flex items-center gap-1 group-hover:gap-2 transition-all">
+                      <span>Add &amp; Manage Videos</span>
+                      <ArrowRight size={14} />
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* TAB 2: LATEST RESULTS */}
-        {activeTab === "results" && fixtures && (
-          <div className="space-y-6">
-            <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs">
-              <h2 className="font-display font-black text-xl uppercase tracking-tight text-[#11123c]">
-                Homepage Match Strip Results
-              </h2>
-              <p className="text-xs text-gray-500 mt-1 max-w-2xl leading-relaxed">
-                Update the scores, opponent, and competition shown in the prominent match strip right below the homepage hero carousel.
-              </p>
-            </div>
+          {/* ================= SECTION 1: MATCH STRIP (AFTER HERO) ================= */}
+          {activeTab === "results" && fixtures && (
+            <div className="space-y-6">
+              <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs">
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#1B4193] bg-[#1B4193]/10 px-3 py-1 rounded-full inline-block mb-2">
+                  LOCATED DIRECTLY AFTER HERO SECTION
+                </span>
+                <h2 className="font-display font-black text-xl uppercase tracking-tight text-[#11123c]">
+                  Match Strip: Latest Results &amp; Next Fixture
+                </h2>
+                <p className="text-xs text-gray-500 mt-1 max-w-2xl leading-relaxed">
+                  This 3-card block floats right below the hero carousel on the homepage. Update the finished match scores, announce the upcoming fixture, or modify stadium/broadcast info.
+                </p>
+              </div>
 
-            {/* Live Preview Card */}
-            <div className="bg-[#11123c] p-6 sm:p-8 rounded-2xl text-white shadow-xl relative overflow-hidden">
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#e9d319] bg-white/10 px-3 py-1 rounded-full border border-white/10 inline-block mb-4">
-                LIVE HOMEPAGE PREVIEW
-              </span>
+              {/* Live Preview of the exact 3-box Match Strip */}
+              <div className="bg-[#11123c] p-6 sm:p-8 rounded-2xl text-white shadow-xl">
+                <p className="text-[10px] font-black uppercase tracking-wider text-[#e9d319] mb-4 flex items-center gap-1.5">
+                  <Eye size={13} />
+                  <span>HOMEPAGE MATCH STRIP PREVIEW</span>
+                </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-                {/* Home */}
-                <div className="flex items-center gap-4 justify-center md:justify-start">
-                  <div className="relative w-14 h-14 shrink-0">
-                    <Image
-                      src={fixtures.lastResult.homeCrest || "/assets/imgs/crests/bangalore-crest.png"}
-                      alt="Home Crest"
-                      fill
-                      className="object-contain"
+                <div className="grid grid-cols-1 md:grid-cols-12 rounded-xl overflow-hidden border border-white/20 bg-white text-[#11123c]">
+                  {/* Box 1: Latest Results */}
+                  <div className="md:col-span-4 p-5 flex flex-col items-center justify-center text-center border-b md:border-b-0 md:border-r border-gray-200">
+                    <span className="text-xs font-black uppercase tracking-wider text-[#11123c] mb-3">
+                      LATEST RESULTS
+                    </span>
+                    <div className="flex items-center gap-3">
+                      <div className="relative w-8 h-8">
+                        <Image
+                          src={fixtures.lastResult.homeCrest || "/assets/imgs/crests/bangalore-crest.png"}
+                          alt="Home"
+                          fill
+                          className="object-contain"
+                        />
+                      </div>
+                      <span className="font-display font-black text-2xl text-[#11123c]">
+                        {fixtures.lastResult.homeScore} - {fixtures.lastResult.awayScore}
+                      </span>
+                      <div className="w-8 h-8 rounded-full bg-gray-100 border border-gray-300 flex items-center justify-center text-[11px] font-black text-[#11123c]">
+                        {fixtures.lastResult.awayTeam ? fixtures.lastResult.awayTeam.slice(0, 2).toUpperCase() : "OP"}
+                      </div>
+                    </div>
+                    <span className="text-[11px] font-bold text-red-600 mt-2 block">
+                      {fixtures.lastResult.date}
+                    </span>
+                    <span className="text-[10px] font-semibold text-gray-500 uppercase mt-0.5 block truncate max-w-full">
+                      {fixtures.lastResult.competition}
+                    </span>
+                  </div>
+
+                  {/* Box 2: Next Match */}
+                  <div className="md:col-span-4 p-5 flex flex-col items-center justify-center text-center border-b md:border-b-0 md:border-r border-gray-200 bg-white">
+                    <span className="text-xs font-black uppercase tracking-wider text-[#11123c] mb-3">
+                      NEXT MATCH
+                    </span>
+                    <div className="font-display font-black text-lg text-[#11123c] uppercase">
+                      {fixtures.nextMatch?.opponent || "TBA"}
+                    </div>
+                    <span className="text-[10px] font-semibold text-gray-500 uppercase mt-2 block">
+                      {fixtures.nextMatch?.date || "FIXTURE TO BE ANNOUNCED"}
+                    </span>
+                  </div>
+
+                  {/* Box 3: Stadium & Broadcast */}
+                  <div className="md:col-span-4 p-5 flex flex-col items-center justify-center text-center bg-[#25265e] text-white">
+                    <span className="font-display font-black text-xl uppercase tracking-wider text-white">
+                      {fixtures.broadcast?.venue || "TBA"}
+                    </span>
+                    <span className="text-[10px] font-semibold text-white/70 uppercase mt-1">
+                      {fixtures.broadcast?.channel || "STADIUM & BROADCAST"}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Match Strip Editor Form */}
+              <form onSubmit={handleSaveMatchStrip} className="bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 shadow-xs space-y-6">
+                <h3 className="font-display font-black text-base uppercase text-[#11123c] border-b border-gray-150 pb-3 flex items-center gap-2">
+                  <Edit3 size={16} className="text-[#1B4193]" />
+                  <span>Update Card 1: Finished Match Result</span>
+                </h3>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">
+                      Tournament / Competition Name *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={fixtures.lastResult.competition}
+                      onChange={(e) =>
+                        setFixtures({
+                          ...fixtures,
+                          lastResult: { ...fixtures.lastResult, competition: e.target.value },
+                        })
+                      }
+                      className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#1B4193]"
                     />
                   </div>
+
                   <div>
-                    <span className="font-display font-black text-lg uppercase text-white block">
-                      {fixtures.lastResult.homeTeam}
-                    </span>
-                    <span className="text-xs text-white/60">Home Club</span>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">
+                      Match Date *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={fixtures.lastResult.date}
+                      onChange={(e) =>
+                        setFixtures({
+                          ...fixtures,
+                          lastResult: { ...fixtures.lastResult, date: e.target.value },
+                        })
+                      }
+                      placeholder="e.g. 1 Aug 2021"
+                      className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#1B4193]"
+                    />
                   </div>
                 </div>
 
-                {/* Score */}
-                <div className="text-center bg-white/5 py-4 px-6 rounded-xl border border-white/10">
-                  <div className="font-display font-black text-4xl text-[#e9d319] tracking-tight">
-                    {fixtures.lastResult.homeScore} – {fixtures.lastResult.awayScore}
-                  </div>
-                  <span className="text-[11px] font-bold text-red-400 tracking-wider block mt-1">
-                    {fixtures.lastResult.date}
-                  </span>
-                  <span className="text-[10px] font-semibold text-white/70 uppercase tracking-wide block">
-                    {fixtures.lastResult.competition}
-                  </span>
-                </div>
-
-                {/* Away */}
-                <div className="flex items-center gap-4 justify-center md:justify-end">
-                  <div className="text-right">
-                    <span className="font-display font-black text-lg uppercase text-white block">
-                      {fixtures.lastResult.awayTeam}
-                    </span>
-                    <span className="text-xs text-white/60">Opponent</span>
-                  </div>
-                  <div className="w-14 h-14 rounded-full bg-white/10 border border-white/20 flex items-center justify-center font-display font-black text-sm text-[#e9d319] shrink-0">
-                    {fixtures.lastResult.awayTeam.slice(0, 2).toUpperCase()}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Result Editor Form */}
-            <form onSubmit={handleSaveResult} className="bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 shadow-xs space-y-6">
-              <h3 className="font-display font-bold text-base uppercase text-[#11123c] border-b border-gray-150 pb-3">
-                Edit Match Details
-              </h3>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">
-                    Competition / Tournament Name
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={fixtures.lastResult.competition}
-                    onChange={(e) =>
-                      setFixtures({
-                        ...fixtures,
-                        lastResult: { ...fixtures.lastResult, competition: e.target.value },
-                      })
-                    }
-                    className="w-full px-4 py-3 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#1B4193]"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">
-                    Match Date
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={fixtures.lastResult.date}
-                    onChange={(e) =>
-                      setFixtures({
-                        ...fixtures,
-                        lastResult: { ...fixtures.lastResult, date: e.target.value },
-                      })
-                    }
-                    placeholder="e.g. 1 Aug 2021"
-                    className="w-full px-4 py-3 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#1B4193]"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Home */}
-                <div className="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-4">
-                  <span className="text-xs font-black uppercase text-[#11123c]">Home Team</span>
-                  <div>
-                    <label className="block text-[11px] font-bold uppercase text-gray-500 mb-1">Team Name</label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  {/* Home Team */}
+                  <div className="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-3">
+                    <span className="text-xs font-black uppercase text-[#11123c] block">Home Team (BSSFC)</span>
                     <input
                       type="text"
                       required
@@ -730,30 +800,27 @@ export default function AdminDashboardPage() {
                       }
                       className="w-full px-3 py-2 text-sm bg-white border border-gray-300 rounded-lg"
                     />
+                    <div>
+                      <label className="block text-[11px] font-bold uppercase text-gray-500 mb-1">Goals Scored</label>
+                      <input
+                        type="number"
+                        required
+                        min={0}
+                        value={fixtures.lastResult.homeScore}
+                        onChange={(e) =>
+                          setFixtures({
+                            ...fixtures,
+                            lastResult: { ...fixtures.lastResult, homeScore: Number(e.target.value) },
+                          })
+                        }
+                        className="w-full px-3 py-2 text-sm bg-white border border-gray-300 rounded-lg font-bold"
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <label className="block text-[11px] font-bold uppercase text-gray-500 mb-1">Goals Scored</label>
-                    <input
-                      type="number"
-                      required
-                      min={0}
-                      value={fixtures.lastResult.homeScore}
-                      onChange={(e) =>
-                        setFixtures({
-                          ...fixtures,
-                          lastResult: { ...fixtures.lastResult, homeScore: Number(e.target.value) },
-                        })
-                      }
-                      className="w-full px-3 py-2 text-sm bg-white border border-gray-300 rounded-lg"
-                    />
-                  </div>
-                </div>
 
-                {/* Away */}
-                <div className="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-4">
-                  <span className="text-xs font-black uppercase text-[#11123c]">Opponent Team</span>
-                  <div>
-                    <label className="block text-[11px] font-bold uppercase text-gray-500 mb-1">Team Name</label>
+                  {/* Away Team */}
+                  <div className="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-3">
+                    <span className="text-xs font-black uppercase text-[#11123c] block">Opponent Team</span>
                     <input
                       type="text"
                       required
@@ -766,216 +833,403 @@ export default function AdminDashboardPage() {
                       }
                       className="w-full px-3 py-2 text-sm bg-white border border-gray-300 rounded-lg"
                     />
+                    <div>
+                      <label className="block text-[11px] font-bold uppercase text-gray-500 mb-1">Goals Scored</label>
+                      <input
+                        type="number"
+                        required
+                        min={0}
+                        value={fixtures.lastResult.awayScore}
+                        onChange={(e) =>
+                          setFixtures({
+                            ...fixtures,
+                            lastResult: { ...fixtures.lastResult, awayScore: Number(e.target.value) },
+                          })
+                        }
+                        className="w-full px-3 py-2 text-sm bg-white border border-gray-300 rounded-lg font-bold"
+                      />
+                    </div>
                   </div>
+                </div>
+
+                <h3 className="font-display font-black text-base uppercase text-[#11123c] border-b border-gray-150 pb-3 pt-2 flex items-center gap-2">
+                  <Calendar size={16} className="text-[#1B4193]" />
+                  <span>Update Card 2 &amp; 3: Next Fixture &amp; Broadcast</span>
+                </h3>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-[11px] font-bold uppercase text-gray-500 mb-1">Goals Scored</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">
+                      Card 2: Next Opponent (or "TBA")
+                    </label>
                     <input
-                      type="number"
-                      required
-                      min={0}
-                      value={fixtures.lastResult.awayScore}
+                      type="text"
+                      value={fixtures.nextMatch?.opponent || ""}
                       onChange={(e) =>
                         setFixtures({
                           ...fixtures,
-                          lastResult: { ...fixtures.lastResult, awayScore: Number(e.target.value) },
+                          nextMatch: {
+                            opponent: e.target.value,
+                            date: fixtures.nextMatch?.date || "FIXTURE TO BE ANNOUNCED",
+                          },
                         })
                       }
-                      className="w-full px-3 py-2 text-sm bg-white border border-gray-300 rounded-lg"
+                      placeholder="e.g. vs Bengaluru Independents FC or TBA"
+                      className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-xl"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">
+                      Card 2: Next Match Date / Note
+                    </label>
+                    <input
+                      type="text"
+                      value={fixtures.nextMatch?.date || ""}
+                      onChange={(e) =>
+                        setFixtures({
+                          ...fixtures,
+                          nextMatch: {
+                            opponent: fixtures.nextMatch?.opponent || "TBA",
+                            date: e.target.value,
+                          },
+                        })
+                      }
+                      placeholder="e.g. Sunday, 15 Nov · 3:30 PM"
+                      className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-xl"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">
+                      Card 3: Stadium Name (or "TBA")
+                    </label>
+                    <input
+                      type="text"
+                      value={fixtures.broadcast?.venue || ""}
+                      onChange={(e) =>
+                        setFixtures({
+                          ...fixtures,
+                          broadcast: {
+                            venue: e.target.value,
+                            channel: fixtures.broadcast?.channel || "STADIUM & BROADCAST",
+                          },
+                        })
+                      }
+                      placeholder="Bangalore Football Stadium"
+                      className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-xl"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">
+                      Card 3: Broadcast Info
+                    </label>
+                    <input
+                      type="text"
+                      value={fixtures.broadcast?.channel || ""}
+                      onChange={(e) =>
+                        setFixtures({
+                          ...fixtures,
+                          broadcast: {
+                            venue: fixtures.broadcast?.venue || "TBA",
+                            channel: e.target.value,
+                          },
+                        })
+                      }
+                      placeholder="STADIUM & BROADCAST"
+                      className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-xl"
                     />
                   </div>
                 </div>
-              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">
-                    Stadium / Venue
-                  </label>
-                  <input
-                    type="text"
-                    value={fixtures.lastResult.location || ""}
-                    onChange={(e) =>
-                      setFixtures({
-                        ...fixtures,
-                        lastResult: { ...fixtures.lastResult, location: e.target.value },
-                      })
-                    }
-                    placeholder="Bangalore Football Stadium"
-                    className="w-full px-4 py-3 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#1B4193]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">
-                    Linked Match Report URL
-                  </label>
-                  <input
-                    type="text"
-                    value={fixtures.lastResult.reportUrl || ""}
-                    onChange={(e) =>
-                      setFixtures({
-                        ...fixtures,
-                        lastResult: { ...fixtures.lastResult, reportUrl: e.target.value },
-                      })
-                    }
-                    placeholder="/blogs/1"
-                    className="w-full px-4 py-3 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#1B4193]"
-                  />
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                className="px-8 py-3.5 bg-[#1B4193] text-white hover:bg-[#e9d319] hover:text-[#11123c] font-display font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-md cursor-pointer"
-              >
-                Save &amp; Update Live Homepage Result
-              </button>
-            </form>
-          </div>
-        )}
-
-        {/* TAB 3: PHOTO GALLERY */}
-        {activeTab === "gallery" && (
-          <div className="space-y-6">
-            <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div>
-                <h2 className="font-display font-black text-xl uppercase tracking-tight text-[#11123c]">
-                  Club Photo Gallery Manager
-                </h2>
-                <p className="text-xs text-gray-500 mt-1 max-w-2xl leading-relaxed">
-                  Manage high-resolution images shown in the Gallery page (<code>/gallery</code>). All uploads adhere strictly to uniform aspect ratios.
-                </p>
-              </div>
-
-              <button
-                onClick={() => setGalleryModalOpen(true)}
-                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#e9d319] text-[#11123c] hover:bg-[#1B4193] hover:text-white font-display font-black text-xs uppercase tracking-wider transition-colors shadow-md cursor-pointer shrink-0"
-              >
-                <Plus size={16} />
-                <span>Upload Photo</span>
-              </button>
-            </div>
-
-            {/* Gallery Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-              {gallery.map((img) => (
-                <div
-                  key={img.id}
-                  className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-2xs group relative flex flex-col"
+                <button
+                  type="submit"
+                  className="px-8 py-3.5 bg-[#1B4193] text-white hover:bg-[#e9d319] hover:text-[#11123c] font-display font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-md cursor-pointer flex items-center gap-2"
                 >
-                  <div className="relative aspect-[4/3] w-full bg-gray-100">
-                    <Image
-                      src={img.src}
-                      alt={img.title}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 640px) 50vw, 20vw"
-                    />
-                    <span className="absolute top-2 left-2 bg-[#11123c]/80 text-white font-black text-[9px] uppercase px-1.5 py-0.5 rounded">
-                      {img.tag}
-                    </span>
-                  </div>
+                  <Save size={16} />
+                  <span>Save All 3 Cards to Live Homepage</span>
+                </button>
+              </form>
+            </div>
+          )}
 
-                  <div className="p-2.5 flex-1 flex flex-col justify-between">
-                    <p className="text-[11px] font-bold text-[#11123c] truncate" title={img.title}>
-                      {img.title}
-                    </p>
-                    <button
-                      onClick={() => handleDeleteGallery(img.id)}
-                      className="mt-2 text-[10px] font-bold uppercase text-red-500 hover:text-red-700 flex items-center gap-1 cursor-pointer"
+          {/* ================= SECTION 2: NEWS & MATCH REPORTS ================= */}
+          {activeTab === "news" && (
+            <div className="space-y-6">
+              <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                  <h2 className="font-display font-black text-xl uppercase tracking-tight text-[#11123c]">
+                    News &amp; Match Reports Manager
+                  </h2>
+                  <p className="text-xs text-gray-500 mt-1 max-w-2xl leading-relaxed">
+                    <span className="font-bold text-[#1B4193]">Strict Rolling Queue:</span> Exactly <strong>6 cards appear on the homepage</strong>. When you publish a new story, it takes <strong>#1 on the homepage</strong>, and older stories slide into the full News Page (<code>/blogs</code>) without disturbing any layouts.
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => {
+                    setEditingNews(null);
+                    setNewsForm({
+                      title: "",
+                      tag: "KSFA Super Division",
+                      source: "BSSFC Match Centre",
+                      date: new Date().toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }),
+                      excerpt: "",
+                      content: "",
+                      image: "/assets/imgs/clubs/news-scouting.jpg",
+                      readTime: "3 min read",
+                    });
+                    setNewsModalOpen(true);
+                  }}
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#e9d319] text-[#11123c] hover:bg-[#1B4193] hover:text-white font-display font-black text-xs uppercase tracking-wider transition-colors shadow-md cursor-pointer shrink-0"
+                >
+                  <Plus size={16} />
+                  <span>Publish New Article</span>
+                </button>
+              </div>
+
+              {/* News Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {news.map((item, index) => {
+                  const isHomepageCard = index < 6;
+                  return (
+                    <div
+                      key={item.id}
+                      className={`bg-white rounded-2xl border overflow-hidden shadow-xs flex flex-col transition-all ${
+                        isHomepageCard ? "border-[#1B4193]/35 ring-1 ring-[#1B4193]/20" : "border-gray-200 opacity-90"
+                      }`}
                     >
-                      <Trash2 size={11} />
-                      <span>Remove</span>
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+                      <div className="relative aspect-[16/9] w-full bg-gray-100">
+                        <Image
+                          src={item.image}
+                          alt={item.title}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                        />
+                        <div className="absolute top-3 left-3 flex items-center gap-1.5 flex-wrap">
+                          {isHomepageCard ? (
+                            <span className="bg-[#e9d319] text-[#11123c] font-black text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-md shadow-md flex items-center gap-1">
+                              <Sparkles size={11} />
+                              <span>HOMEPAGE #{index + 1}</span>
+                            </span>
+                          ) : (
+                            <span className="bg-[#11123c]/85 text-white font-bold text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-md backdrop-blur-xs">
+                              NEWS ARCHIVE ONLY
+                            </span>
+                          )}
+                          <span className="bg-white/95 text-[#11123c] font-black text-[10px] uppercase px-2 py-0.5 rounded-md">
+                            {item.tag}
+                          </span>
+                        </div>
+                      </div>
 
-        {/* TAB 4: VIDEOS & BSSFC TV */}
-        {activeTab === "videos" && (
-          <div className="space-y-6">
-            <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div>
-                <h2 className="font-display font-black text-xl uppercase tracking-tight text-[#11123c]">
-                  Video Hub &amp; BSSFC TV Manager
-                </h2>
-                <p className="text-xs text-gray-500 mt-1 max-w-2xl leading-relaxed">
-                  Add match highlights, training reels, and player interviews. Videos automatically display in the <strong>Gallery Page Video Tab</strong> and the <strong>Homepage BSSFC TV Slider</strong> without breaking the layout.
-                </p>
+                      <div className="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                          <p className="text-[11px] text-gray-400 uppercase tracking-wide mb-1.5">
+                            {item.source} · {item.date}
+                          </p>
+                          <h3 className="font-display font-bold text-sm leading-snug text-[#11123c] line-clamp-2 mb-2">
+                            {item.title}
+                          </h3>
+                          <p className="text-xs text-gray-500 line-clamp-3 leading-relaxed mb-4">
+                            {item.excerpt}
+                          </p>
+                        </div>
+
+                        <div className="pt-3 border-t border-gray-100 flex items-center justify-between gap-2">
+                          <Link
+                            href={`/blogs/${item.id}`}
+                            target="_blank"
+                            className="text-xs font-bold text-[#1B4193] hover:text-[#e9d319] flex items-center gap-1"
+                          >
+                            <Eye size={13} />
+                            <span>View</span>
+                          </Link>
+
+                          <div className="flex items-center gap-1">
+                            <button
+                              onClick={() => {
+                                setEditingNews(item);
+                                setNewsForm({
+                                  title: item.title,
+                                  tag: item.tag,
+                                  source: item.source,
+                                  date: item.date,
+                                  excerpt: item.excerpt,
+                                  content: Array.isArray(item.content) ? item.content.join("\n\n") : item.excerpt,
+                                  image: item.image,
+                                  readTime: item.readTime || "3 min read",
+                                });
+                                setNewsModalOpen(true);
+                              }}
+                              className="p-2 text-gray-500 hover:text-[#1B4193] hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
+                              title="Edit Article"
+                            >
+                              <Edit3 size={15} />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteNews(item.id)}
+                              className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                              title="Delete Article"
+                            >
+                              <Trash2 size={15} />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* ================= SECTION 3: PHOTO GALLERY ================= */}
+          {activeTab === "gallery" && (
+            <div className="space-y-6">
+              <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                  <h2 className="font-display font-black text-xl uppercase tracking-tight text-[#11123c]">
+                    Club Photo Gallery Manager
+                  </h2>
+                  <p className="text-xs text-gray-500 mt-1 max-w-2xl leading-relaxed">
+                    Upload photos for the Gallery page (<code>/gallery</code>). Images are organized by category tags and strictly maintained at a uniform aspect ratio.
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => setGalleryModalOpen(true)}
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#e9d319] text-[#11123c] hover:bg-[#1B4193] hover:text-white font-display font-black text-xs uppercase tracking-wider transition-colors shadow-md cursor-pointer shrink-0"
+                >
+                  <Plus size={16} />
+                  <span>Upload Photo</span>
+                </button>
               </div>
 
-              <button
-                onClick={() => setVideoModalOpen(true)}
-                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#e9d319] text-[#11123c] hover:bg-[#1B4193] hover:text-white font-display font-black text-xs uppercase tracking-wider transition-colors shadow-md cursor-pointer shrink-0"
-              >
-                <Plus size={16} />
-                <span>Add Video</span>
-              </button>
-            </div>
-
-            {/* Video Cards Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {videos.map((vid) => (
-                <div
-                  key={vid.id}
-                  className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-xs flex flex-col"
-                >
-                  <div className="relative aspect-video w-full bg-black">
-                    <Image
-                      src={vid.thumbnail}
-                      alt={vid.title}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                      <PlayCircle size={40} className="text-white drop-shadow-md" />
-                    </div>
-                    <span className="absolute top-3 left-3 bg-[#e9d319] text-[#11123c] font-black text-[10px] uppercase px-2 py-0.5 rounded shadow">
-                      {vid.category}
-                    </span>
-                    {vid.duration && (
-                      <span className="absolute bottom-3 right-3 bg-black/80 text-white font-bold text-[10px] px-2 py-0.5 rounded">
-                        {vid.duration}
+              {/* Photos Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                {gallery.map((img) => (
+                  <div
+                    key={img.id}
+                    className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-2xs group relative flex flex-col"
+                  >
+                    <div className="relative aspect-[4/3] w-full bg-gray-100">
+                      <Image
+                        src={img.src}
+                        alt={img.title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 640px) 50vw, 20vw"
+                      />
+                      <span className="absolute top-2 left-2 bg-[#11123c]/85 text-white font-black text-[9px] uppercase px-1.5 py-0.5 rounded">
+                        {img.tag}
                       </span>
-                    )}
-                  </div>
-
-                  <div className="p-5 flex-1 flex flex-col justify-between">
-                    <div>
-                      <h3 className="font-display font-bold text-sm leading-snug text-[#11123c] mb-2">
-                        {vid.title}
-                      </h3>
-                      <p className="text-xs text-gray-400 truncate">
-                        ID: {vid.id}
-                      </p>
                     </div>
 
-                    <div className="pt-3 mt-3 border-t border-gray-150 flex items-center justify-between">
-                      <a
-                        href={vid.youtubeUrl}
-                        target="_blank"
-                        className="text-xs font-bold text-[#1B4193] hover:text-[#e9d319] flex items-center gap-1"
-                      >
-                        <ExternalLink size={12} />
-                        <span>Watch Video</span>
-                      </a>
+                    <div className="p-2.5 flex-1 flex flex-col justify-between">
+                      <p className="text-[11px] font-bold text-[#11123c] truncate" title={img.title}>
+                        {img.title}
+                      </p>
                       <button
-                        onClick={() => handleDeleteVideo(vid.id)}
-                        className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors cursor-pointer"
-                        title="Delete video"
+                        onClick={() => handleDeleteGallery(img.id)}
+                        className="mt-2 text-[10px] font-bold uppercase text-red-500 hover:text-red-700 flex items-center gap-1 cursor-pointer"
                       >
-                        <Trash2 size={14} />
+                        <Trash2 size={11} />
+                        <span>Remove</span>
                       </button>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+
+          {/* ================= SECTION 4: VIDEO HUB & BSSFC TV ================= */}
+          {activeTab === "videos" && (
+            <div className="space-y-6">
+              <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                  <h2 className="font-display font-black text-xl uppercase tracking-tight text-[#11123c]">
+                    Video Hub &amp; BSSFC TV Manager
+                  </h2>
+                  <p className="text-xs text-gray-500 mt-1 max-w-2xl leading-relaxed">
+                    Add YouTube match highlights, training drills, or player reels. These automatically populate both the <strong>Homepage BSSFC TV Slider</strong> and the <strong>Gallery Page Video Tab</strong>.
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => setVideoModalOpen(true)}
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#e9d319] text-[#11123c] hover:bg-[#1B4193] hover:text-white font-display font-black text-xs uppercase tracking-wider transition-colors shadow-md cursor-pointer shrink-0"
+                >
+                  <Plus size={16} />
+                  <span>Add Video</span>
+                </button>
+              </div>
+
+              {/* Videos Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {videos.map((vid) => (
+                  <div
+                    key={vid.id}
+                    className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-xs flex flex-col"
+                  >
+                    <div className="relative aspect-video w-full bg-black">
+                      <Image
+                        src={vid.thumbnail}
+                        alt={vid.title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
+                      <div className="absolute inset-0 bg-black/25 flex items-center justify-center">
+                        <PlayCircle size={38} className="text-white drop-shadow-md" />
+                      </div>
+                      <span className="absolute top-3 left-3 bg-[#e9d319] text-[#11123c] font-black text-[10px] uppercase px-2 py-0.5 rounded shadow">
+                        {vid.category}
+                      </span>
+                      {vid.duration && (
+                        <span className="absolute bottom-3 right-3 bg-black/80 text-white font-bold text-[10px] px-2 py-0.5 rounded">
+                          {vid.duration}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="p-5 flex-1 flex flex-col justify-between">
+                      <div>
+                        <h3 className="font-display font-bold text-sm leading-snug text-[#11123c] mb-1.5">
+                          {vid.title}
+                        </h3>
+                        <p className="text-xs text-gray-400 truncate">
+                          ID: {vid.id}
+                        </p>
+                      </div>
+
+                      <div className="pt-3 mt-3 border-t border-gray-150 flex items-center justify-between">
+                        <a
+                          href={vid.youtubeUrl}
+                          target="_blank"
+                          className="text-xs font-bold text-[#1B4193] hover:text-[#e9d319] flex items-center gap-1"
+                        >
+                          <ExternalLink size={12} />
+                          <span>Watch Video</span>
+                        </a>
+                        <button
+                          onClick={() => handleDeleteVideo(vid.id)}
+                          className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors cursor-pointer"
+                          title="Delete video"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </main>
       </div>
 
       {/* ================= MODAL: ADD / EDIT NEWS ================= */}

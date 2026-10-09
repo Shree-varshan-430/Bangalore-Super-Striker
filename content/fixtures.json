@@ -14,10 +14,18 @@
     "location": "Maidan, Bangalore",
     "sourceUrl": "https://gomaidan.in/black-panthers-super-strikers-power-last-16/"
   },
-  "nextMatch": null,
+  "nextMatch": {
+    "opponent": "TBA",
+    "date": "FIXTURE TO BE ANNOUNCED",
+    "competition": "KSFA Super Division"
+  },
   "trialsCta": {
     "label": "FREE CONSULTATION & TRIALS",
     "phone": "+919591069293",
     "phoneDisplay": "(+91) 95910 69293"
+  },
+  "broadcast": {
+    "venue": "TBA",
+    "channel": "STADIUM & BROADCAST"
   }
 }

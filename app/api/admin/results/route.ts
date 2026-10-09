@@ -52,7 +52,17 @@ export async function PUT(request: Request) {
     };
 
     if (body.nextMatch !== undefined) {
-      data.nextMatch = body.nextMatch;
+      data.nextMatch = {
+        ...data.nextMatch,
+        ...body.nextMatch,
+      };
+    }
+
+    if (body.broadcast !== undefined) {
+      data.broadcast = {
+        ...data.broadcast,
+        ...body.broadcast,
+      };
     }
 
     saveFixtures(data);

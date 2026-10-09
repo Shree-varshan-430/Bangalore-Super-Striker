@@ -52,33 +52,33 @@ export default function MatchStrip() {
           </div>
         </div>
 
-        {/* Center Column: NEXT MATCH (White card, TBA centered) */}
+        {/* Center Column: NEXT MATCH */}
         <div className="md:col-span-4 p-6 sm:p-7 flex flex-col items-center justify-center text-center border-b md:border-b-0 md:border-r border-gray-200 bg-white">
           <h3
-            className="text-xs sm:text-sm font-black uppercase tracking-[2px] text-[#11123c] mb-6 font-display"
+            className="text-xs sm:text-sm font-black uppercase tracking-[2px] text-[#11123c] mb-4 font-display"
           >
             NEXT MATCH
           </h3>
 
-          <div className="font-display text-lg sm:text-xl font-black text-[#11123c] tracking-wider my-auto">
-            TBA
+          <div className="font-display text-lg sm:text-xl font-black text-[#11123c] tracking-wider my-auto uppercase">
+            {(fixtures as any).nextMatch?.opponent || "TBA"}
           </div>
 
-          <p className="text-[10px] font-semibold text-[#696484] tracking-wider mt-4">
-            FIXTURE TO BE ANNOUNCED
+          <p className="text-[10px] font-semibold text-[#696484] tracking-wider mt-4 uppercase">
+            {(fixtures as any).nextMatch?.date || "FIXTURE TO BE ANNOUNCED"}
           </p>
         </div>
 
-        {/* Right Column: SOLID BLUE / NAVY BLOCK (Exact BFC Solid Block with TBA) */}
+        {/* Right Column: SOLID BLUE / NAVY BLOCK */}
         <div
           className="md:col-span-4 p-6 sm:p-7 flex flex-col items-center justify-center text-center text-white"
           style={{ background: "#25265e" }}
         >
           <span className="font-display text-xl sm:text-2xl font-black tracking-widest text-white uppercase select-none">
-            TBA
+            {(fixtures as any).broadcast?.venue || "TBA"}
           </span>
           <span className="text-[10px] font-semibold tracking-wider text-white/70 uppercase mt-2">
-            STADIUM &amp; BROADCAST
+            {(fixtures as any).broadcast?.channel || "STADIUM & BROADCAST"}
           </span>
         </div>
 
