@@ -1,5 +1,7 @@
 # Bangalore Super Strikers FC (BSSFC) — Website Rebuild
 
+Designed & Developed by [AI BuildInfra](https://aibuildinfra.com/)
+
 Modern, accessible, fast, and SEO-optimized website for **Bangalore Super Strikers Football Club & Soccer School**. Designed to replicate the visual rhythm, header behaviors, typography scale, section flow, and card designs of [Bengaluru FC](https://www.bengalurufc.com/), while ensuring 100% authentic BSSFC copy, assets, results, and contact information from [Bangalore Super Strikers FC](https://www.bangaloresuperstrikersfc.com/).
 
 ---
@@ -69,3 +71,10 @@ All club data is organized in the `/content` folder:
 2. **Trophy Cabinet & Honours:** Provide exact trophy names and championship years to replace the Reach grid with an Honours showcase.
 3. **Foundation Page Strategy:** Confirm whether the Foundation should remain an external link to `bssfc.in` or be unified into this website.
 4. **Form & Newsletter Provider:** Confirm preferred email service (e.g., Resend, Brevo, SendGrid, or direct SMTP) for routing inquiries.
+
+---
+
+## 💻 Credits & Development
+
+Designed & Developed by **[AI BuildInfra](https://aibuildinfra.com/)** — Intelligent Digital Infrastructure & Web Engineering.
+

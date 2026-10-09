@@ -211,23 +211,36 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div
-        className="py-4 text-center"
+        className="py-4 px-4"
         style={{ background: "#070b19" }}
       >
-        <p className="text-gray-400 text-xs">
-          © 2021–2026 Bangalore Super Strikers Soccer School &nbsp;|&nbsp;
-          <Link href="/privacy_policy" className="hover:text-[#e9d319] transition-colors">
-            Privacy Policy
-          </Link>
-          &nbsp;|&nbsp;
-          <Link href="/refund_policy" className="hover:text-[#e9d319] transition-colors">
-            Refund Policy
-          </Link>
-          &nbsp;|&nbsp;
-          <Link href="/terms_and_conditions" className="hover:text-[#e9d319] transition-colors">
-            Terms
-          </Link>
-        </p>
+        <div className="container-site flex flex-col sm:flex-row items-center justify-between gap-3 text-gray-400 text-xs">
+          <p>
+            © 2021–2026 Bangalore Super Strikers Soccer School &nbsp;|&nbsp;
+            <Link href="/privacy_policy" className="hover:text-[#e9d319] transition-colors">
+              Privacy Policy
+            </Link>
+            &nbsp;|&nbsp;
+            <Link href="/refund_policy" className="hover:text-[#e9d319] transition-colors">
+              Refund Policy
+            </Link>
+            &nbsp;|&nbsp;
+            <Link href="/terms_and_conditions" className="hover:text-[#e9d319] transition-colors">
+              Terms
+            </Link>
+          </p>
+          <p className="text-gray-400">
+            Designed &amp; developed by{" "}
+            <a
+              href="https://aibuildinfra.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#e9d319] hover:text-white font-bold transition-colors underline decoration-[#e9d319]/40 hover:decoration-white"
+            >
+              AI BuildInfra
+            </a>
+          </p>
+        </div>
       </div>
     </footer>
   );
