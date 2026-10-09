@@ -40,7 +40,7 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070b19] flex items-center justify-center p-4 selection:bg-[#e9d319] selection:text-[#11123c]">
+    <div className="min-h-screen bg-[#070b19] flex items-center justify-center p-4 selection:bg-[#e9d319] selection:text-[#11123c] pt-[140px] sm:pt-[150px] pb-16">
       <div className="w-full max-w-md">
         {/* Card */}
         <div className="bg-[#11123c] border border-white/10 rounded-2xl shadow-2xl p-8 sm:p-10 relative overflow-hidden">

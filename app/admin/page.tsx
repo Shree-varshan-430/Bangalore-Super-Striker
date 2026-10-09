@@ -367,12 +367,12 @@ export default function AdminDashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F4F6FB] text-[#11123c] flex flex-col font-sans selection:bg-[#e9d319] selection:text-[#11123c]">
-      {/* Top Navbar */}
-      <header className="bg-[#11123c] text-white border-b border-white/10 sticky top-0 z-40 shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+    <div className="min-h-screen bg-[#F4F6FB] text-[#11123c] flex flex-col font-sans selection:bg-[#e9d319] selection:text-[#11123c] pt-[135px] sm:pt-[150px] lg:pt-[165px]">
+      {/* Top Admin Control Strip */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-2 sm:pt-4">
+        <div className="bg-[#11123c] text-white rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg border border-white/10">
           <div className="flex items-center gap-3.5">
-            <div className="relative w-12 h-12 shrink-0 drop-shadow-md">
+            <div className="relative w-10 h-10 shrink-0 drop-shadow-md">
               <Image
                 src="/assets/imgs/crests/bangalore-crest.png"
                 alt="BSSFC Crest"
@@ -382,7 +382,7 @@ export default function AdminDashboardPage() {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="font-display font-black text-base sm:text-lg uppercase tracking-tight text-white">
+                <h1 className="font-display font-black text-sm sm:text-base uppercase tracking-tight text-white">
                   BSSFC Control Panel
                 </h1>
                 <span className="bg-[#e9d319] text-[#11123c] text-[10px] font-black uppercase px-2 py-0.5 rounded shadow-xs">
@@ -393,7 +393,7 @@ export default function AdminDashboardPage() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 self-end sm:self-auto">
             <Link
               href="/"
               target="_blank"
@@ -412,13 +412,13 @@ export default function AdminDashboardPage() {
             </button>
           </div>
         </div>
-      </header>
+      </div>
 
       {/* Main Layout: Sidebar Navigation + Content Area */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1 flex flex-col lg:flex-row gap-8 items-start">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 w-full flex-1 flex flex-col lg:flex-row gap-8 items-start">
         
         {/* Left Sidebar Navigation */}
-        <aside className="w-full lg:w-64 shrink-0 bg-white rounded-2xl border border-gray-200 shadow-sm p-3.5 flex flex-col gap-1.5 sticky lg:top-28">
+        <aside className="w-full lg:w-64 shrink-0 bg-white rounded-2xl border border-gray-200 shadow-sm p-3.5 flex flex-col gap-1.5 sticky lg:top-[155px]">
           <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 px-3 py-2">
             MANAGEMENT MODULES
           </p>
@@ -502,6 +502,27 @@ export default function AdminDashboardPage() {
               {videos.length}
             </span>
           </button>
+
+          <div className="pt-3 mt-3 border-t border-gray-100 flex flex-col gap-1">
+            <Link
+              href="/"
+              target="_blank"
+              className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl font-display font-black text-xs uppercase tracking-wider text-gray-600 hover:bg-gray-100 hover:text-[#11123c] transition-all text-left"
+            >
+              <div className="flex items-center gap-3">
+                <ExternalLink size={16} className="text-[#1B4193]" />
+                <span>View Website</span>
+              </div>
+            </Link>
+
+            <button
+              onClick={handleLogout}
+              className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-display font-black text-xs uppercase tracking-wider text-red-600 hover:bg-red-50 transition-all text-left cursor-pointer"
+            >
+              <LogOut size={16} />
+              <span>Logout</span>
+            </button>
+          </div>
         </aside>
 
         {/* Right Main Content */}
