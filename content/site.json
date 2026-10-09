@@ -1,0 +1,99 @@
+{
+  "site": {
+    "name": "Bangalore Super Strikers FC",
+    "parentCompany": "SuperStriker International Pvt Ltd",
+    "shortName": "BSSFC",
+    "tagline": "Football Club & Soccer School — Creating Champions Across India",
+    "phone1": "+919591069293",
+    "phone1Display": "(+91) 95910 69293",
+    "phone2": "+919591069293",
+    "phone2Display": "(+91) 95910 69293",
+    "whatsapp": "+919739869535",
+    "whatsappDisplay": "(+91) 97398 69535",
+    "email": "coaching@bangaloresuperstrikersfc.com",
+    "officialEmail": "info@superstriker.in",
+    "address": {
+      "facility": "QPQ9+RQP, Thirumagondanahalli, Bommasandra",
+      "landmark": "Near Vakil Whispering Wood Layout, Neraluru Post",
+      "hobli": "Attibele Hobli, Anekal Taluk",
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "pincode": "562107",
+      "country": "India",
+      "full": "QPQ9+RQP, Thirumagondanahalli, Bommasandra, Near Vakil Whispering Wood Layout, Attibele Hobli, Bangalore – 562107",
+      "googleMapsUrl": "https://maps.app.goo.gl/5XCLNndNmM3Kc4dd8?g_st=ac"
+    },
+    "socials": {
+      "instagram": "https://www.instagram.com/bangaloresuperstrikersfc/",
+      "facebook": "https://www.facebook.com/Bangalore-Super-Strikers-Football-Club-103692111889893",
+      "twitter": "https://twitter.com/bangalore_super",
+      "youtube": "https://www.youtube.com/channel/UC1hf_p-XBtiIO3QyI5U43dQ",
+      "whatsapp": "https://wa.me/+919739869535",
+      "linkedin": "https://www.linkedin.com/company/bangalore-super-strikers-football-club/?originalSubdomain=in"
+    },
+    "foundation": {
+      "name": "Bangalore Soccer School / Foundation",
+      "url": "https://superstrikersinternational.com/"
+    },
+    "international": {
+      "name": "SuperStriker International",
+      "url": "https://superstrikersinternational.com"
+    },
+    "sisterClubs": [
+      { "name": "Bangalore Super Strikers FC", "division": "KSFA Super Division & I-League 3rd Div" },
+      { "name": "Chennai Super Strikers FC", "division": "Tamil Nadu State Division League" },
+      { "name": "Pondicherry Super Strikers FC", "division": "Super Division & Residential Hub" },
+      { "name": "Bangalore Soccer School", "division": "Grassroots & Residential Youth Academy" }
+    ],
+    "leadership": [
+      {
+        "name": "Mr. Ramakrishnan Devaraj",
+        "role": "Chairman & Founder",
+        "quote": "Building a world-class football ecosystem requires unyielding strategic vision, federation-aligned technical standards, and permanent sports infrastructure."
+      },
+      {
+        "name": "Mr. Prabu Y Moorthy",
+        "role": "Director, Co-Partner & COO",
+        "quote": "Precision biomechanics, high-performance telemetry, and disciplined operational rigor form the backbone of our athletic pipeline."
+      },
+      {
+        "name": "Lt Cdr (Dr) Deenadayalan M",
+        "role": "Director",
+        "quote": "Strategic leadership, corporate governance, and sustainable business models drive Indian football into a new era of excellence."
+      },
+      {
+        "name": "Mrs. Nisha Ramakrishnan",
+        "role": "Secretary & CFO",
+        "quote": "A true champion excels both on the pitch and in the classroom. Education and welfare are the foundation of character."
+      },
+      {
+        "name": "Mr. Dhanasekar B",
+        "role": "Director & Chief Financial Officer",
+        "quote": "World-class athletes require world-class ground conditions. Our FIFA pitches are built for year-round training."
+      },
+      {
+        "name": "Dr. Rajesh Ramalingam",
+        "role": "Director & Chief Admin Officer",
+        "quote": "Building a strong institutional culture, operational efficiency, and empowering our staff and coaches are key to driving long-term athletic excellence."
+      }
+    ],
+    "partners": {
+      "sponsor": "Anthem BioSciences",
+      "venue": ["Fiton Sports", "DLF", "Community Arena"],
+      "residentialSchools": [
+        "MIRS - Maharishi International Residential School",
+        "MGS - We Create Leaders",
+        "BGS International Residential School"
+      ],
+      "schools": [
+        "Advaith International Academy",
+        "BS International School",
+        "Crescent Castle Public School",
+        "Hillfort Public School",
+        "ICS - International Community School",
+        "Mount Litera Zee School"
+      ],
+      "media": ["PB Media", "SV Media"]
+    }
+  }
+}

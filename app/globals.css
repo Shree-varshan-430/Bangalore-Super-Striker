@@ -1,26 +1,380 @@
 @import "tailwindcss";
 
+/* ─── Official Brand Color Palette ─── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* 1. Midnight Navy (Primary Base) */
+  --primary-navy:      #11123c;   /* rgb(17, 18, 60) */
+  /* 2. Royal Slate Navy (Secondary Base) */
+  --secondary-navy:    #25265e;   /* rgb(37, 38, 94) */
+  /* 3. Stadium Night (Deep Pitch Dark) */
+  --stadium-night:     #070b19;   /* rgb(7, 11, 25) */
+  --stadium-night-alt: #0d162d;
+  /* 4. Electric Brand Gold (Primary Accent) */
+  --brand-gold:        #e9d319;   /* rgb(233, 211, 25) */
+  --accent-gold:       #e9d319;
+  /* 5. Antique Gold / Bronze (Heritage Accent) */
+  --heritage-gold:     #a29142;   /* rgb(162, 145, 66) */
+  /* 6. Cyan / Electric Sky (Action Accent) */
+  --action-cyan:       #00B8E0;   /* rgb(0, 184, 224) */
+  --action-cyan-hover: #00a8e8;
+  /* 7. Slate Lavender Grey (Body Text) */
+  --slate-lavender:    #696484;   /* rgb(105, 100, 132) */
+  --text-body:         #696484;
+  /* 8. Light Surfaces */
+  --background-soft:   #F8F9FC;   /* rgb(248, 249, 252) */
+  --surface-cream:     #FBFBFE;
+  --surface-white:     #FFFFFF;
+
+  /* Typography */
+  --font-sans: var(--font-inter, Inter, sans-serif);
+  --font-display: var(--font-outfit, Outfit, sans-serif);
+
+  /* Legacy BSSFC token bridges to prevent any unmapped styles */
+  --bssfc-navy:  var(--primary-navy);
+  --bssfc-blue:  var(--secondary-navy);
+  --bssfc-gold:  var(--brand-gold);
+  --bssfc-red:   var(--heritage-gold);
+  --bssfc-light: var(--background-soft);
+  --bssfc-white: var(--surface-white);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ─── Global resets ─── */
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  color: var(--slate-lavender);
+  background: var(--background-soft);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 800;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+img {
+  max-width: 100%;
+}
+
+/* ─── Typography & Section classes ─── */
+.section-heading {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  line-height: 2.25rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
+  color: var(--primary-navy);
+}
+
+@media (min-width: 768px) {
+  .section-heading {
+    font-size: 2.5rem;
+    line-height: 2.75rem;
+  }
+}
+
+.section-subheading {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 0.5rem;
+  color: #e9d319;
+}
+
+/* ─── Buttons ─── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 0;
+  transition: all 0.2s ease;
+  background: var(--brand-gold);
+  color: var(--primary-navy);
+  text-decoration: none;
+}
+.btn-primary:hover {
+  background: var(--primary-navy);
+  color: #ffffff;
+}
+
+.btn-cyan {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 0.25rem;
+  background: var(--action-cyan);
+  color: var(--primary-navy);
+  border: 1.5px solid var(--primary-navy);
+  transition: all 0.2s ease;
+  text-decoration: none;
+  box-shadow: 2px 3px 0px var(--primary-navy);
+}
+.btn-cyan:hover {
+  background: var(--action-cyan-hover);
+  transform: translateY(-2px);
+  box-shadow: 3px 5px 0px var(--primary-navy);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 0;
+  border: 1.5px solid #ffffff;
+  color: #ffffff;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+.btn-outline:hover {
+  background: #ffffff;
+  color: var(--primary-navy);
+}
+
+.btn-dark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 0;
+  transition: all 0.2s ease;
+  background: var(--primary-navy);
+  color: #ffffff;
+  text-decoration: none;
+}
+.btn-dark:hover {
+  background: var(--secondary-navy);
+}
+
+/* ─── Section Rhythm ─── */
+.section-py {
+  padding-top: 4.5rem;
+  padding-bottom: 4.5rem;
+}
+@media (min-width: 768px) {
+  .section-py {
+    padding-top: 6.5rem;
+    padding-bottom: 6.5rem;
+  }
+}
+
+.container-site {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+@media (min-width: 768px) {
+  .container-site {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* ─── Card Hover ─── */
+.card-hover {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.card-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(17, 18, 60, 0.12);
+}
+.card-hover .card-img {
+  transition: transform 0.5s ease;
+  overflow: hidden;
+  position: relative;
+}
+.card-hover:hover .card-img img {
+  transform: scale(1.04);
+}
+
+/* ─── Hero Slider Dots ─── */
+.hero-dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 9999px;
+  transition: all 0.3s ease;
+  border: 2px solid #ffffff;
+  background: transparent;
+  cursor: pointer;
+}
+.hero-dot.active {
+  background: var(--brand-gold);
+  border-color: var(--brand-gold);
+}
+
+/* ─── Navigation ─── */
+.nav-link {
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: color 0.2s ease;
+  text-decoration: none;
+}
+.nav-link:hover, .nav-link.active {
+  color: var(--brand-gold);
+}
+
+/* ─── Dropdown Menu ─── */
+.dropdown-menu-panel {
+  background: #ffffff;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 50;
+  min-width: 260px;
+  padding-top: 0.35rem;
+  padding-bottom: 0.35rem;
+  box-shadow: 0 20px 35px -5px rgba(17, 18, 60, 0.16);
+  animation: fadeSlideDown 0.18s ease;
+  border-top: 3px solid var(--brand-gold);
+  border-left: 1px solid #e5e7eb;
+  border-right: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+  border-radius: 0 0 0.75rem 0.75rem;
+}
+
+@keyframes fadeSlideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Hero Overlay Text ─── */
+.hero-overlay {
+  background: linear-gradient(to right, rgba(7, 11, 25, 0.88) 0%, rgba(17, 18, 60, 0.55) 60%, transparent 100%);
+}
+
+/* ─── Testimonial Card ─── */
+.testimonial-card {
+  background: #ffffff;
+  padding: 2.5rem;
+  position: relative;
+  border: 1px solid rgba(105, 100, 132, 0.15);
+}
+.testimonial-card::before {
+  content: "\201C";
+  font-size: 80px;
+  line-height: 1;
+  color: var(--brand-gold);
+  position: absolute;
+  top: 0.5rem;
+  left: 1.5rem;
+  font-family: serif;
+}
+
+/* ─── Page Hero Banner (inner pages) ─── */
+.page-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 280px;
+  background: var(--primary-navy);
+}
+.page-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(7, 11, 25, 0.7);
+}
+.page-hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  color: #ffffff;
+}
+
+/* ─── Mobile Menu Backdrop ─── */
+.mobile-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(7, 11, 25, 0.7);
+  z-index: 940;
+}
+
+/* ─── Gallery Masonry ─── */
+.masonry {
+  columns: 2;
+  column-gap: 16px;
+}
+@media (min-width: 768px) {
+  .masonry { columns: 3; }
+}
+@media (min-width: 1024px) {
+  .masonry { columns: 4; }
+}
+.masonry-item {
+  margin-bottom: 1rem;
+  break-inside: avoid;
+  overflow: hidden;
+  border-radius: 0.25rem;
+}
+
+/* ─── Video Play Button Overlay ─── */
+.video-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.video-play-btn {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+  background: var(--brand-gold);
+  box-shadow: 0 4px 15px rgba(233, 211, 25, 0.4);
+}
+
+/* ─── Reduced Motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

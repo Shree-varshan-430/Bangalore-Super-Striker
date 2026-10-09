@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "name": "Rahul P M",
+    "relation": "Parent",
+    "avatar": "/assets/imgs/testimonials/avatar1.jpg",
+    "text": "My son has been playing football with Bangalore Super Strikers FC and it has been a wonderful experience. He has played more than 60 matches in the 2023–24 season at U9 level across KSFA, DPDL, PSDL and Tamil Nadu leagues. The coaches are very supportive and the training is excellent."
+  },
+  {
+    "id": 2,
+    "name": "Udhayakumaran",
+    "relation": "Parent",
+    "avatar": "/assets/imgs/testimonials/avatar2.jpg",
+    "text": "Bangalore Super Strikers FC has been a great platform for my child to develop football skills as well as life skills like discipline, teamwork and leadership. I am very happy with the progress and the environment created by the coaching staff."
+  }
+]
