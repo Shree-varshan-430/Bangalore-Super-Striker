@@ -70,53 +70,50 @@ export default function HeroCarousel() {
       <div className="hero-overlay absolute inset-0" aria-hidden />
 
       {/* Content — strictly white typography */}
-      <div className="relative z-10 h-full flex items-center pb-24 sm:pb-32 pt-16">
+      <div className="relative z-10 h-full flex flex-col justify-center pt-[140px] sm:pt-[155px] lg:pt-[165px] pb-24 sm:pb-32">
         <div className="container-site">
           <div
             key={current}
-            className="max-w-[720px] text-white"
+            className="max-w-[700px] text-white"
             style={{
               animation: "heroFadeUp 0.7s ease forwards",
             }}
           >
-            {/* Eyebrow in bright brand yellow with matching marker */}
-            <div className="inline-flex items-center gap-2 mb-3">
-              <span className="w-2 h-2 rounded-full bg-[#e9d319]" aria-hidden />
+            {/* Eyebrow in bright brand yellow with high-contrast badge */}
+            <div className="inline-flex items-center gap-2 mb-3.5 px-3 py-1.5 rounded-full bg-[#11123c]/85 border border-[#e9d319]/40 backdrop-blur-xs shadow-md">
+              <span className="w-2 h-2 rounded-full bg-[#e9d319] shadow-[0_0_8px_#e9d319]" aria-hidden />
               <p
-                className="text-xs sm:text-sm font-black uppercase tracking-[4px] text-[#e9d319] font-sans"
-                style={{ color: "#e9d319" }}
+                className="text-xs sm:text-[13px] font-black uppercase tracking-[2.5px] text-[#e9d319] font-sans"
               >
                 {slide.eyebrow}
               </p>
             </div>
 
-            {/* H1 Main Hero Heading in White Outfit font */}
+            {/* H1 Main Hero Heading - Balanced size */}
             <h1
-              className="font-display text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-white leading-[1.08] mb-5 drop-shadow-md"
-              style={{ color: "#ffffff" }}
+              className="font-display text-2xl sm:text-4xl lg:text-[44px] font-black uppercase tracking-tight text-white leading-[1.12] mb-4 drop-shadow-lg"
             >
               {slide.heading}
             </h1>
 
-            {/* Body copy in clear white */}
+            {/* Body copy */}
             <p
-              className="text-sm sm:text-base text-white/95 leading-relaxed mb-8 max-w-[560px] font-sans font-medium drop-shadow-sm"
-              style={{ color: "#ffffff" }}
+              className="text-xs sm:text-sm md:text-[15px] text-white/90 leading-relaxed mb-6 max-w-[540px] font-sans font-medium drop-shadow-md"
             >
               {slide.body}
             </p>
 
             {/* CTA button */}
-            <div className="flex items-center gap-4 flex-wrap">
+            <div className="flex items-center gap-3.5 flex-wrap">
               <Link
                 href={slide.cta.href}
-                className="btn-cyan text-xs sm:text-sm"
+                className="btn-cyan text-xs sm:text-sm font-black"
               >
                 {slide.cta.label}
               </Link>
               <Link
                 href="/programs"
-                className="btn-outline text-xs sm:text-sm hover:border-[#e9d319] hover:text-[#e9d319]"
+                className="btn-outline text-xs sm:text-sm font-black hover:border-[#e9d319] hover:text-[#e9d319]"
               >
                 EXPLORE PROGRAMS
               </Link>
