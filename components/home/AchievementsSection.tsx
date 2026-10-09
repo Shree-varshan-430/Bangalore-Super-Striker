@@ -6,9 +6,10 @@ import { ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import achievements from "@/content/achievements.json";
+import newsData from "@/content/news.json";
 
 type Achievement = {
-  id: number;
+  id: number | string;
   title: string;
   source: string;
   date: string;
@@ -16,7 +17,7 @@ type Achievement = {
   excerpt: string;
   url: string;
   image: string;
-  imageAlt: string;
+  imageAlt?: string;
 };
 
 function AchievementCard({
@@ -41,7 +42,7 @@ function AchievementCard({
       <div className="card-img relative aspect-[16/9] overflow-hidden bg-gray-100">
         <Image
           src={item.image}
-          alt={item.imageAlt}
+          alt={item.imageAlt || item.title || "BSSFC Article"}
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
@@ -125,9 +126,9 @@ export default function AchievementsSection() {
           </motion.div>
         </div>
 
-        {/* 3-up grid */}
+        {/* 3-column strictly 6-card grid with zero-distortion layout */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {achievements.map((item, idx) => (
+          {(newsData && newsData.length > 0 ? newsData : achievements).slice(0, 6).map((item, idx) => (
             <AchievementCard
               key={item.id}
               item={item}

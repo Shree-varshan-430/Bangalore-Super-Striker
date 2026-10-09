@@ -36,9 +36,9 @@ export default function MatchStrip() {
               {lastResult.homeScore} - {lastResult.awayScore}
             </div>
 
-            {/* Away team crest */}
+            {/* Away team crest / initials */}
             <div className="relative w-10 h-10 shrink-0 flex items-center justify-center bg-gray-100 rounded-full text-xs font-black text-[#11123c] border border-gray-300">
-              MT
+              {lastResult.awayTeam ? lastResult.awayTeam.slice(0, 2).toUpperCase() : "OP"}
             </div>
           </div>
 
@@ -46,7 +46,7 @@ export default function MatchStrip() {
             <span className="text-[11px] font-bold text-[#D0202A] tracking-wider">
               {lastResult.date}
             </span>
-            <span className="text-[10px] font-semibold text-[#696484] uppercase tracking-wider mt-0.5">
+            <span className="text-[10px] font-semibold text-[#696484] uppercase tracking-wider mt-0.5 line-clamp-1">
               {lastResult.competition}
             </span>
           </div>

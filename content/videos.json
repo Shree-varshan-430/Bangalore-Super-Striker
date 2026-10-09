@@ -2,6 +2,31 @@
   {
     "id": "HZTuAQnXLQo",
     "title": "BSSFC vs Raman Sports Academy — Match Highlights",
-    "thumbnail": "https://img.youtube.com/vi/HZTuAQnXLQo/maxresdefault.jpg"
+    "youtubeUrl": "https://www.youtube.com/watch?v=HZTuAQnXLQo",
+    "thumbnail": "https://img.youtube.com/vi/HZTuAQnXLQo/maxresdefault.jpg",
+    "category": "Match Highlights",
+    "duration": "05:42",
+    "date": "2024-07-18",
+    "featuredOnHome": true
+  },
+  {
+    "id": "dQw4w9WgXcQ",
+    "title": "High-Performance Tactical Drill — First Team Session",
+    "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
+    "category": "Training Reels",
+    "duration": "03:15",
+    "date": "2024-06-22",
+    "featuredOnHome": true
+  },
+  {
+    "id": "7e_3a4p5g6h",
+    "title": "Founder & Technical Director Message — BSSFC Vision 2026",
+    "youtubeUrl": "https://www.youtube.com/channel/UC1hf_p-XBtiIO3QyI5U43dQ",
+    "thumbnail": "/assets/imgs/clubs/president.jpg",
+    "category": "Interviews",
+    "duration": "04:50",
+    "date": "2024-05-10",
+    "featuredOnHome": true
   }
 ]

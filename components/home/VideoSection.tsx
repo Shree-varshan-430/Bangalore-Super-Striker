@@ -7,16 +7,8 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import videos from "@/content/videos.json";
 
-// Pad to 3 cards — future videos can be added to content/videos.json
-const displayVideos = [
-  ...videos,
-  // Placeholder empty cards until more videos are available
-  ...(videos.length < 3
-    ? Array(3 - videos.length)
-        .fill(null)
-        .map((_, i) => ({ id: `placeholder-${i}`, title: "Coming Soon", thumbnail: "" }))
-    : []),
-].slice(0, 3);
+// Display up to 3 latest videos from content/videos.json
+const displayVideos = (videos && videos.length > 0 ? videos : []).slice(0, 3);
 
 export default function VideoSection() {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });

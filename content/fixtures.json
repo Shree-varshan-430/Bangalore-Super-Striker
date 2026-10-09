@@ -1,13 +1,18 @@
 {
   "lastResult": {
+    "id": "1",
     "competition": "Thancos' Trophy for 'C' Division Teams Knockout",
     "date": "1 Aug 2021",
     "homeTeam": "BSSFC",
     "homeScore": 4,
     "awayTeam": "Murphy Town FC",
     "awayScore": 1,
-    "sourceUrl": "https://gomaidan.in/black-panthers-super-strikers-power-last-16/",
-    "location": "Maidan, Bangalore"
+    "homeCrest": "/assets/imgs/crests/bangalore-crest.png",
+    "awayCrest": "",
+    "resultBadge": "WIN",
+    "reportUrl": "/blogs/1",
+    "location": "Maidan, Bangalore",
+    "sourceUrl": "https://gomaidan.in/black-panthers-super-strikers-power-last-16/"
   },
   "nextMatch": null,
   "trialsCta": {

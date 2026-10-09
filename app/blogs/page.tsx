@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Calendar, Tag } from "lucide-react";
 import achievements from "@/content/achievements.json";
+import newsData from "@/content/news.json";
 
 export const metadata: Metadata = {
   title: "Blogs & News | Bangalore Super Strikers FC",
@@ -13,6 +14,8 @@ export const metadata: Metadata = {
 };
 
 export default function BlogsPage() {
+  const allArticles = newsData && newsData.length > 0 ? newsData : achievements;
+
   return (
     <>
       <PageHero
@@ -22,12 +25,15 @@ export default function BlogsPage() {
       <section className="section-py">
         <div className="container-site">
           <div className="text-center mb-12">
-            <p className="section-subheading">Latest Stories</p>
-            <h2 className="section-heading">BSSFC NEWS & MATCH REPORTS</h2>
+            <p className="section-subheading">Latest Stories &amp; Match Archives</p>
+            <h2 className="section-heading">BSSFC NEWS &amp; MATCH REPORTS</h2>
+            <p className="text-xs text-gray-500 mt-1 uppercase font-bold tracking-wider">
+              Showing All {allArticles.length} Club Publications
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {achievements.map((item) => (
+            {allArticles.map((item) => (
               <article
                 key={item.id}
                 className="card-hover bg-white shadow-sm flex flex-col group overflow-hidden border border-gray-100"
@@ -35,7 +41,7 @@ export default function BlogsPage() {
                 <div className="card-img relative aspect-[16/9] overflow-hidden bg-gray-100">
                   <Image
                     src={item.image}
-                    alt={item.imageAlt}
+                    alt={item.imageAlt || item.title || "BSSFC Article"}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
