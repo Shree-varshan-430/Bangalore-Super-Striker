@@ -2,49 +2,49 @@
   {
     "id": 1,
     "image": "/assets/imgs/main-slider/image-1.jpg",
-    "eyebrow": "Welcome to",
+    "eyebrow": "Welcome to BSSFC",
     "heading": "BANGALORE SUPER STRIKERS SOCCER SCHOOL",
-    "body": "Bangalore Super Strikers Football Club provides great opportunities for Football players, many fun-filled activities for fans and it's an excellent revenue for sponsors.",
-    "cta": { "label": "Join Us Now", "href": "/contact" }
+    "body": "Nurturing champions across India with professional coaching, state-of-the-art facilities, and comprehensive grassroots development for players aged 5 to 25.",
+    "cta": { "label": "Academy Training", "href": "/academy_training" }
   },
   {
     "id": 2,
     "image": "/assets/imgs/main-slider/image-2.jpg",
     "eyebrow": "We Are BSSFC",
     "heading": "GET TRAINED UNDER CERTIFIED COACHES TO BE A SUCCESSFUL PLAYER",
-    "body": "Our focus is to identify, engage and train young talents and take them to the real field to play in State Level and National Level football competitions and tournaments.",
+    "body": "Our focus is to identify, engage, and train young talents to compete in State Level, KSFA Super Division, and National Level football tournaments.",
     "cta": { "label": "Explore Programs", "href": "/programs" }
   },
   {
     "id": 3,
     "image": "/assets/imgs/main-slider/bsfc_slider_1.jpg",
-    "eyebrow": "Welcome to",
-    "heading": "BANGALORE SUPER STRIKERS SOCCER SCHOOL",
-    "body": "Bangalore Super Strikers Football Club provides great opportunities for Football players, many fun-filled activities for fans and it's an excellent revenue for sponsors.",
+    "eyebrow": "Youth & Grassroots Pathways",
+    "heading": "EMPOWERING YOUNG TALENT ON AND OFF THE PITCH",
+    "body": "Building technical discipline, teamwork, mental agility, and physical stamina through structured age-wise training and authentic matchday exposure.",
     "cta": { "label": "Academy Training", "href": "/academy_training" }
   },
   {
     "id": 4,
     "image": "/assets/imgs/main-slider/bsfc_slider_2.jpg",
-    "eyebrow": "We Are BSSFC",
-    "heading": "GET TRAINED UNDER CERTIFIED COACHES TO BE A SUCCESSFUL PLAYER",
-    "body": "Our focus is to identify, engage and train young talents and take them to the real field to play in State Level and National Level football competitions and tournaments.",
-    "cta": { "label": "Join Us Now", "href": "/contact" }
+    "eyebrow": "Pathway to Excellence",
+    "heading": "COMPETE AT STATE & NATIONAL LEVEL FOOTBALL",
+    "body": "From grassroots soccer schools to KSFA leagues and university scholarships, BSSFC provides a structured athletic pipeline for every dedicated player.",
+    "cta": { "label": "Our Achievements", "href": "/achievements" }
   },
   {
     "id": 5,
     "image": "/assets/imgs/main-slider/slider1.png",
-    "eyebrow": "Welcome to",
-    "heading": "BANGALORE SUPER STRIKERS SOCCER SCHOOL",
-    "body": "Bangalore Super Strikers Football Club provides great opportunities for Football players, many fun-filled activities for fans and it's an excellent revenue for sponsors.",
+    "eyebrow": "World-Class Coaching",
+    "heading": "DEVELOPING SKILLS WITH LICENSED FOOTBALL COACHES",
+    "body": "Experience progressive training methodologies led by experienced coaches focused on tactical acumen, biomechanics, and holistic player development.",
     "cta": { "label": "Explore Programs", "href": "/programs" }
   },
   {
     "id": 6,
     "image": "/assets/imgs/main-slider/slider2.png",
-    "eyebrow": "We Are BSSFC",
-    "heading": "GET TRAINED UNDER CERTIFIED COACHES TO BE A SUCCESSFUL PLAYER",
-    "body": "Our focus is to identify, engage and train young talents and take them to the real field to play in State Level and National Level football competitions and tournaments.",
-    "cta": { "label": "Join Us Now", "href": "/contact" }
+    "eyebrow": "Join The Strikers",
+    "heading": "BANGALORE'S PREMIER FOOTBALL ACADEMY & CLUB",
+    "body": "Join Bangalore Super Strikers FC to unlock your potential, train with passion, and embark on a rewarding journey towards football excellence.",
+    "cta": { "label": "Contact Us", "href": "/contact" }
   }
 ]

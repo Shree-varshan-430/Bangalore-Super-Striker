@@ -70,7 +70,7 @@ export default function HeroCarousel() {
       <div className="hero-overlay absolute inset-0" aria-hidden />
 
       {/* Content — strictly white typography */}
-      <div className="relative z-10 h-full flex items-center">
+      <div className="relative z-10 h-full flex items-center pb-24 sm:pb-32 pt-16">
         <div className="container-site">
           <div
             key={current}
@@ -100,7 +100,7 @@ export default function HeroCarousel() {
 
             {/* Body copy in clear white */}
             <p
-              className="text-sm sm:text-base text-white leading-relaxed mb-8 max-w-[540px] font-sans font-medium drop-shadow-sm"
+              className="text-sm sm:text-base text-white/95 leading-relaxed mb-8 max-w-[560px] font-sans font-medium drop-shadow-sm"
               style={{ color: "#ffffff" }}
             >
               {slide.body}
@@ -115,10 +115,10 @@ export default function HeroCarousel() {
                 {slide.cta.label}
               </Link>
               <Link
-                href="/#fixtures"
-                className="btn-outline text-xs sm:text-sm"
+                href="/programs"
+                className="btn-outline text-xs sm:text-sm hover:border-[#e9d319] hover:text-[#e9d319]"
               >
-                MATCH FIXTURES
+                EXPLORE PROGRAMS
               </Link>
             </div>
           </div>
