@@ -28,6 +28,10 @@ import {
   ArrowRight,
   ShieldCheck,
   Zap,
+  KeyRound,
+  Lock,
+  EyeOff,
+  Check,
 } from "lucide-react";
 
 type NewsItem = {
@@ -91,7 +95,7 @@ type VideoItem = {
 
 export default function AdminDashboardPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<"overview" | "results" | "news" | "gallery" | "videos">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "results" | "news" | "gallery" | "videos" | "security">("overview");
   const [loading, setLoading] = useState(true);
   const [statusMessage, setStatusMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
@@ -100,6 +104,19 @@ export default function AdminDashboardPage() {
   const [fixtures, setFixtures] = useState<FixtureData | null>(null);
   const [gallery, setGallery] = useState<GalleryItem[]>([]);
   const [videos, setVideos] = useState<VideoItem[]>([]);
+
+  // Password & Security State
+  const [adminUsername, setAdminUsername] = useState("admin");
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+    newUsername: "admin",
+  });
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [savingPassword, setSavingPassword] = useState(false);
 
   // News Modal State
   const [newsModalOpen, setNewsModalOpen] = useState(false);
@@ -145,6 +162,10 @@ export default function AdminDashboardPage() {
           router.push("/admin/login");
           return;
         }
+        if (authData.username) {
+          setAdminUsername(authData.username);
+          setPasswordForm((prev) => ({ ...prev, newUsername: authData.username }));
+        }
         await fetchAllData();
       } catch (err) {
         router.push("/admin/login");
@@ -158,6 +179,56 @@ export default function AdminDashboardPage() {
   const showStatus = (text: string, type: "success" | "error" = "success") => {
     setStatusMessage({ type, text });
     setTimeout(() => setStatusMessage(null), 4500);
+  };
+
+  const handleUpdatePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!passwordForm.currentPassword) {
+      showStatus("Please enter your current password to authorize changes", "error");
+      return;
+    }
+    if (passwordForm.newPassword.length < 6) {
+      showStatus("New password must be at least 6 characters long", "error");
+      return;
+    }
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      showStatus("New password and confirmation do not match", "error");
+      return;
+    }
+
+    setSavingPassword(true);
+    try {
+      const res = await fetch("/api/admin/password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          currentPassword: passwordForm.currentPassword,
+          newPassword: passwordForm.newPassword,
+          confirmPassword: passwordForm.confirmPassword,
+          newUsername: passwordForm.newUsername,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to update password");
+      }
+
+      showStatus("Password successfully updated in .env and active immediately!");
+      setPasswordForm({
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+        newUsername: data.username || passwordForm.newUsername,
+      });
+      if (data.username) {
+        setAdminUsername(data.username);
+      }
+    } catch (err: any) {
+      showStatus(err.message || "Error updating password", "error");
+    } finally {
+      setSavingPassword(false);
+    }
   };
 
   const fetchAllData = async () => {
@@ -503,6 +574,23 @@ export default function AdminDashboardPage() {
             </span>
           </button>
 
+          <button
+            onClick={() => setActiveTab("security")}
+            className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl font-display font-black text-xs uppercase tracking-wider transition-all text-left cursor-pointer ${
+              activeTab === "security"
+                ? "bg-[#1B4193] text-white shadow-md"
+                : "text-gray-600 hover:bg-gray-100"
+            }`}
+          >
+            <div className="flex items-center gap-3">
+              <KeyRound size={17} />
+              <span>Password &amp; Security</span>
+            </div>
+            <span className="text-[10px] bg-[#e9d319] text-[#11123c] px-2 py-0.5 rounded font-black">
+              ENV
+            </span>
+          </button>
+
           <div className="pt-3 mt-3 border-t border-gray-100 flex flex-col gap-1">
             <Link
               href="/"
@@ -676,6 +764,39 @@ export default function AdminDashboardPage() {
                       <span>Add &amp; Manage Videos</span>
                       <ArrowRight size={14} />
                     </span>
+                  </div>
+                </div>
+
+                {/* 5. Password & Security Card */}
+                <div
+                  onClick={() => setActiveTab("security")}
+                  className="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs hover:shadow-lg transition-all cursor-pointer group flex flex-col justify-between md:col-span-2"
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-3">
+                    <div className="flex items-center gap-4">
+                      <div className="w-11 h-11 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+                        <KeyRound size={22} />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h3 className="font-display font-black text-lg uppercase text-[#11123c] group-hover:text-[#1B4193] transition-colors">
+                            Admin Password &amp; .env Security
+                          </h3>
+                          <span className="text-[10px] font-black uppercase text-[#11123c] bg-[#e9d319] px-2.5 py-0.5 rounded-full">
+                            AUTO-SYNC .ENV
+                          </span>
+                        </div>
+                        <p className="text-xs text-gray-500 mt-1 leading-relaxed">
+                          Update your admin credentials anytime. Automatically updates and writes <code>ADMIN_PASSWORD</code> inside your server <code>.env</code> file with immediate effect.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="shrink-0 self-end sm:self-center">
+                      <span className="text-xs font-black uppercase text-[#1B4193] flex items-center gap-1 group-hover:gap-2 transition-all">
+                        <span>Change Password</span>
+                        <ArrowRight size={14} />
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1247,6 +1368,244 @@ export default function AdminDashboardPage() {
                     </div>
                   </div>
                 ))}
+              </div>
+            </div>
+          )}
+
+          {/* ================= SECTION 5: PASSWORD & SECURITY ================= */}
+          {activeTab === "security" && (
+            <div className="space-y-6">
+              {/* Header Banner */}
+              <div className="bg-gradient-to-r from-[#11123c] to-[#1B4193] rounded-2xl p-6 sm:p-8 text-white shadow-md relative overflow-hidden">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
+                  <div>
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-[11px] font-black uppercase tracking-[0.2em] text-[#e9d319] bg-white/10 px-3 py-1 rounded-full border border-white/10">
+                        ENV SECURITY CONFIGURATION
+                      </span>
+                      <span className="text-[10px] font-bold text-white/70 bg-emerald-500/20 text-emerald-300 px-2.5 py-0.5 rounded-full border border-emerald-500/30 flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                        AUTO-SYNC ACTIVE
+                      </span>
+                    </div>
+                    <h2 className="font-display font-black text-2xl sm:text-3xl uppercase tracking-tight text-white mb-1">
+                      Update Admin Password
+                    </h2>
+                    <p className="text-sm text-white/80 max-w-xl font-sans">
+                      Changes made here are automatically written to your server&apos;s <code className="bg-white/15 px-1.5 py-0.5 rounded text-[#e9d319]">.env</code> and <code className="bg-white/15 px-1.5 py-0.5 rounded text-[#e9d319]">.env.local</code> files, taking effect immediately.
+                    </p>
+                  </div>
+                  <div className="w-14 h-14 rounded-2xl bg-[#e9d319]/20 border border-[#e9d319]/30 flex items-center justify-center text-[#e9d319] shrink-0 shadow-lg">
+                    <KeyRound size={28} />
+                  </div>
+                </div>
+              </div>
+
+              {/* Password Form Card */}
+              <div className="bg-white rounded-2xl border border-gray-200 shadow-xs p-6 sm:p-8">
+                <form onSubmit={handleUpdatePassword} className="max-w-2xl space-y-6">
+                  
+                  {/* Username Field */}
+                  <div>
+                    <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-2">
+                      Admin Username
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        value={passwordForm.newUsername}
+                        onChange={(e) => setPasswordForm({ ...passwordForm, newUsername: e.target.value })}
+                        required
+                        className="w-full px-4 py-3 text-sm bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-[#1B4193] focus:bg-white font-medium"
+                      />
+                      <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[10px] font-black uppercase tracking-wider text-gray-400 bg-gray-200 px-2 py-0.5 rounded">
+                        USER
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-gray-400 mt-1.5">
+                      Default username is <strong className="text-gray-600">admin</strong>. You can keep it or customize it.
+                    </p>
+                  </div>
+
+                  {/* Current Password Field */}
+                  <div>
+                    <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-2">
+                      Current Password <span className="text-red-500">*</span>
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={showCurrentPassword ? "text" : "password"}
+                        value={passwordForm.currentPassword}
+                        onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })}
+                        placeholder="Enter your current password"
+                        required
+                        className="w-full px-4 py-3 text-sm bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-[#1B4193] focus:bg-white font-medium pr-12"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 cursor-pointer p-1"
+                        aria-label="Toggle password visibility"
+                      >
+                        {showCurrentPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                      </button>
+                    </div>
+                    <p className="text-[11px] text-gray-400 mt-1.5">
+                      Required to verify your authorization before saving new credentials.
+                    </p>
+                  </div>
+
+                  <div className="border-t border-gray-150 pt-5">
+                    <h4 className="text-xs font-black uppercase tracking-wider text-[#1B4193] mb-4 flex items-center gap-2">
+                      <Lock size={15} />
+                      <span>New Credentials</span>
+                    </h4>
+
+                    {/* New Password Field */}
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-2">
+                          New Password <span className="text-red-500">*</span>
+                        </label>
+                        <div className="relative">
+                          <input
+                            type={showNewPassword ? "text" : "password"}
+                            value={passwordForm.newPassword}
+                            onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
+                            placeholder="Minimum 6 characters"
+                            required
+                            minLength={6}
+                            className="w-full px-4 py-3 text-sm bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-[#1B4193] focus:bg-white font-medium pr-12"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowNewPassword(!showNewPassword)}
+                            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 cursor-pointer p-1"
+                            aria-label="Toggle password visibility"
+                          >
+                            {showNewPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                          </button>
+                        </div>
+                        {passwordForm.newPassword && (
+                          <div className="flex items-center gap-2 mt-2">
+                            <div className="h-1.5 flex-1 bg-gray-200 rounded-full overflow-hidden">
+                              <div
+                                className={`h-full transition-all duration-300 ${
+                                  passwordForm.newPassword.length < 6
+                                    ? "w-1/4 bg-red-500"
+                                    : passwordForm.newPassword.length < 10
+                                    ? "w-2/3 bg-amber-500"
+                                    : "w-full bg-emerald-500"
+                                }`}
+                              />
+                            </div>
+                            <span className="text-[10px] font-bold uppercase text-gray-500">
+                              {passwordForm.newPassword.length < 6
+                                ? "Too short"
+                                : passwordForm.newPassword.length < 10
+                                ? "Medium"
+                                : "Strong"}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Confirm New Password Field */}
+                      <div>
+                        <label className="block text-xs font-black uppercase tracking-wider text-gray-700 mb-2">
+                          Confirm New Password <span className="text-red-500">*</span>
+                        </label>
+                        <div className="relative">
+                          <input
+                            type={showConfirmPassword ? "text" : "password"}
+                            value={passwordForm.confirmPassword}
+                            onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })}
+                            placeholder="Repeat new password"
+                            required
+                            minLength={6}
+                            className="w-full px-4 py-3 text-sm bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:border-[#1B4193] focus:bg-white font-medium pr-12"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 cursor-pointer p-1"
+                            aria-label="Toggle password visibility"
+                          >
+                            {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                          </button>
+                        </div>
+                        {passwordForm.confirmPassword && (
+                          <p
+                            className={`text-[11px] font-bold mt-1.5 flex items-center gap-1 ${
+                              passwordForm.newPassword === passwordForm.confirmPassword
+                                ? "text-emerald-600"
+                                : "text-red-500"
+                            }`}
+                          >
+                            {passwordForm.newPassword === passwordForm.confirmPassword ? (
+                              <>
+                                <Check size={13} />
+                                <span>Passwords match</span>
+                              </>
+                            ) : (
+                              <>
+                                <AlertCircle size={13} />
+                                <span>Passwords do not match</span>
+                              </>
+                            )}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Informational Callout Box */}
+                  <div className="bg-amber-50/70 border border-amber-200 rounded-xl p-4 text-xs text-amber-900 flex items-start gap-3">
+                    <Zap size={18} className="text-amber-600 shrink-0 mt-0.5" />
+                    <div className="space-y-1">
+                      <p className="font-bold">Automatic Environment Variable (.env) Synchronization:</p>
+                      <p className="text-amber-800 leading-relaxed">
+                        When you submit, your new credentials are directly updated in both <code className="bg-amber-100 px-1 py-0.5 rounded font-mono">.env</code> and <code className="bg-amber-100 px-1 py-0.5 rounded font-mono">.env.local</code>. Your current session remains active, and all subsequent logins will immediately require this new password.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Submit Button */}
+                  <div className="pt-2 flex items-center gap-4">
+                    <button
+                      type="submit"
+                      disabled={savingPassword}
+                      className="px-6 py-3.5 bg-[#1B4193] hover:bg-[#11123c] text-white font-display font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center gap-2 cursor-pointer disabled:opacity-60"
+                    >
+                      {savingPassword ? (
+                        <>
+                          <RefreshCw size={15} className="animate-spin text-[#e9d319]" />
+                          <span>Updating .env File...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Save size={15} />
+                          <span>Update Password &amp; Sync to .env</span>
+                        </>
+                      )}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setPasswordForm({
+                          currentPassword: "",
+                          newPassword: "",
+                          confirmPassword: "",
+                          newUsername: adminUsername,
+                        })
+                      }
+                      className="px-4 py-3.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-display font-bold text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer"
+                    >
+                      Reset Form
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           )}

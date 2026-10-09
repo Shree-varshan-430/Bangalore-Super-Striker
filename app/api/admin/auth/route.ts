@@ -4,12 +4,17 @@ import {
   verifyCredentials,
   isAuthenticated,
   ADMIN_COOKIE_NAME,
-  ADMIN_TOKEN_VALUE,
+  getAdminTokenValue,
+  getAdminCredentials,
 } from "@/lib/adminAuth";
 
 export async function GET() {
   const authed = await isAuthenticated();
-  return NextResponse.json({ authenticated: authed });
+  const creds = authed ? getAdminCredentials() : null;
+  return NextResponse.json({ 
+    authenticated: authed,
+    username: creds ? creds.username : null,
+  });
 }
 
 export async function POST(request: Request) {
@@ -32,7 +37,7 @@ export async function POST(request: Request) {
     }
 
     const cookieStore = await cookies();
-    cookieStore.set(ADMIN_COOKIE_NAME, ADMIN_TOKEN_VALUE, {
+    cookieStore.set(ADMIN_COOKIE_NAME, getAdminTokenValue(), {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
