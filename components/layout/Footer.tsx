@@ -170,11 +170,11 @@ export default function Footer() {
               Talk to Us
             </h4>
             <a
-              href="mailto:coaching@bangaloresuperstrikersfc.com"
+              href="mailto:ram@bssfc.in"
               className="flex items-start gap-2 text-gray-300 text-sm hover:text-[#e9d319] transition-colors mb-2"
             >
               <Mail size={14} className="mt-0.5 shrink-0" aria-hidden />
-              coaching@bangaloresuperstrikersfc.com
+              ram@bssfc.in
             </a>
             <a
               href="tel:+919591069293"
@@ -245,3 +245,4 @@ export default function Footer() {
     </footer>
   );
 }
+

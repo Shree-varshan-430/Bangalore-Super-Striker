@@ -164,10 +164,10 @@ export default function ContactPage() {
                   <div>
                     <p className="text-xs uppercase tracking-wider text-white/50 mb-0.5">Email Inquiries</p>
                     <a
-                      href="mailto:coaching@bangaloresuperstrikersfc.com"
+                      href="mailto:ram@bssfc.in"
                       className="block text-sm font-semibold hover:text-[#e9d319] break-all transition-colors"
                     >
-                      coaching@bangaloresuperstrikersfc.com
+                      ram@bssfc.in
                     </a>
                   </div>
                 </div>
@@ -241,7 +241,7 @@ export default function ContactPage() {
                     href="https://maps.app.goo.gl/DhbdHLXyuBtY2EDRA?g_st=aw"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-[#11123c] bg-[#e9d319] hover:bg-[#1B4193] hover:text-white px-3 py-1.5 rounded transition-all"
+                    className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-[#11123c] bg-[#e9d319] hover:bg-[#1B4193] hover:text-white px-3 py-1.5 rounded transition-colors"
                   >
                     <Navigation size={13} />
                     <span>Get Directions</span>
@@ -255,3 +255,4 @@ export default function ContactPage() {
     </>
   );
 }
+
