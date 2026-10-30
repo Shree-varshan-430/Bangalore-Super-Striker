@@ -1,23 +1,8 @@
 import type { Metadata } from "next";
-import { Outfit, Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import site from "@/content/site.json";
-
-const outfit = Outfit({
-  subsets: ["latin"],
-  variable: "--font-outfit",
-  display: "swap",
-  weight: ["400", "500", "600", "700", "800", "900"],
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-  weight: ["400", "500", "600", "700", "800", "900"],
-});
 
 export const metadata: Metadata = {
   title: {
@@ -25,7 +10,7 @@ export const metadata: Metadata = {
     template: "%s | BSSFC",
   },
   description:
-    "Bangalore Super Strikers Football Club & Soccer School — top football coaching academy in Bangalore for ages 5–25. Academy training, school coaching, university scholarships & summer camps.",
+    "Bangalore Super Strikers Football Club & Soccer School — top football coaching academy in Bangalore for ages 5–25. Academy training, school coaching, university scholarships & summer camp in Bangalore.",
   keywords: [
     "football academy Bangalore",
     "soccer school Bangalore",
@@ -115,7 +100,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-scroll-behavior="smooth" className={`${outfit.variable} ${inter.variable}`}>
+    <html lang="en" data-scroll-behavior="smooth">
       <head>
         <link rel="canonical" href="https://www.bangaloresuperstrikersfc.com" />
         <script

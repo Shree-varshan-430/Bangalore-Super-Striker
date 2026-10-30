@@ -25,9 +25,9 @@
   --surface-cream:     #FBFBFE;
   --surface-white:     #FFFFFF;
 
-  /* Typography */
-  --font-sans: var(--font-inter, Inter, sans-serif);
-  --font-display: var(--font-outfit, Outfit, sans-serif);
+  /* Font fallbacks to avoid build issues with Google font optimization in deployment */
+  --font-sans: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 
   /* Legacy BSSFC token bridges to prevent any unmapped styles */
   --bssfc-navy:  var(--primary-navy);
