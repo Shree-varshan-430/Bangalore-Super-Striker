@@ -102,6 +102,52 @@ const playersList: PlayerPlaceholder[] = [
   },
 ];
 
+interface CoachItem {
+  id: number;
+  name: string;
+  role: string;
+  image: string;
+}
+
+const coachesList: CoachItem[] = [
+  {
+    id: 1,
+    name: "Coach 01",
+    role: "Senior Head Coach",
+    image: "/assets/imgs/coaches/coach-1.png",
+  },
+  {
+    id: 2,
+    name: "Coach 02",
+    role: "Technical Lead",
+    image: "/assets/imgs/coaches/coach-2.png",
+  },
+  {
+    id: 3,
+    name: "Coach 03",
+    role: "Youth Academy Coach",
+    image: "/assets/imgs/coaches/coach-3.png",
+  },
+  {
+    id: 4,
+    name: "Coach 04",
+    role: "Women & Academy Coach",
+    image: "/assets/imgs/coaches/coach-4.png",
+  },
+  {
+    id: 5,
+    name: "Coach 05",
+    role: "Development Squad Coach",
+    image: "/assets/imgs/coaches/coach-5.png",
+  },
+  {
+    id: 6,
+    name: "Coach 06",
+    role: "Goalkeeping Specialist",
+    image: "/assets/imgs/coaches/coach-6.jpg",
+  },
+];
+
 export default function PlayersPage() {
   const [selectedCohort, setSelectedCohort] = useState<Cohort>("ALL");
 
@@ -221,6 +267,61 @@ export default function PlayersPage() {
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* ================= COACHES SECTION ================= */}
+          <div className="mt-20 sm:mt-28 pt-16 border-t border-gray-200" id="coaches">
+            <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+              <span
+                className="text-[11px] font-black uppercase tracking-[0.2em] px-3.5 py-1 rounded-md shadow-xs mb-3 inline-block font-sans"
+                style={{ background: "#e9d319", color: "#11123c" }}
+              >
+                TECHNICAL TEAM &amp; MENTORS
+              </span>
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight text-[#11123c] mb-4">
+                COACHES
+              </h2>
+              <p className="text-sm sm:text-base text-gray-600 font-sans">
+                Our certified coaching staff guides player development with specialized training in tactical mastery, athletic conditioning, and game temperament.
+              </p>
+            </div>
+
+            {/* Coaches Cards Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+              {coachesList.map((coach) => (
+                <div
+                  key={coach.id}
+                  className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl border border-gray-200 hover:border-[#1B4193] transition-all duration-300 bg-gradient-to-b from-[#11123c] to-[#070b19] flex flex-col"
+                >
+                  {/* Image Container with Aspect Ratio */}
+                  <div className="relative aspect-[3/4] w-full overflow-hidden flex items-end justify-center">
+                    <Image
+                      src={coach.image}
+                      alt={coach.name}
+                      fill
+                      className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+
+                    {/* Gradient shadow overlay behind content */}
+                    <div
+                      className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80"
+                      aria-hidden
+                    />
+
+                    {/* Transparent bar for name with blue color on hover */}
+                    <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 bg-black/60 backdrop-blur-md border-t border-white/10 group-hover:bg-[#1B4193] transition-colors duration-300 flex flex-col justify-end text-center">
+                      <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-[2px] text-[#e9d319] group-hover:text-white/90 transition-colors mb-1 font-sans">
+                        {coach.role}
+                      </span>
+                      <h3 className="font-display font-black text-lg sm:text-xl uppercase text-white tracking-wide transition-colors">
+                        {coach.name}
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Bottom CTA Banner */}
