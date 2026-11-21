@@ -16,7 +16,7 @@ const executiveLeadership = {
   roleTitle: "Club Founder & President",
   department: "EXECUTIVE LEADERSHIP",
   credential: "BSSFC Executive Directorate",
-  image: "/assets/imgs/clubs/president.jpg",
+  image: "/assets/imgs/clubs/president-hd.png",
   bio: "Pioneering the expansion of grassroots football excellence and youth scholarship pathways across Karnataka, Tamil Nadu and Pondicherry.",
 };
 
@@ -106,20 +106,21 @@ export default function TechnicalTeamPage() {
               <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
                 {/* Founder Image */}
                 <div className="md:col-span-5">
-                  <div className="relative aspect-[3/4] w-full max-w-xs mx-auto rounded-2xl overflow-hidden shadow-md border-2 border-[#e9d319]/40 group">
+                  <div className="relative aspect-[3/4] w-full max-w-xs mx-auto rounded-2xl overflow-hidden shadow-lg border-2 border-[#e9d319]/40 group bg-slate-900">
                     <Image
                       src={executiveLeadership.image}
                       alt={executiveLeadership.roleTitle}
                       fill
-                      className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, 33vw"
+                      priority
+                      className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 384px"
                     />
                     {/* Transparent bar for title */}
-                    <div className="absolute inset-x-0 bottom-0 p-4 bg-black/70 backdrop-blur-md border-t border-white/10 text-center">
-                      <span className="text-[10px] font-black uppercase tracking-[2px] text-[#e9d319] block mb-0.5 font-sans">
+                    <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 bg-gradient-to-t from-black/90 via-black/65 to-transparent backdrop-blur-xs text-center">
+                      <span className="text-[10px] font-black uppercase tracking-[2.5px] text-[#e9d319] block mb-1 font-sans">
                         {executiveLeadership.department}
                       </span>
-                      <h3 className="font-display font-black text-lg text-white uppercase tracking-wide">
+                      <h3 className="font-display font-black text-lg sm:text-xl text-white uppercase tracking-wide">
                         {executiveLeadership.roleTitle}
                       </h3>
                     </div>

@@ -71,7 +71,7 @@ export default function AboutPage() {
           <div className="my-16 p-8 sm:p-10 rounded-3xl bg-[#11123c] text-white grid grid-cols-1 md:grid-cols-12 gap-8 items-center shadow-xl">
             <div className="md:col-span-4 relative aspect-[3/4] w-full max-w-[280px] mx-auto rounded-2xl overflow-hidden border-2 border-[#e9d319]/40 shadow-lg">
               <Image
-                src="/assets/imgs/clubs/president.jpg"
+                src="/assets/imgs/clubs/president-hd.png"
                 alt="BSSFC Club President"
                 fill
                 className="object-cover"
