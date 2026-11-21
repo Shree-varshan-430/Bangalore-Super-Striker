@@ -112,33 +112,33 @@ interface CoachItem {
 const coachesList: CoachItem[] = [
   {
     id: 1,
-    name: "Rajib",
-    role: "Under 13 Coach",
-    image: "/assets/imgs/coaches/coach-1.png",
-  },
-  {
-    id: 2,
-    name: "Pranesh",
-    role: "Under 11 & Under 15 Coach",
-    image: "/assets/imgs/coaches/coach-3.png",
-  },
-  {
-    id: 3,
     name: "Miruthika",
     role: "Under 7 Coach",
     image: "/assets/imgs/coaches/coach-4.png",
   },
   {
-    id: 4,
+    id: 2,
     name: "Kalyan",
     role: "Under 9 Coach",
-    image: "/assets/imgs/coaches/coach-5.png",
+    image: "/assets/imgs/coaches/coach-6.png",
+  },
+  {
+    id: 3,
+    name: "Pranesh",
+    role: "Under 11 & Under 15 Coach",
+    image: "/assets/imgs/coaches/coach-3.png",
+  },
+  {
+    id: 4,
+    name: "Rajib",
+    role: "Under 13 Coach",
+    image: "/assets/imgs/coaches/coach-1.png",
   },
   {
     id: 5,
-    name: "Goalkeeping Coach",
-    role: "Goalkeeping Specialist",
-    image: "/assets/imgs/coaches/coach-6.png",
+    name: "Ashwin",
+    role: "Under 17 Coach",
+    image: "/assets/imgs/coaches/coach-5.png",
   },
   {
     id: 6,
