@@ -144,7 +144,7 @@ const coachesList: CoachItem[] = [
     id: 6,
     name: "Coach 06",
     role: "Goalkeeping Specialist",
-    image: "/assets/imgs/coaches/coach-6.jpg",
+    image: "/assets/imgs/coaches/coach-6.png",
   },
 ];
 
@@ -291,21 +291,21 @@ export default function PlayersPage() {
               {coachesList.map((coach) => (
                 <div
                   key={coach.id}
-                  className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl border border-gray-200 hover:border-[#1B4193] transition-all duration-300 bg-gradient-to-b from-[#11123c] to-[#070b19] flex flex-col"
+                  className="group relative rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-gray-200 hover:border-[#1B4193] transition-all duration-300 bg-white flex flex-col"
                 >
                   {/* Image Container with Aspect Ratio */}
-                  <div className="relative aspect-[3/4] w-full overflow-hidden flex items-end justify-center">
+                  <div className="relative aspect-[3/4] w-full overflow-hidden bg-gradient-to-b from-gray-50/80 via-white to-gray-100/60 flex items-end justify-center">
                     <Image
                       src={coach.image}
                       alt={coach.name}
                       fill
-                      className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                      className="object-contain object-bottom p-1 sm:p-2 transition-transform duration-500 group-hover:scale-105"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
 
                     {/* Gradient shadow overlay behind content */}
                     <div
-                      className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80"
+                      className="hidden"
                       aria-hidden
                     />
 
