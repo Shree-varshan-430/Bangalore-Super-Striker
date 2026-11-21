@@ -33,15 +33,6 @@ const coachingStaffList = [
   },
   {
     id: 2,
-    name: "Amiyo Halder",
-    role: "Team Physio",
-    department: "SPORTS MEDICINE & PHYSIO",
-    credential: "Team Physiotherapist",
-    image: "/assets/imgs/coaches/coach-2.png",
-    bio: "Oversees athlete conditioning, pitchside injury management, rehabilitation protocols, and recovery telemetry.",
-  },
-  {
-    id: 3,
     name: "Pranesh",
     role: "Under 11 & Under 15 Coach",
     department: "YOUTH ACADEMY (U11 & U15)",
@@ -50,7 +41,7 @@ const coachingStaffList = [
     bio: "Directs foundational ball mastery, positional discipline, and game awareness across Under 11 and Under 15 cohorts.",
   },
   {
-    id: 4,
+    id: 3,
     name: "Miruthika",
     role: "Under 7 Coach",
     department: "GRASSROOTS DEVELOPMENT (U7)",
@@ -59,7 +50,7 @@ const coachingStaffList = [
     bio: "Focuses on motor skill coordination, joyful engagement, and foundational ball familiarity for our youngest Under 7 players.",
   },
   {
-    id: 5,
+    id: 4,
     name: "Kalyan",
     role: "Under 9 Coach",
     department: "FOUNDATION COHORTS (U9)",
@@ -68,13 +59,22 @@ const coachingStaffList = [
     bio: "Mentors emerging talent in core football techniques, small-sided game transitions, and athletic agility for the Under 9 cohort.",
   },
   {
-    id: 6,
+    id: 5,
     name: "Goalkeeping Coach",
     role: "Goalkeeping Specialist",
     department: "GOALKEEPING CLINIC",
     credential: "Certified Goalkeeping Trainer",
     image: "/assets/imgs/coaches/coach-6.png",
     bio: "Focuses on reflex telemetry, distribution mechanics, aerial dominance, and 1v1 shot-stopping resilience.",
+  },
+  {
+    id: 6,
+    name: "Amiyo Halder",
+    role: "Team Physio",
+    department: "SPORTS MEDICINE & PHYSIO",
+    credential: "Team Physiotherapist",
+    image: "/assets/imgs/coaches/coach-2.png",
+    bio: "Oversees athlete conditioning, pitchside injury management, rehabilitation protocols, and recovery telemetry.",
   },
 ];
 
