@@ -16,7 +16,7 @@ const executiveLeadership = {
   roleTitle: "Club Founder & President",
   department: "EXECUTIVE LEADERSHIP",
   credential: "BSSFC Executive Directorate",
-  image: "/assets/imgs/clubs/president-hd.png",
+  image: "/assets/imgs/clubs/president-original-hd.png",
   bio: "Pioneering the expansion of grassroots football excellence and youth scholarship pathways across Karnataka, Tamil Nadu and Pondicherry.",
 };
 
@@ -106,7 +106,7 @@ export default function TechnicalTeamPage() {
               <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
                 {/* Founder Image */}
                 <div className="md:col-span-5">
-                  <div className="relative aspect-[3/4] w-full max-w-xs mx-auto rounded-2xl overflow-hidden shadow-lg border-2 border-[#e9d319]/40 group bg-slate-900">
+                  <div className="relative aspect-[3/4] w-full max-w-sm mx-auto rounded-2xl overflow-hidden shadow-lg border-2 border-[#e9d319]/40 group bg-slate-900">
                     <Image
                       src={executiveLeadership.image}
                       alt={executiveLeadership.roleTitle}
