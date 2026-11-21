@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import PageHero from "@/components/layout/PageHero";
 import Image from "next/image";
 import Link from "next/link";
-import { Shield, Award, Users, ArrowRight } from "lucide-react";
+import { Award, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Technical Team & Coaches | Bangalore Super Strikers FC",
@@ -11,61 +11,70 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://www.bangaloresuperstrikersfc.com/technical_team" },
 };
 
-// Technical staff: Only Founder image is correct; rest have no images and placeholder titles without names
-const technicalStaffList = [
+// Executive Leadership
+const executiveLeadership = {
+  roleTitle: "Club Founder & President",
+  department: "EXECUTIVE LEADERSHIP",
+  credential: "BSSFC Executive Directorate",
+  image: "/assets/imgs/clubs/president.jpg",
+  bio: "Pioneering the expansion of grassroots football excellence and youth scholarship pathways across Karnataka, Tamil Nadu and Pondicherry.",
+};
+
+// Official Coaching Staff with photos, transparent name bar & blue hover effect
+const coachingStaffList = [
   {
     id: 1,
-    roleTitle: "Club Founder & President",
-    department: "EXECUTIVE LEADERSHIP",
-    credential: "BSSFC Executive Directorate",
-    hasImage: true,
-    image: "/assets/imgs/clubs/president.jpg",
-    bio: "Pioneering the expansion of grassroots football excellence and youth scholarship pathways across Karnataka, Tamil Nadu and Pondicherry.",
-  },
-  {
-    id: 2,
-    roleTitle: "Technical Director",
-    department: "TECHNICAL LEADERSHIP",
+    name: "Coach 01",
+    role: "Senior Head Coach",
+    department: "SENIOR SQUAD TRAINING",
     credential: "AIFF / AFC Certified Professional",
-    hasImage: false,
-    image: "",
+    image: "/assets/imgs/coaches/coach-1.png",
     bio: "Directs club curriculum, tactical blueprints, and high-intensity match preparations across Senior and Youth rosters.",
   },
   {
+    id: 2,
+    name: "Coach 02",
+    role: "Technical Lead",
+    department: "TECHNICAL LEADERSHIP",
+    credential: "Licensed Technical Director",
+    image: "/assets/imgs/coaches/coach-2.png",
+    bio: "Oversees tactical coordination, pressing transitions, and matchday strategies for competitive state championships.",
+  },
+  {
     id: 3,
-    roleTitle: "Head Coach",
-    department: "SENIOR SQUAD TRAINING",
-    credential: "Licensed Coaching Professional",
-    hasImage: false,
-    image: "",
-    bio: "Manages tactical coordination, pressing transitions, and matchday strategies for competitive state championships.",
-  },
-  {
-    id: 4,
-    roleTitle: "Goalkeeping Specialist",
-    department: "GOALKEEPING CLINIC",
-    credential: "Certified Goalkeeping Trainer",
-    hasImage: false,
-    image: "",
-    bio: "Focuses on reflex telemetry, distribution mechanics, aerial dominance, and 1v1 shot-stopping resilience.",
-  },
-  {
-    id: 5,
-    roleTitle: "Youth Development Coach",
+    name: "Coach 03",
+    role: "Youth Academy Coach",
     department: "ACADEMY & JUNIOR COHORTS",
     credential: "Youth Football Specialist",
-    hasImage: false,
-    image: "",
+    image: "/assets/imgs/coaches/coach-3.png",
     bio: "Specializes in age-appropriate ball mastery, situational awareness, and foundational technique for grassroots players.",
   },
   {
+    id: 4,
+    name: "Coach 04",
+    role: "Women & Academy Coach",
+    department: "WOMEN'S & YOUTH FOOTBALL",
+    credential: "Women's Football Development Specialist",
+    image: "/assets/imgs/coaches/coach-4.png",
+    bio: "Directs women's squad training, youth talent scouting, and progressive technical development pipelines.",
+  },
+  {
+    id: 5,
+    name: "Coach 05",
+    role: "Development Squad Coach",
+    department: "DEVELOPMENT SQUAD TRAINING",
+    credential: "Development Squad Coordinator",
+    image: "/assets/imgs/coaches/coach-5.png",
+    bio: "Mentors emerging talent navigating the transition from academy age groups into senior competitive squads.",
+  },
+  {
     id: 6,
-    roleTitle: "Strength & Conditioning Lead",
-    department: "SPORTS SCIENCE & FITNESS",
-    credential: "Performance Conditioning Mentor",
-    hasImage: false,
-    image: "",
-    bio: "Directs athletic endurance, agility drills, injury prevention protocols, and post-match recovery telemetry.",
+    name: "Coach 06",
+    role: "Goalkeeping Specialist",
+    department: "GOALKEEPING CLINIC",
+    credential: "Certified Goalkeeping Trainer",
+    image: "/assets/imgs/coaches/coach-6.png",
+    bio: "Focuses on reflex telemetry, distribution mechanics, aerial dominance, and 1v1 shot-stopping resilience.",
   },
 ];
 
@@ -78,102 +87,147 @@ export default function TechnicalTeamPage() {
       />
       <section className="section-py bg-white">
         <div className="container-site max-w-7xl mx-auto px-4 sm:px-6">
-          {/* Section Header */}
-          <div className="text-center mb-14">
-            <span
-              className="text-[11px] font-black uppercase tracking-[0.2em] px-3.5 py-1 rounded-md shadow-xs mb-3 inline-block font-sans"
-              style={{ background: "#e9d319", color: "#11123c" }}
-            >
-              TECHNICAL STAFF &amp; LEADERSHIP
-            </span>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight text-[#11123c]">
-              GUIDING TOMORROW'S CHAMPIONS
-            </h2>
-            <p className="text-sm text-gray-500 max-w-2xl mx-auto mt-2 font-sans">
-              Our technical department features licensed mentors and professionals committed to athletic discipline, sports science, and competitive excellence.
-            </p>
-          </div>
 
-          {/* Cards Grid: Only founder image shown; rest have clean placeholder crest panels */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-            {technicalStaffList.map((member) => (
-              <div
-                key={member.id}
-                className="card-hover bg-white overflow-hidden rounded-2xl shadow-sm border border-gray-200/90 flex flex-col justify-between group hover:border-[#1B4193]/60 transition-all duration-300"
+          {/* ================= EXECUTIVE LEADERSHIP ================= */}
+          <div className="mb-20">
+            <div className="text-center mb-10">
+              <span
+                className="text-[11px] font-black uppercase tracking-[0.2em] px-3.5 py-1 rounded-md shadow-xs mb-3 inline-block font-sans"
+                style={{ background: "#e9d319", color: "#11123c" }}
               >
-                {/* Visual Area */}
-                {member.hasImage ? (
-                  /* Founder Image */
-                  <div className="card-img relative aspect-[3/3.6] overflow-hidden bg-gray-100">
+                EXECUTIVE LEADERSHIP
+              </span>
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight text-[#11123c]">
+                CLUB PRESIDENT &amp; FOUNDER
+              </h2>
+            </div>
+
+            <div className="bg-gradient-to-br from-white via-gray-50 to-gray-100 rounded-3xl border border-gray-200/90 shadow-sm overflow-hidden p-6 sm:p-10 max-w-4xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                {/* Founder Image */}
+                <div className="md:col-span-5">
+                  <div className="relative aspect-[3/4] w-full max-w-xs mx-auto rounded-2xl overflow-hidden shadow-md border-2 border-[#e9d319]/40 group">
                     <Image
-                      src={member.image}
-                      alt={member.roleTitle}
+                      src={executiveLeadership.image}
+                      alt={executiveLeadership.roleTitle}
                       fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />
-                    <div
-                      className="absolute bottom-0 left-0 right-0 p-4"
-                      style={{
-                        background:
-                          "linear-gradient(to top, rgba(17, 18, 60, 0.95), transparent)",
-                      }}
-                    >
-                      <span
-                        className="text-[10px] font-black uppercase tracking-widest px-2.5 py-0.5 mb-1 inline-block rounded"
-                        style={{ background: "#e9d319", color: "#11123c" }}
-                      >
-                        {member.department}
+                    {/* Transparent bar for title */}
+                    <div className="absolute inset-x-0 bottom-0 p-4 bg-black/70 backdrop-blur-md border-t border-white/10 text-center">
+                      <span className="text-[10px] font-black uppercase tracking-[2px] text-[#e9d319] block mb-0.5 font-sans">
+                        {executiveLeadership.department}
                       </span>
-                      <h3 className="text-white text-lg font-bold font-display uppercase tracking-tight">
-                        {member.roleTitle}
+                      <h3 className="font-display font-black text-lg text-white uppercase tracking-wide">
+                        {executiveLeadership.roleTitle}
                       </h3>
                     </div>
                   </div>
-                ) : (
-                  /* Placeholders: No fake photos, clean brand aesthetic with Bangalore Crest */
-                  <div className="relative aspect-[3/2.5] overflow-hidden bg-gradient-to-br from-[#11123c] via-[#1B4193] to-[#0d2250] flex flex-col items-center justify-center p-6 text-center">
-                    <div className="relative w-24 h-24 mb-3 drop-shadow-lg opacity-90 transition-transform duration-500 group-hover:scale-110">
-                      <Image
-                        src="/assets/imgs/crests/bangalore-crest.png"
-                        alt="BSSFC Crest"
-                        fill
-                        className="object-contain"
-                      />
-                    </div>
-                    <span
-                      className="text-[10px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded"
-                      style={{ background: "#e9d319", color: "#11123c" }}
+                </div>
+
+                {/* Founder Details */}
+                <div className="md:col-span-7 flex flex-col justify-center">
+                  <div className="inline-flex items-center gap-2 text-xs font-black text-[#8c7800] uppercase tracking-wider mb-2 font-sans">
+                    <Award size={16} className="text-[#e9d319]" />
+                    <span>{executiveLeadership.credential}</span>
+                  </div>
+                  <h3 className="font-display text-2xl sm:text-3xl font-black uppercase tracking-tight text-[#11123c] mb-4">
+                    PIONEERING GRASSROOTS EXCELLENCE
+                  </h3>
+                  <p className="text-sm sm:text-base text-gray-700 leading-relaxed font-sans mb-4">
+                    {executiveLeadership.bio}
+                  </p>
+                  <p className="text-xs sm:text-sm text-gray-500 leading-relaxed font-sans mb-6">
+                    Committed to developing transparent youth scholarship avenues, high-standard tactical coaching, and modern athletic training facilities for youth across South India.
+                  </p>
+                  <div className="flex flex-wrap gap-4">
+                    <Link
+                      href="/contact"
+                      className="btn-dark text-xs px-6 py-3"
                     >
-                      {member.department}
-                    </span>
-                    <h3 className="text-white text-base sm:text-lg font-bold font-display uppercase tracking-tight mt-2">
-                      {member.roleTitle}
-                    </h3>
+                      CONNECT WITH CLUB
+                    </Link>
+                    <Link
+                      href="/about"
+                      className="border border-[#11123c] text-[#11123c] hover:bg-[#11123c] hover:text-white font-black text-xs uppercase px-6 py-3 rounded-lg transition-colors tracking-wider inline-flex items-center"
+                    >
+                      CLUB PHILOSOPHY →
+                    </Link>
                   </div>
-                )}
-
-                {/* Details Body */}
-                <div className="p-6 flex flex-col flex-1 justify-between">
-                  <div>
-                    <div className="flex items-center gap-1.5 text-xs text-[#8c7800] mb-3 font-black">
-                      <Award size={15} className="shrink-0 text-[#e9d319]" />
-                      <span>{member.credential}</span>
-                    </div>
-                    <p className="text-xs sm:text-sm text-gray-600 leading-relaxed mb-6">
-                      {member.bio}
-                    </p>
-                  </div>
-
-                  <Link
-                    href="/contact"
-                    className="btn-dark text-[11px] w-full justify-center py-2.5"
-                  >
-                    TRAIN WITH US
-                  </Link>
                 </div>
               </div>
-            ))}
+            </div>
+          </div>
+
+          {/* ================= COACHES SECTION ================= */}
+          <div className="pt-10 border-t border-gray-200" id="coaching-staff">
+            {/* Section Header */}
+            <div className="text-center mb-14">
+              <span
+                className="text-[11px] font-black uppercase tracking-[0.2em] px-3.5 py-1 rounded-md shadow-xs mb-3 inline-block font-sans"
+                style={{ background: "#e9d319", color: "#11123c" }}
+              >
+                TECHNICAL DIRECTORS &amp; SPECIALISTS
+              </span>
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight text-[#11123c]">
+                COACHING STAFF
+              </h2>
+              <p className="text-sm text-gray-500 max-w-2xl mx-auto mt-2 font-sans">
+                Our certified coaching staff guides player development with specialized training in tactical mastery, athletic conditioning, and game temperament.
+              </p>
+            </div>
+
+            {/* Coaches Cards Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+              {coachingStaffList.map((coach) => (
+                <div
+                  key={coach.id}
+                  className="group relative rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-gray-200 hover:border-[#1B4193] transition-all duration-300 bg-white flex flex-col justify-between"
+                >
+                  {/* Image Container with Aspect Ratio */}
+                  <div className="relative aspect-[3/4] w-full overflow-hidden bg-gradient-to-b from-gray-50/80 via-white to-gray-100/60 flex items-end justify-center">
+                    <Image
+                      src={coach.image}
+                      alt={coach.name}
+                      fill
+                      className="object-contain object-bottom transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+
+                    {/* Transparent bar for name with blue color on hover */}
+                    <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 bg-black/60 backdrop-blur-md border-t border-white/10 group-hover:bg-[#1B4193] transition-colors duration-300 flex flex-col justify-end text-center">
+                      <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-[2px] text-[#e9d319] group-hover:text-white/90 transition-colors mb-1 font-sans">
+                        {coach.role}
+                      </span>
+                      <h3 className="font-display font-black text-lg sm:text-xl uppercase text-white tracking-wide transition-colors">
+                        {coach.name}
+                      </h3>
+                    </div>
+                  </div>
+
+                  {/* Details Body */}
+                  <div className="p-6 flex flex-col flex-1 justify-between bg-white border-t border-gray-100">
+                    <div>
+                      <div className="flex items-center gap-1.5 text-xs text-[#8c7800] mb-3 font-black font-sans">
+                        <Award size={15} className="shrink-0 text-[#e9d319]" />
+                        <span>{coach.credential}</span>
+                      </div>
+                      <p className="text-xs sm:text-sm text-gray-600 leading-relaxed mb-6 font-sans">
+                        {coach.bio}
+                      </p>
+                    </div>
+
+                    <Link
+                      href="/contact"
+                      className="btn-dark text-[11px] w-full justify-center py-2.5 font-sans"
+                    >
+                      TRAIN WITH US
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Roster Callout Box */}
