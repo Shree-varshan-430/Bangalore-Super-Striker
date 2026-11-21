@@ -299,7 +299,7 @@ export default function PlayersPage() {
                       src={coach.image}
                       alt={coach.name}
                       fill
-                      className="object-contain object-bottom p-1 sm:p-2 transition-transform duration-500 group-hover:scale-105"
+                      className="object-contain object-bottom transition-transform duration-500 group-hover:scale-105"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
 
