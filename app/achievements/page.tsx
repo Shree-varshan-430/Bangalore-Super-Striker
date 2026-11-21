@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import PageHero from "@/components/layout/PageHero";
 import Link from "next/link";
 import {
@@ -9,23 +9,50 @@ import {
   Medal,
   MapPin,
   Search,
-  Filter,
-  Calendar,
-  Users,
-  CheckCircle2,
-  ChevronRight,
-  ShieldCheck,
 } from "lucide-react";
-import tournamentsData from "@/content/tournaments.json";
+import initialTournamentsData from "@/content/tournaments.json";
 
-type YearFilter = "ALL" | "2025" | "2024" | "2023" | "2022";
+export interface TournamentRecord {
+  id: number;
+  year: number;
+  title: string;
+  ageGroup: string;
+  result: string;
+  location: string;
+}
 
 export default function AchievementsPage() {
-  const [selectedYear, setSelectedYear] = useState<YearFilter>("ALL");
+  const [tournaments, setTournaments] = useState<TournamentRecord[]>(initialTournamentsData);
+  const [selectedYear, setSelectedYear] = useState<string>("ALL");
   const [searchQuery, setSearchQuery] = useState("");
 
+  // Fetch updated records on client mount
+  useEffect(() => {
+    async function loadTournaments() {
+      try {
+        const res = await fetch("/api/admin/achievements");
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data) && data.length > 0) {
+            setTournaments(data);
+          }
+        }
+      } catch (err) {
+        // Fallback to static data already in state
+      }
+    }
+    loadTournaments();
+  }, []);
+
+  // Dynamically derive available years sorted descending
+  const availableYears = useMemo(() => {
+    const years = Array.from(new Set(tournaments.map((item) => item.year.toString())));
+    years.sort((a, b) => Number(b) - Number(a));
+    return ["ALL", ...years];
+  }, [tournaments]);
+
   const filteredTournaments = useMemo(() => {
-    return tournamentsData.filter((item) => {
+    return tournaments.filter((item) => {
       const matchYear =
         selectedYear === "ALL" || item.year.toString() === selectedYear;
       const matchQuery =
@@ -36,10 +63,10 @@ export default function AchievementsPage() {
         item.ageGroup.toLowerCase().includes(searchQuery.toLowerCase());
       return matchYear && matchQuery;
     });
-  }, [selectedYear, searchQuery]);
+  }, [tournaments, selectedYear, searchQuery]);
 
   const stats = [
-    { label: "Tournaments Played", value: "36+" },
+    { label: "Tournaments Played", value: `${tournaments.length}+` },
     { label: "State & National Circuits", value: "4+" },
     { label: "Podiums & Knockout Runs", value: "12+" },
     { label: "Active Squad Ages", value: "U9 – Senior" },
@@ -117,9 +144,9 @@ export default function AchievementsPage() {
 
           {/* Interactive Filters & Search */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-10 pb-6 border-b border-gray-150">
-            {/* Year Filters */}
+            {/* Dynamic Year Filters */}
             <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
-              {(["ALL", "2025", "2024", "2023", "2022"] as YearFilter[]).map((yr) => (
+              {availableYears.map((yr) => (
                 <button
                   key={yr}
                   onClick={() => setSelectedYear(yr)}
@@ -150,7 +177,7 @@ export default function AchievementsPage() {
           {/* Results Count Banner */}
           <div className="flex items-center justify-between mb-6 text-xs text-gray-500 font-sans font-semibold">
             <span>
-              Showing {filteredTournaments.length} of {tournamentsData.length} competitive records
+              Showing {filteredTournaments.length} of {tournaments.length} competitive records
             </span>
             {searchQuery && (
               <button
@@ -170,7 +197,7 @@ export default function AchievementsPage() {
 
               return (
                 <div
-                  key={t.id + t.title}
+                  key={`${t.id}-${t.title}`}
                   className="bg-white rounded-2xl border border-gray-200/90 hover:border-[#1B4193]/50 shadow-sm hover:shadow-xl transition-all duration-300 p-6 flex flex-col justify-between group"
                 >
                   <div>
@@ -230,12 +257,12 @@ export default function AchievementsPage() {
                       SUPER STRIKERS WALL OF FAME
                     </h3>
                     <p className="text-xs text-white/70 mt-1 font-sans">
-                      Complete official register of 36 competitive tournaments and state circuits.
+                      Complete official register of {tournaments.length} competitive tournaments and state circuits.
                     </p>
                   </div>
                 </div>
                 <span className="text-xs font-black uppercase tracking-widest px-3 py-1 rounded bg-white/10 text-[#e9d319] self-start sm:self-auto">
-                  36 Records
+                  {tournaments.length} Records
                 </span>
               </div>
 
@@ -252,7 +279,7 @@ export default function AchievementsPage() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/10 text-xs text-white/90 font-sans">
-                    {tournamentsData.map((row) => (
+                    {tournaments.map((row) => (
                       <tr
                         key={`wall-${row.id}-${row.title}`}
                         className="hover:bg-white/5 transition-colors"

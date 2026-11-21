@@ -32,7 +32,20 @@ import {
   Lock,
   EyeOff,
   Check,
+  Medal,
+  MapPin,
+  Search,
+  Filter,
 } from "lucide-react";
+
+type TournamentItem = {
+  id: number;
+  year: number;
+  title: string;
+  ageGroup: string;
+  result: string;
+  location: string;
+};
 
 type NewsItem = {
   id: number | string;
@@ -95,7 +108,7 @@ type VideoItem = {
 
 export default function AdminDashboardPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<"overview" | "results" | "news" | "gallery" | "videos" | "security">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "results" | "news" | "achievements" | "gallery" | "videos" | "security">("overview");
   const [loading, setLoading] = useState(true);
   const [statusMessage, setStatusMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
@@ -104,6 +117,21 @@ export default function AdminDashboardPage() {
   const [fixtures, setFixtures] = useState<FixtureData | null>(null);
   const [gallery, setGallery] = useState<GalleryItem[]>([]);
   const [videos, setVideos] = useState<VideoItem[]>([]);
+  const [achievements, setAchievements] = useState<TournamentItem[]>([]);
+
+  // Achievements State
+  const [achievementYearFilter, setAchievementYearFilter] = useState<string>("ALL");
+  const [achievementSearch, setAchievementSearch] = useState<string>("");
+  const [achievementModalOpen, setAchievementModalOpen] = useState(false);
+  const [editingAchievement, setEditingAchievement] = useState<TournamentItem | null>(null);
+  const [achievementForm, setAchievementForm] = useState({
+    title: "",
+    year: new Date().getFullYear(),
+    ageGroup: "Open Age",
+    result: "Champions",
+    location: "Bangalore",
+  });
+  const [savingAchievement, setSavingAchievement] = useState(false);
 
   // Password & Security State
   const [adminUsername, setAdminUsername] = useState("admin");
@@ -233,22 +261,25 @@ export default function AdminDashboardPage() {
 
   const fetchAllData = async () => {
     try {
-      const [resNews, resFix, resGal, resVid] = await Promise.all([
+      const [resNews, resFix, resGal, resVid, resAch] = await Promise.all([
         fetch("/api/admin/news"),
         fetch("/api/admin/results"),
         fetch("/api/admin/gallery"),
         fetch("/api/admin/videos"),
+        fetch("/api/admin/achievements"),
       ]);
-      const [dataNews, dataFix, dataGal, dataVid] = await Promise.all([
+      const [dataNews, dataFix, dataGal, dataVid, dataAch] = await Promise.all([
         resNews.json(),
         resFix.json(),
         resGal.json(),
         resVid.json(),
+        resAch.json(),
       ]);
       setNews(dataNews || []);
       setFixtures(dataFix || null);
       setGallery(dataGal || []);
       setVideos(dataVid || []);
+      setAchievements(dataAch || []);
     } catch (err) {
       showStatus("Error loading data", "error");
     }
@@ -357,6 +388,78 @@ export default function AdminDashboardPage() {
       fetchAllData();
     } catch (err: any) {
       showStatus(err.message || "Error updating Match Strip", "error");
+    }
+  };
+
+  // ----------------- ACHIEVEMENTS ACTIONS -----------------
+  const handleOpenAddAchievement = () => {
+    setEditingAchievement(null);
+    setAchievementForm({
+      title: "",
+      year: new Date().getFullYear(),
+      ageGroup: "Open Age",
+      result: "Champions",
+      location: "Bangalore",
+    });
+    setAchievementModalOpen(true);
+  };
+
+  const handleOpenEditAchievement = (item: TournamentItem) => {
+    setEditingAchievement(item);
+    setAchievementForm({
+      title: item.title,
+      year: item.year,
+      ageGroup: item.ageGroup,
+      result: item.result,
+      location: item.location,
+    });
+    setAchievementModalOpen(true);
+  };
+
+  const handleSaveAchievement = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSavingAchievement(true);
+    try {
+      const payload = {
+        ...achievementForm,
+        id: editingAchievement?.id,
+        year: Number(achievementForm.year),
+      };
+
+      const res = await fetch("/api/admin/achievements", {
+        method: editingAchievement ? "PUT" : "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to save achievement");
+
+      showStatus(
+        editingAchievement
+          ? `Achievement #${editingAchievement.id} updated successfully!`
+          : `New achievement for Year ${achievementForm.year} added successfully!`
+      );
+      setAchievementModalOpen(false);
+      setEditingAchievement(null);
+      fetchAllData();
+    } catch (err: any) {
+      showStatus(err.message || "Error saving achievement", "error");
+    } finally {
+      setSavingAchievement(false);
+    }
+  };
+
+  const handleDeleteAchievement = async (id: number) => {
+    if (!confirm(`Are you sure you want to delete achievement record #${id}?`)) return;
+    try {
+      const res = await fetch(`/api/admin/achievements?id=${id}`, { method: "DELETE" });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to delete achievement");
+      showStatus("Achievement record deleted!");
+      fetchAllData();
+    } catch (err: any) {
+      showStatus(err.message || "Error deleting achievement", "error");
     }
   };
 
@@ -541,6 +644,23 @@ export default function AdminDashboardPage() {
           </button>
 
           <button
+            onClick={() => setActiveTab("achievements")}
+            className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl font-display font-black text-xs uppercase tracking-wider transition-all text-left cursor-pointer ${
+              activeTab === "achievements"
+                ? "bg-[#1B4193] text-white shadow-md"
+                : "text-gray-600 hover:bg-gray-100"
+            }`}
+          >
+            <div className="flex items-center gap-3">
+              <Medal size={17} />
+              <span>Achievements &amp; Honours</span>
+            </div>
+            <span className="text-[10px] bg-gray-150 text-gray-700 px-2 py-0.5 rounded font-bold">
+              {achievements.length}
+            </span>
+          </button>
+
+          <button
             onClick={() => setActiveTab("gallery")}
             className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl font-display font-black text-xs uppercase tracking-wider transition-all text-left cursor-pointer ${
               activeTab === "gallery"
@@ -704,6 +824,35 @@ export default function AdminDashboardPage() {
                   <div className="pt-4 border-t border-gray-150 flex items-center justify-between">
                     <span className="text-xs font-black uppercase text-[#1B4193] flex items-center gap-1 group-hover:gap-2 transition-all">
                       <span>Manage News Articles</span>
+                      <ArrowRight size={14} />
+                    </span>
+                  </div>
+                </div>
+
+                {/* 2b. Achievements & Honours Card */}
+                <div
+                  onClick={() => setActiveTab("achievements")}
+                  className="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs hover:shadow-lg transition-all cursor-pointer group flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-11 h-11 rounded-xl bg-[#e9d319]/20 text-[#11123c] flex items-center justify-center">
+                        <Medal size={22} />
+                      </div>
+                      <span className="text-[10px] font-black uppercase text-[#11123c] bg-[#e9d319] px-2.5 py-1 rounded-full">
+                        {achievements.length} Official Records
+                      </span>
+                    </div>
+                    <h3 className="font-display font-black text-lg uppercase text-[#11123c] mb-1 group-hover:text-[#1B4193] transition-colors">
+                      Achievements &amp; Honours
+                    </h3>
+                    <p className="text-xs text-gray-500 mb-4 leading-relaxed">
+                      Add new achievements based on existing years or create a <strong>new year</strong>. Update tournament titles, categories, venues, and trophies on the Wall of Fame (<code>/achievements</code>).
+                    </p>
+                  </div>
+                  <div className="pt-4 border-t border-gray-150 flex items-center justify-between">
+                    <span className="text-xs font-black uppercase text-[#1B4193] flex items-center gap-1 group-hover:gap-2 transition-all">
+                      <span>Manage Achievements</span>
                       <ArrowRight size={14} />
                     </span>
                   </div>
@@ -1228,6 +1377,214 @@ export default function AdminDashboardPage() {
             </div>
           )}
 
+          {/* ================= SECTION 2B: ACHIEVEMENTS & HONOURS ================= */}
+          {activeTab === "achievements" && (
+            <div className="space-y-6">
+              {/* Header Box */}
+              <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-[10px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded bg-[#e9d319] text-[#11123c]">
+                      WALL OF FAME
+                    </span>
+                    <span className="text-xs text-gray-500 font-semibold">
+                      {achievements.length} Total Tournament Honours
+                    </span>
+                  </div>
+                  <h2 className="font-display font-black text-xl uppercase tracking-tight text-[#11123c]">
+                    Achievements &amp; Honours Manager
+                  </h2>
+                  <p className="text-xs text-gray-500 mt-1 max-w-2xl leading-relaxed">
+                    Add new achievements for existing years or create a <strong>new year</strong>, update titles, results (Champions, Runners-Up, etc.), age groups, and locations. Updates automatically appear live on the <strong>Achievements Page</strong> (<code>/achievements</code>).
+                  </p>
+                </div>
+
+                <button
+                  onClick={handleOpenAddAchievement}
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#e9d319] text-[#11123c] hover:bg-[#1B4193] hover:text-white font-display font-black text-xs uppercase tracking-wider transition-colors shadow-md cursor-pointer shrink-0"
+                >
+                  <Plus size={16} />
+                  <span>Add New Achievement</span>
+                </button>
+              </div>
+
+              {/* Filter & Search Bar */}
+              <div className="bg-white p-4 sm:p-5 rounded-2xl border border-gray-200 shadow-xs flex flex-col md:flex-row items-center justify-between gap-4">
+                {/* Dynamic Year Buttons */}
+                <div className="flex flex-wrap items-center gap-1.5 w-full md:w-auto">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-gray-400 mr-2 flex items-center gap-1">
+                    <Filter size={12} />
+                    <span>Year:</span>
+                  </span>
+                  {(() => {
+                    const years = Array.from(new Set(achievements.map((a) => a.year.toString()))).sort(
+                      (a, b) => Number(b) - Number(a)
+                    );
+                    return ["ALL", ...years].map((yr) => (
+                      <button
+                        key={yr}
+                        onClick={() => setAchievementYearFilter(yr)}
+                        className={`px-3 py-1.5 text-xs font-black uppercase rounded-lg transition-all cursor-pointer ${
+                          achievementYearFilter === yr
+                            ? "bg-[#1B4193] text-white shadow-xs"
+                            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                        }`}
+                      >
+                        {yr === "ALL" ? "All Years" : yr}
+                      </button>
+                    ));
+                  })()}
+                </div>
+
+                {/* Search Input */}
+                <div className="relative w-full md:w-72">
+                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+                  <input
+                    type="text"
+                    placeholder="Search tournament, result, city..."
+                    value={achievementSearch}
+                    onChange={(e) => setAchievementSearch(e.target.value)}
+                    className="w-full pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-[#11123c] focus:outline-none focus:ring-2 focus:ring-[#1B4193] focus:bg-white"
+                  />
+                  {achievementSearch && (
+                    <button
+                      onClick={() => setAchievementSearch("")}
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-gray-400 hover:text-gray-700 cursor-pointer"
+                    >
+                      ×
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Achievements Grid */}
+              {(() => {
+                const filtered = achievements.filter((item) => {
+                  const matchYear =
+                    achievementYearFilter === "ALL" || item.year.toString() === achievementYearFilter;
+                  const query = achievementSearch.toLowerCase().trim();
+                  const matchQuery =
+                    !query ||
+                    item.title.toLowerCase().includes(query) ||
+                    item.result.toLowerCase().includes(query) ||
+                    item.location.toLowerCase().includes(query) ||
+                    item.ageGroup.toLowerCase().includes(query);
+                  return matchYear && matchQuery;
+                });
+
+                if (filtered.length === 0) {
+                  return (
+                    <div className="bg-white rounded-2xl border border-gray-200 p-12 text-center">
+                      <Medal className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+                      <h3 className="font-display font-black text-lg uppercase text-gray-700 mb-1">
+                        No Achievements Found
+                      </h3>
+                      <p className="text-xs text-gray-400 max-w-sm mx-auto mb-4">
+                        {achievementSearch || achievementYearFilter !== "ALL"
+                          ? "No tournament records matched your current search filters."
+                          : "No achievements added yet. Click Add New Achievement to get started."}
+                      </p>
+                      <button
+                        onClick={handleOpenAddAchievement}
+                        className="px-4 py-2 bg-[#1B4193] text-white text-xs font-black uppercase rounded-lg hover:bg-[#11123c] transition-colors cursor-pointer"
+                      >
+                        Add Achievement
+                      </button>
+                    </div>
+                  );
+                }
+
+                return (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {filtered.map((item) => {
+                      const resLower = item.result.toLowerCase();
+                      const isChampion =
+                        resLower.includes("winner") || resLower.includes("champion") || resLower.includes("1st");
+                      const isRunner =
+                        resLower.includes("runner") ||
+                        resLower.includes("2nd") ||
+                        resLower.includes("podium") ||
+                        resLower.includes("3rd");
+                      const isSemi = resLower.includes("semi");
+
+                      return (
+                        <div
+                          key={item.id}
+                          className="bg-white rounded-2xl border border-gray-200/90 hover:border-[#1B4193]/50 shadow-xs hover:shadow-md transition-all p-5 flex flex-col justify-between group"
+                        >
+                          <div>
+                            {/* Top Badges */}
+                            <div className="flex items-center justify-between gap-2 mb-3">
+                              <span className="text-[10px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded bg-[#11123c] text-white">
+                                #{item.id}
+                              </span>
+                              <span className="text-xs font-black px-2.5 py-0.5 rounded bg-[#e9d319]/25 text-[#11123c] border border-[#e9d319]/40">
+                                YEAR {item.year}
+                              </span>
+                            </div>
+
+                            {/* Title */}
+                            <h3 className="font-display font-bold text-base uppercase leading-snug text-[#11123c] group-hover:text-[#1B4193] transition-colors mb-2">
+                              {item.title}
+                            </h3>
+
+                            {/* Category & Location */}
+                            <div className="flex flex-wrap items-center gap-2 mb-3 text-xs">
+                              <span className="px-2 py-0.5 rounded bg-gray-100 text-gray-700 font-semibold border border-gray-200 text-[11px]">
+                                {item.ageGroup}
+                              </span>
+                              {item.location && (
+                                <span className="flex items-center gap-1 text-gray-500 font-medium text-[11px]">
+                                  <MapPin className="w-3 h-3 text-[#e9d319] shrink-0" />
+                                  <span>{item.location}</span>
+                                </span>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Result Badge & Actions */}
+                          <div className="pt-3 border-t border-gray-100 mt-2 flex items-center justify-between gap-2">
+                            <span
+                              className={`inline-flex items-center gap-1 text-[11px] font-black uppercase tracking-wider px-2.5 py-1 rounded-lg border ${
+                                isChampion
+                                  ? "bg-[#e9d319]/20 text-[#8c7800] border-[#e9d319]"
+                                  : isRunner
+                                  ? "bg-[#00a8e8]/15 text-[#0077a8] border-[#00a8e8]"
+                                  : isSemi
+                                  ? "bg-purple-100 text-purple-800 border-purple-300"
+                                  : "bg-gray-100 text-gray-700 border-gray-300"
+                              }`}
+                            >
+                              <Trophy className="w-3 h-3" />
+                              <span>{item.result}</span>
+                            </span>
+
+                            <div className="flex items-center gap-1">
+                              <button
+                                onClick={() => handleOpenEditAchievement(item)}
+                                className="p-1.5 text-gray-500 hover:text-[#1B4193] hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
+                                title="Edit Achievement"
+                              >
+                                <Edit3 size={15} />
+                              </button>
+                              <button
+                                onClick={() => handleDeleteAchievement(item.id)}
+                                className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                                title="Delete Achievement"
+                              >
+                                <Trash2 size={15} />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })()}
+            </div>
+          )}
+
           {/* ================= SECTION 3: PHOTO GALLERY ================= */}
           {activeTab === "gallery" && (
             <div className="space-y-6">
@@ -1721,6 +2078,207 @@ export default function AdminDashboardPage() {
                   className="px-6 py-2.5 bg-[#1B4193] text-white hover:bg-[#e9d319] hover:text-[#11123c] text-xs font-black uppercase rounded-xl transition-colors cursor-pointer shadow-md"
                 >
                   {editingNews ? "Save Changes" : "Publish Article"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ================= MODAL: ADD / EDIT ACHIEVEMENT ================= */}
+      {achievementModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-white rounded-2xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border border-gray-200 my-8">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <span className="w-8 h-8 rounded-lg bg-[#e9d319] text-[#11123c] flex items-center justify-center font-black">
+                  <Medal size={18} />
+                </span>
+                <h3 className="font-display font-black text-xl uppercase text-[#11123c]">
+                  {editingAchievement ? `Edit Achievement #${editingAchievement.id}` : "Add Tournament Achievement"}
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setAchievementModalOpen(false)}
+                className="text-gray-400 hover:text-gray-600 p-1 rounded-lg text-lg leading-none cursor-pointer"
+              >
+                ×
+              </button>
+            </div>
+            <p className="text-xs text-gray-500 mb-6">
+              {editingAchievement
+                ? "Update tournament honours, year, category, and result across the Wall of Fame."
+                : "Add a new competitive tournament honour. You can select an existing year or type any new year."}
+            </p>
+
+            <form onSubmit={handleSaveAchievement} className="space-y-4">
+              {/* Year Field */}
+              <div>
+                <label className="block text-xs font-bold uppercase text-gray-600 mb-1.5">
+                  Tournament Year * <span className="text-gray-400 font-normal lowercase">(existing or new year)</span>
+                </label>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="number"
+                    required
+                    min={2000}
+                    max={2099}
+                    value={achievementForm.year}
+                    onChange={(e) => setAchievementForm({ ...achievementForm, year: Number(e.target.value) })}
+                    placeholder="e.g. 2026"
+                    className="flex-1 px-4 py-2.5 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#1B4193] font-bold text-[#11123c]"
+                  />
+                  {/* Quick Year Pill Selectors */}
+                  <div className="flex items-center gap-1">
+                    {[2026, 2025, 2024, 2023].map((yr) => (
+                      <button
+                        type="button"
+                        key={yr}
+                        onClick={() => setAchievementForm({ ...achievementForm, year: yr })}
+                        className={`px-2.5 py-1 text-xs font-bold rounded-lg border cursor-pointer transition-colors ${
+                          achievementForm.year === yr
+                            ? "bg-[#11123c] text-[#e9d319] border-[#11123c]"
+                            : "bg-gray-100 text-gray-600 border-gray-200 hover:bg-gray-200"
+                        }`}
+                      >
+                        {yr}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <p className="text-[11px] text-gray-400 mt-1">
+                  Type any year (e.g. 2026, 2027) to introduce a brand new year section on the website.
+                </p>
+              </div>
+
+              {/* Tournament Title */}
+              <div>
+                <label className="block text-xs font-bold uppercase text-gray-600 mb-1.5">
+                  Tournament / Honour Title *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={achievementForm.title}
+                  onChange={(e) => setAchievementForm({ ...achievementForm, title: e.target.value })}
+                  placeholder="e.g. Men's and Women's Super Division League"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#1B4193]"
+                />
+              </div>
+
+              {/* Age Category & Location */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold uppercase text-gray-600 mb-1.5">
+                    Age Category *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={achievementForm.ageGroup}
+                    onChange={(e) => setAchievementForm({ ...achievementForm, ageGroup: e.target.value })}
+                    placeholder="e.g. Open Age, Under 13, Under 15"
+                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#1B4193]"
+                  />
+                  {/* Quick suggestions */}
+                  <div className="flex flex-wrap gap-1 mt-1.5">
+                    {["Open Age", "Under 13", "Under 15", "Under 17", "Under 9"].map((cat) => (
+                      <button
+                        type="button"
+                        key={cat}
+                        onClick={() => setAchievementForm({ ...achievementForm, ageGroup: cat })}
+                        className="text-[10px] bg-gray-100 hover:bg-gray-200 text-gray-700 px-2 py-0.5 rounded cursor-pointer"
+                      >
+                        {cat}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold uppercase text-gray-600 mb-1.5">
+                    Location / Venue
+                  </label>
+                  <input
+                    type="text"
+                    value={achievementForm.location}
+                    onChange={(e) => setAchievementForm({ ...achievementForm, location: e.target.value })}
+                    placeholder="e.g. Bangalore, Pondicherry/Goa, Chennai"
+                    className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#1B4193]"
+                  />
+                  {/* Quick location suggestions */}
+                  <div className="flex flex-wrap gap-1 mt-1.5">
+                    {["Bangalore", "Goa", "Chennai", "Pondicherry", "Coimbatore"].map((loc) => (
+                      <button
+                        type="button"
+                        key={loc}
+                        onClick={() => setAchievementForm({ ...achievementForm, location: loc })}
+                        className="text-[10px] bg-gray-100 hover:bg-gray-200 text-gray-700 px-2 py-0.5 rounded cursor-pointer"
+                      >
+                        {loc}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Result Achieved */}
+              <div>
+                <label className="block text-xs font-bold uppercase text-gray-600 mb-1.5">
+                  Result / Honour Achieved *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={achievementForm.result}
+                  onChange={(e) => setAchievementForm({ ...achievementForm, result: e.target.value })}
+                  placeholder="e.g. Champions, Runners-Up, Semi Finalist, Participant"
+                  className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-xl focus:outline-none focus:border-[#1B4193] font-bold text-[#11123c]"
+                />
+                {/* Quick result buttons */}
+                <div className="flex flex-wrap gap-1.5 mt-1.5">
+                  {[
+                    { label: "Champions", bg: "bg-[#e9d319]/25 text-[#8c7800]" },
+                    { label: "Runners-Up", bg: "bg-[#00a8e8]/20 text-[#0077a8]" },
+                    { label: "Semi Finalist", bg: "bg-purple-100 text-purple-800" },
+                    { label: "Quarter Finalist", bg: "bg-indigo-100 text-indigo-800" },
+                    { label: "Participant", bg: "bg-gray-100 text-gray-700" },
+                  ].map((res) => (
+                    <button
+                      type="button"
+                      key={res.label}
+                      onClick={() => setAchievementForm({ ...achievementForm, result: res.label })}
+                      className={`text-[10px] font-bold px-2 py-0.5 rounded cursor-pointer border ${res.bg}`}
+                    >
+                      {res.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="pt-4 flex items-center justify-end gap-3 border-t border-gray-150">
+                <button
+                  type="button"
+                  onClick={() => setAchievementModalOpen(false)}
+                  className="px-5 py-2.5 text-xs font-bold uppercase text-gray-600 hover:bg-gray-100 rounded-xl cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={savingAchievement}
+                  className="px-6 py-2.5 bg-[#1B4193] text-white hover:bg-[#e9d319] hover:text-[#11123c] text-xs font-black uppercase rounded-xl transition-colors cursor-pointer shadow-md flex items-center gap-2"
+                >
+                  {savingAchievement ? (
+                    <>
+                      <RefreshCw size={14} className="animate-spin text-[#e9d319]" />
+                      <span>Saving...</span>
+                    </>
+                  ) : (
+                    <span>{editingAchievement ? "Save Changes" : "Add Achievement"}</span>
+                  )}
                 </button>
               </div>
             </form>
