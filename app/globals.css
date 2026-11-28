@@ -25,9 +25,11 @@
   --surface-cream:     #FBFBFE;
   --surface-white:     #FFFFFF;
 
-  /* Font fallbacks to avoid build issues with Google font optimization in deployment */
-  --font-sans: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  --font-display: "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  /* Official Website Fonts: Montserrat for headings, Roboto for body */
+  --font-sans: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  --font-display: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  --font-montserrat: "Montserrat", sans-serif;
+  --font-roboto: "Roboto", sans-serif;
 
   /* Legacy BSSFC token bridges to prevent any unmapped styles */
   --bssfc-navy:  var(--primary-navy);

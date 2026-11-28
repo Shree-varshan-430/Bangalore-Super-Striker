@@ -2,25 +2,26 @@ import type { Metadata } from "next";
 import PageHero from "@/components/layout/PageHero";
 import Image from "next/image";
 import Link from "next/link";
-import { Award, ArrowRight } from "lucide-react";
+import { Award, ShieldCheck, CheckCircle2 } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Technical Team & Coaches | Bangalore Super Strikers FC",
   description:
-    "Meet the licensed coaching and technical staff at Bangalore Super Strikers FC, dedicated to developing talent across Karnataka, Chennai, Pondicherry and Nilgiris.",
+    "Meet the certified coaching staff and technical team at Bangalore Super Strikers FC. Led by President Ramakrishnan D (AFC C License Coach & State Referee) and AIFF-certified coaches.",
   alternates: { canonical: "https://www.bangaloresuperstrikersfc.com/technical_team" },
 };
 
-// Executive Leadership
+// Executive Leadership with exact live website credentials
 const executiveLeadership = {
+  name: "Ramakrishnan D",
   roleTitle: "Club Founder & President",
-  department: "EXECUTIVE LEADERSHIP",
-  credential: "BSSFC Executive Directorate",
+  department: "EXECUTIVE LEADERSHIP & HEAD COACH",
+  credential: "AFC 'C' License Coach & Certified Karnataka State Referee",
   image: "/assets/imgs/clubs/president-original-hd.png",
-  bio: "Pioneering the expansion of grassroots football excellence and youth scholarship pathways across Karnataka, Tamil Nadu and Pondicherry.",
+  bio: "Ramakrishnan D, the President of Bangalore Super Strikers FC, is an accomplished AFC C License Coach and a certified Karnataka State Referee. With a passion for football and years of experience, he plays a pivotal role in shaping the club's vision and fostering grassroots talent. His expertise in coaching and officiating adds immense value to the development of players and the overall growth of the sport within the community.",
 };
 
-// Official Coaching Staff with photos, transparent name bar & blue hover effect
+// Official Coaching Staff arranged category-wise from above to below
 const coachingStaffList = [
   {
     id: 1,
@@ -85,43 +86,59 @@ export default function TechnicalTeamPage() {
         title="Technical Team & Coaches"
         crumbs={[{ label: "Technical Team" }]}
       />
+
+      {/* Intro Banner from Live Website */}
+      <div className="py-6 bg-[#11123c] border-b border-white/10 text-white">
+        <div className="container-site max-w-5xl mx-auto px-4 text-center">
+          <p className="text-[#e9d319] text-xs font-black uppercase tracking-[2.5px] mb-2 font-display">
+            EXPERT TRAINING &amp; DEDICATED FACULTY
+          </p>
+          <h2 className="text-white text-base sm:text-lg md:text-xl font-bold font-display uppercase tracking-wide leading-snug mb-2">
+            BSSFC provides football skill development through an expertise training in a professional way.
+          </h2>
+          <p className="text-gray-300 text-xs sm:text-sm max-w-3xl mx-auto font-sans leading-relaxed">
+            We have dedicated team and certified trainers, and a courteous staff to provide best training for the players.
+          </p>
+        </div>
+      </div>
+
       <section className="section-py bg-white">
         <div className="container-site max-w-7xl mx-auto px-4 sm:px-6">
 
-          {/* ================= EXECUTIVE LEADERSHIP ================= */}
+          {/* ================= EXECUTIVE LEADERSHIP / PRESIDENT ================= */}
           <div className="mb-20">
             <div className="text-center mb-10">
               <span
                 className="text-[11px] font-black uppercase tracking-[0.2em] px-3.5 py-1 rounded-md shadow-xs mb-3 inline-block font-sans"
                 style={{ background: "#e9d319", color: "#11123c" }}
               >
-                EXECUTIVE LEADERSHIP
+                TEAM LEADERSHIP
               </span>
               <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight text-[#11123c]">
-                CLUB PRESIDENT &amp; FOUNDER
+                PRESIDENT &amp; FOUNDER
               </h2>
             </div>
 
-            <div className="bg-gradient-to-br from-white via-gray-50 to-gray-100 rounded-3xl border border-gray-200/90 shadow-sm overflow-hidden p-6 sm:p-10 max-w-4xl mx-auto">
+            <div className="bg-gradient-to-br from-white via-gray-50 to-gray-100 rounded-3xl border border-gray-200/90 shadow-sm overflow-hidden p-6 sm:p-10 max-w-5xl mx-auto">
               <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
                 {/* Founder Image */}
                 <div className="md:col-span-5">
                   <div className="relative aspect-[3/4] w-full max-w-sm mx-auto rounded-2xl overflow-hidden shadow-lg border-2 border-[#e9d319]/40 group bg-slate-900">
                     <Image
                       src={executiveLeadership.image}
-                      alt={executiveLeadership.roleTitle}
+                      alt={`${executiveLeadership.name} - ${executiveLeadership.roleTitle}`}
                       fill
                       priority
                       className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 384px"
                     />
                     {/* Transparent bar for title */}
-                    <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 bg-gradient-to-t from-black/90 via-black/65 to-transparent backdrop-blur-xs text-center">
-                      <span className="text-[10px] font-black uppercase tracking-[2.5px] text-[#e9d319] block mb-1 font-sans">
-                        {executiveLeadership.department}
+                    <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 bg-gradient-to-t from-black/95 via-black/70 to-transparent backdrop-blur-xs text-center">
+                      <span className="text-[10px] font-black uppercase tracking-[2px] text-[#e9d319] block mb-1 font-sans">
+                        {executiveLeadership.roleTitle}
                       </span>
                       <h3 className="font-display font-black text-lg sm:text-xl text-white uppercase tracking-wide">
-                        {executiveLeadership.roleTitle}
+                        {executiveLeadership.name}
                       </h3>
                     </div>
                   </div>
@@ -129,20 +146,17 @@ export default function TechnicalTeamPage() {
 
                 {/* Founder Details */}
                 <div className="md:col-span-7 flex flex-col justify-center">
-                  <div className="inline-flex items-center gap-2 text-xs font-black text-[#8c7800] uppercase tracking-wider mb-2 font-sans">
+                  <div className="inline-flex items-center gap-2 text-xs font-black text-[#8c7800] uppercase tracking-wider mb-3 font-sans">
                     <Award size={16} className="text-[#e9d319]" />
                     <span>{executiveLeadership.credential}</span>
                   </div>
                   <h3 className="font-display text-2xl sm:text-3xl font-black uppercase tracking-tight text-[#11123c] mb-4">
-                    PIONEERING GRASSROOTS EXCELLENCE
+                    RAMAKRISHNAN D
                   </h3>
-                  <p className="text-sm sm:text-base text-gray-700 leading-relaxed font-sans mb-4">
+                  <p className="text-sm sm:text-base text-gray-700 leading-relaxed font-sans mb-5">
                     {executiveLeadership.bio}
                   </p>
-                  <p className="text-xs sm:text-sm text-gray-500 leading-relaxed font-sans mb-6">
-                    Committed to developing transparent youth scholarship avenues, high-standard tactical coaching, and modern athletic training facilities for youth across South India.
-                  </p>
-                  <div className="flex flex-wrap gap-4">
+                  <div className="flex flex-wrap gap-4 pt-2">
                     <Link
                       href="/contact"
                       className="btn-dark text-xs px-6 py-3"
@@ -161,15 +175,51 @@ export default function TechnicalTeamPage() {
             </div>
           </div>
 
-          {/* ================= COACHES SECTION ================= */}
-          <div className="pt-10 border-t border-gray-200" id="coaching-staff">
-            {/* Section Header */}
+          {/* ================= AIFF CERTIFIED COACHES FEATURE ================= */}
+          <div className="mb-20 bg-[#11123c] text-white rounded-3xl p-8 sm:p-12 overflow-hidden shadow-xl border border-white/10">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              <div className="lg:col-span-7">
+                <span
+                  className="text-[10px] sm:text-[11px] font-black uppercase tracking-[2.5px] px-3.5 py-1 rounded inline-block mb-4 font-sans"
+                  style={{ background: "#e9d319", color: "#11123c" }}
+                >
+                  AIFF CERTIFIED PROFESSIONALS
+                </span>
+                <h3 className="font-display text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight text-white mb-4">
+                  HIGH-STANDARD TACTICAL &amp; YOUTH DEVELOPMENT
+                </h3>
+                <p className="text-sm sm:text-base text-gray-300 leading-relaxed font-sans mb-6">
+                  All our coaches are highly experienced, well-trained professionals, each certified by the All India Football Federation (AIFF). They bring a range of expertise in youth development, tactical training, and game strategy. Equipped with both the technical skills and practical knowledge needed to guide players, they are dedicated to fostering a strong foundation in football. Their commitment to excellence and player growth ensures that our training programs are not only effective but also aligned with the best standards in Indian football.
+                </p>
+                <div className="border-l-4 border-[#e9d319] pl-4 py-1">
+                  <p className="text-base sm:text-lg font-black uppercase text-[#e9d319] tracking-wide font-display">
+                    &ldquo;GET TRAINED UNDER CERTIFIED COACHES TO BE A SUCCESSFUL PLAYER&rdquo;
+                  </p>
+                </div>
+              </div>
+
+              <div className="lg:col-span-5">
+                <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-2xl border-2 border-white/15">
+                  <Image
+                    src="/assets/imgs/techteam.jpg"
+                    alt="BSSFC Technical Team & AIFF Certified Coaches"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 450px"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ================= COACHING STAFF (CATEGORY-WISE: U17 DOWN TO U7 + PHYSIO) ================= */}
+          <div className="pt-6 border-t border-gray-200" id="coaching-staff">
             <div className="text-center mb-14">
               <span
                 className="text-[11px] font-black uppercase tracking-[0.2em] px-3.5 py-1 rounded-md shadow-xs mb-3 inline-block font-sans"
                 style={{ background: "#e9d319", color: "#11123c" }}
               >
-                TECHNICAL DIRECTORS &amp; SPECIALISTS
+                SPECIALIZED MENTORS
               </span>
               <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight text-[#11123c]">
                 COACHING STAFF
@@ -190,7 +240,7 @@ export default function TechnicalTeamPage() {
                   <div className="relative aspect-[3/4] w-full overflow-hidden bg-gradient-to-b from-gray-50/80 via-white to-gray-100/60 flex items-end justify-center">
                     <Image
                       src={coach.image}
-                      alt={coach.name}
+                      alt={`${coach.name} - ${coach.role}`}
                       fill
                       className="object-contain object-bottom transition-transform duration-500 group-hover:scale-105"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -231,26 +281,56 @@ export default function TechnicalTeamPage() {
             </div>
           </div>
 
+          {/* ================= CAMPUS SECTION (FROM LIVE WEBSITE) ================= */}
+          <div className="mb-20 bg-gray-50 rounded-3xl p-8 sm:p-12 border border-gray-200">
+            <div className="max-w-4xl mx-auto text-center">
+              <span
+                className="text-[11px] font-black uppercase tracking-[0.2em] px-3.5 py-1 rounded-md shadow-xs mb-3 inline-block font-sans"
+                style={{ background: "#11123c", color: "#e9d319" }}
+              >
+                CAMPUS INFRASTRUCTURE
+              </span>
+              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-black uppercase tracking-tight text-[#11123c] mb-4">
+                A Secure Campus For Student Athlete Development
+              </h2>
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed font-sans max-w-3xl mx-auto mb-6">
+                At Bangalore Super Strikers FC, our normal program plans are designed to foster both the technical and personal development of each player. These programs are structured to cater to various age groups and skill levels, with a focus on building foundational skills, enhancing tactical awareness, and promoting physical fitness.
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-6 text-xs sm:text-sm font-bold text-[#11123c] font-sans">
+                <span className="flex items-center gap-2">
+                  <CheckCircle2 size={16} className="text-[#e9d319]" /> Age-specific coaching curriculums
+                </span>
+                <span className="flex items-center gap-2">
+                  <CheckCircle2 size={16} className="text-[#e9d319]" /> Tactical &amp; match video review
+                </span>
+                <span className="flex items-center gap-2">
+                  <CheckCircle2 size={16} className="text-[#e9d319]" /> Safe &amp; supervised environment
+                </span>
+              </div>
+            </div>
+          </div>
+
           {/* Roster Callout Box */}
           <div className="p-8 sm:p-10 rounded-2xl bg-gradient-to-r from-[#11123c] to-[#1B4193] text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
             <div>
-              <p className="text-[#e9d319] text-xs font-black uppercase tracking-[3px] mb-2 font-sans">
+              <p className="text-[#e9d319] text-xs font-black uppercase tracking-[3px] mb-2 font-display">
                 OFFICIAL SQUAD ROSTER
               </p>
               <h3 className="font-display text-2xl sm:text-3xl font-black uppercase tracking-tight">
                 EXPLORE BSSFC PLAYER SQUADS
               </h3>
-              <p className="text-xs sm:text-sm text-white/80 mt-1 max-w-xl">
+              <p className="text-xs sm:text-sm text-white/80 mt-1 max-w-xl font-sans">
                 View our registered senior first team and developmental academy squads on the dedicated players portal.
               </p>
             </div>
             <Link
               href="/players"
-              className="bg-[#e9d319] text-[#11123c] hover:bg-white font-black text-xs uppercase px-8 py-3.5 transition-all duration-200 tracking-widest shrink-0"
+              className="bg-[#e9d319] text-[#11123c] hover:bg-white font-black text-xs uppercase px-8 py-3.5 transition-all duration-200 tracking-widest shrink-0 font-display"
             >
               VIEW PLAYERS PAGE →
             </Link>
           </div>
+
         </div>
       </section>
     </>
