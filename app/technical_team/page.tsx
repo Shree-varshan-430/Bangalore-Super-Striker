@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import PageHero from "@/components/layout/PageHero";
 import Image from "next/image";
 import Link from "next/link";
-import { Award, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { Award, ShieldCheck, CheckCircle2, Sparkles, Users, Trophy } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Technical Team & Coaches | Bangalore Super Strikers FC",
@@ -87,18 +87,43 @@ export default function TechnicalTeamPage() {
         crumbs={[{ label: "Technical Team" }]}
       />
 
-      {/* Intro Banner from Live Website */}
-      <div className="py-6 bg-[#11123c] border-b border-white/10 text-white">
-        <div className="container-site max-w-5xl mx-auto px-4 text-center">
-          <p className="text-[#e9d319] text-xs font-black uppercase tracking-[2.5px] mb-2 font-display">
+      {/* Optimized Intro Banner */}
+      <div className="py-10 bg-gradient-to-b from-[#0d162d] via-[#11123c] to-[#16184a] border-b border-[#e9d319]/20 text-white relative overflow-hidden">
+        {/* Subtle background glow */}
+        <div
+          className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-48 bg-[#e9d319]/10 blur-3xl rounded-full pointer-events-none"
+          aria-hidden
+        />
+
+        <div className="container-site max-w-5xl mx-auto px-4 text-center relative z-10">
+          <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#e9d319]/10 border border-[#e9d319]/30 text-[#e9d319] text-[11px] font-black uppercase tracking-[2px] font-display mb-3">
+            <Sparkles size={13} className="text-[#e9d319]" />
             EXPERT TRAINING &amp; DEDICATED FACULTY
-          </p>
-          <h2 className="text-white text-base sm:text-lg md:text-xl font-bold font-display uppercase tracking-wide leading-snug mb-2">
-            BSSFC provides football skill development through an expertise training in a professional way.
+          </span>
+
+          <h2 className="text-white text-xl sm:text-2xl md:text-3xl font-black font-display uppercase tracking-tight max-w-3xl mx-auto leading-snug mb-3">
+            Professional Football Skill Development Guided by Certified Coaches
           </h2>
-          <p className="text-gray-300 text-xs sm:text-sm max-w-3xl mx-auto font-sans leading-relaxed">
-            We have dedicated team and certified trainers, and a courteous staff to provide best training for the players.
+
+          <p className="text-gray-300 text-xs sm:text-sm max-w-2xl mx-auto font-sans leading-relaxed mb-6">
+            BSSFC provides expert, structured football training delivered by AIFF-certified coaches and dedicated staff to nurture player excellence from grassroots to competitive national circuits.
           </p>
+
+          {/* Value Highlights */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-3xl mx-auto pt-2">
+            <div className="flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-gray-200">
+              <ShieldCheck size={16} className="text-[#e9d319] shrink-0" />
+              <span>AIFF &amp; AFC Certified Mentors</span>
+            </div>
+            <div className="flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-gray-200">
+              <Users size={16} className="text-[#e9d319] shrink-0" />
+              <span>Age-Appropriate Progression</span>
+            </div>
+            <div className="flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-gray-200">
+              <Trophy size={16} className="text-[#e9d319] shrink-0" />
+              <span>State &amp; National Match Pathways</span>
+            </div>
+          </div>
         </div>
       </div>
 
