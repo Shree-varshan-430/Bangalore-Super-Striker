@@ -177,11 +177,11 @@ export default function ContactPage() {
                   <div>
                     <p className="text-xs uppercase tracking-wider text-white/50 mb-0.5">Headquarters & Ground</p>
                     <p className="text-sm leading-relaxed text-white/90">
-                      QPQ9+RQP, Thirumagondanahalli, Bommasandra, Tirumagondanahalli, Karnataka 562107
+                      Bangalore Super Strikers Centre of Excellence & Football Club, Thirumagondanahalli Rd, Attibele, Tirumagondanahalli, Karnataka 562107
                     </p>
                     <div className="flex items-center gap-4 mt-2 flex-wrap">
                       <a
-                        href="https://maps.app.goo.gl/5XCLNndNmM3Kc4dd8?g_st=ac"
+                        href="https://maps.app.goo.gl/4ozrhvkpGEaU4ZKV7"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-1.5 text-xs font-bold text-[#e9d319] hover:underline transition-colors"
@@ -191,7 +191,7 @@ export default function ContactPage() {
                         <span>View Location</span>
                       </a>
                       <a
-                        href="https://maps.app.goo.gl/DhbdHLXyuBtY2EDRA?g_st=aw"
+                        href="https://maps.app.goo.gl/4ozrhvkpGEaU4ZKV7"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-1.5 text-xs font-bold text-[#00B8E0] hover:underline transition-colors"
@@ -220,16 +220,17 @@ export default function ContactPage() {
               <div className="border border-gray-200 rounded-lg overflow-hidden bg-gray-100 flex flex-col shadow-sm">
                 <div className="aspect-video relative w-full overflow-hidden">
                   <iframe
-                    title="BSSFC Academy Location Map"
-                    src="https://maps.google.com/maps?q=QPQ9%2BRQP%2C+Thirumagondanahalli%2C+Bommasandra%2C+Karnataka+562107&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                    title="Bangalore Super Strikers Centre of Excellence and Football Club"
+                    src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d2018.5990992301456!2d77.71483379562527!3d12.78491027794008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e6!4m5!1s0x3bae6b91330700b7%3A0xa68d133acea77c5a!2sBangalore%20Super%20Strikers%20Centre%20of%20excellence%20and%20football%20club%2C%20Thirumagondanahalli%20Rd%2C%20Thirumagondanahalli%2C%20Attibele%2C%20Tirumagondanahalli%2C%20Karnataka%20562166!3m2!1d12.784804!2d77.7156889!4m5!1s0x3bae6b91330700b7%3A0xa68d133acea77c5a!2sBangalore%20Super%20Strikers%20Centre%20of%20excellence%20and%20football%20club%2C%20Thirumagondanahalli%20Rd%2C%20Thirumagondanahalli%2C%20Attibele%2C%20Tirumagondanahalli%2C%20Karnataka%20562166!3m2!1d12.784804!2d77.7156889!5e1!3m2!1sen!2sin!4v1795858487591!5m2!1sen!2sin"
                     className="w-full h-full border-0 absolute inset-0"
                     loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
                   ></iframe>
                 </div>
                 <div className="p-3 bg-white border-t border-gray-100 flex items-center justify-between gap-3 flex-wrap">
                   <a
-                    href="https://maps.app.goo.gl/5XCLNndNmM3Kc4dd8?g_st=ac"
+                    href="https://maps.app.goo.gl/4ozrhvkpGEaU4ZKV7"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 text-xs font-bold text-[#1B4193] hover:text-[#e9d319] transition-colors"
@@ -238,7 +239,7 @@ export default function ContactPage() {
                     <span>Open in Google Maps</span>
                   </a>
                   <a
-                    href="https://maps.app.goo.gl/DhbdHLXyuBtY2EDRA?g_st=aw"
+                    href="https://maps.app.goo.gl/4ozrhvkpGEaU4ZKV7"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-[#11123c] bg-[#e9d319] hover:bg-[#1B4193] hover:text-white px-3 py-1.5 rounded transition-colors"

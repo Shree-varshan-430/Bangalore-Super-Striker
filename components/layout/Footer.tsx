@@ -185,17 +185,17 @@ export default function Footer() {
             </a>
             <div className="flex flex-col gap-2">
               <a
-                href="https://maps.app.goo.gl/5XCLNndNmM3Kc4dd8?g_st=ac"
+                href="https://maps.app.goo.gl/4ozrhvkpGEaU4ZKV7"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-start gap-2 text-gray-400 hover:text-[#e9d319] text-xs leading-relaxed transition-colors group"
                 title="View location on Google Maps"
               >
                 <MapPin size={14} className="mt-0.5 shrink-0 text-[#e9d319] group-hover:scale-110 transition-transform" aria-hidden />
-                <span>QPQ9+RQP, Thirumagondanahalli, Bommasandra, Tirumagondanahalli, Karnataka 562107</span>
+                <span>Thirumagondanahalli Rd, Attibele, Bangalore, Karnataka 562107</span>
               </a>
               <a
-                href="https://maps.app.goo.gl/DhbdHLXyuBtY2EDRA?g_st=aw"
+                href="https://maps.app.goo.gl/4ozrhvkpGEaU4ZKV7"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 ml-5 text-[11px] font-bold text-[#e9d319] hover:text-white uppercase tracking-wider transition-colors w-fit"
