@@ -1,0 +1,109 @@
+# ============================================================
+# Bangalore Super Strikers FC — .htaccess
+# For: Plesk / Apache hosting
+# Purpose: SEO-safe migration, HTTPS, www redirect, legacy URLs
+# ============================================================
+
+Options -Indexes
+Options -MultiViews
+
+# ---- Enable Rewrite Engine ----
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # ---- 1. FORCE HTTPS (HTTP → HTTPS) ----
+  RewriteCond %{HTTPS} off
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # ---- 2. FORCE WWW (non-www → www) ----
+  # Keeps canonical consistent with Google's indexed version
+  RewriteCond %{HTTP_HOST} !^www\. [NC]
+  RewriteRule ^ https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # ---- 3. LEGACY URL PATTERNS from old Bootstrap site ----
+
+  # Old .html extensions (if any were directly linked/bookmarked)
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^about\.html?$ /about [R=301,L]
+  RewriteRule ^programs\.html?$ /programs [R=301,L]
+  RewriteRule ^academy_training\.html?$ /academy_training [R=301,L]
+  RewriteRule ^school_university\.html?$ /school_university [R=301,L]
+  RewriteRule ^agewise_progression\.html?$ /agewise_progression [R=301,L]
+  RewriteRule ^summer_camp\.html?$ /summer_camp [R=301,L]
+  RewriteRule ^blogs\.html?$ /blogs [R=301,L]
+  RewriteRule ^gallery\.html?$ /gallery [R=301,L]
+  RewriteRule ^technical_team\.html?$ /technical_team [R=301,L]
+  RewriteRule ^contact\.html?$ /contact [R=301,L]
+
+  # ---- 4. TRAILING SLASH REMOVAL ----
+  # Removes trailing slash for consistency (except root)
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} (.+)/$
+  RewriteRule ^ %1 [R=301,L]
+
+  # ---- 5. NEXT.JS ROUTING ----
+  # Pass all requests to Next.js (when running via Plesk Node.js support)
+  # If using static export, serve files directly
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.*)$ /index.html [L]
+
+</IfModule>
+
+# ---- Security Headers ----
+<IfModule mod_headers.c>
+  # Prevent clickjacking
+  Header always set X-Frame-Options "SAMEORIGIN"
+
+  # Prevent MIME-type sniffing
+  Header always set X-Content-Type-Options "nosniff"
+
+  # XSS Protection
+  Header always set X-XSS-Protection "1; mode=block"
+
+  # Referrer Policy
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # Strict Transport Security (HTTPS only - enable after going live)
+  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+</IfModule>
+
+# ---- Caching (improves Core Web Vitals / LCP score) ----
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # Images
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png  "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/avif "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+
+  # CSS and JS (Next.js hashes filenames so long cache is safe)
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+
+  # Fonts
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType font/woff  "access plus 1 year"
+
+  # HTML (short cache - pages change often)
+  ExpiresByType text/html "access plus 5 minutes"
+</IfModule>
+
+# ---- GZIP Compression (faster page loads) ----
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html
+  AddOutputFilterByType DEFLATE text/css
+  AddOutputFilterByType DEFLATE application/javascript
+  AddOutputFilterByType DEFLATE application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# ---- Block Bad Bots ----
+<IfModule mod_rewrite.c>
+  RewriteCond %{HTTP_USER_AGENT} (AhrefsBot|MJ12bot|DotBot|SemrushBot|serpstatbot|MegaIndex) [NC]
+  RewriteRule .* - [F,L]
+</IfModule>

@@ -3,72 +3,164 @@
     "slug": "academy_training",
     "title": "Academy Training",
     "shortTitle": "Academy Training",
-    "image": "/assets/imgs/clubs/training-1.jpg",
-    "imageAlt": "BSSFC Academy Training session",
+    "image": "/assets/imgs/programs/academy.jpg",
+    "imageAlt": "BSSFC Academy Training session with certified coaches",
     "ageGroup": "Ages 5–25",
     "icon": "⚽",
-    "description": "Our Academy Training programme provides structured, age-appropriate football coaching designed to develop technical skills, tactical understanding, physical fitness and the right mental attitude. Delivered by licensed coaches, it covers dribbling, passing, shooting, set-pieces and match play in a safe, disciplined environment.",
+    "description": "Our Academy Training programme provides structured, age-appropriate football coaching designed to develop technical skills, tactical understanding, physical fitness and the right mental attitude. Delivered by AFC/AIFF-licensed coaches, it covers dribbling, passing, shooting, set-pieces and match play in a safe, disciplined environment. Players are nurtured through a proven curriculum that mirrors professional football development pathways, giving every child the platform to reach their full potential.",
     "features": [
-      "Licensed and certified coaches",
-      "Age-appropriate curriculum",
-      "Technical and tactical development",
-      "Regular match exposure",
-      "Physical conditioning"
+      "AFC / AIFF licensed and certified coaches",
+      "Age-appropriate structured curriculum (U7 to Senior)",
+      "Technical skill development — dribbling, passing, shooting",
+      "Tactical understanding and game intelligence",
+      "Regular competitive match exposure",
+      "Physical conditioning and injury prevention",
+      "Mental resilience and leadership training",
+      "Video analysis sessions for advanced groups"
     ],
-    "heroImage": "/assets/imgs/clubs/hero-elite-coaching.jpg"
+    "highlights": [
+      { "icon": "🏆", "label": "Licensed Coaches", "value": "AFC / AIFF Certified" },
+      { "icon": "📅", "label": "Sessions", "value": "6 days a week" },
+      { "icon": "👦", "label": "Age Groups", "value": "U7, U9, U11, U13, U15, U17, U20, Senior" },
+      { "icon": "📍", "label": "Venues", "value": "Multiple centres across Bangalore" }
+    ],
+    "process": [
+      { "step": "1", "title": "Assessment", "desc": "Every player begins with a skill and fitness assessment to place them in the right age-group batch." },
+      { "step": "2", "title": "Structured Training", "desc": "Weekly sessions covering technical, tactical, physical, and psychological pillars of the game." },
+      { "step": "3", "title": "Match Practice", "desc": "Regular in-house and external fixtures to put skills into competitive practice." },
+      { "step": "4", "title": "Review & Progression", "desc": "Quarterly reviews and promotion to the next age band based on performance and development." }
+    ],
+    "heroImage": "/assets/imgs/clubs/hero-elite-coaching.jpg",
+    "faqs": [
+      { "q": "What age groups does the academy accept?", "a": "We accept players from age 5 (Under-7) through to senior level (25+). Each group has its own curriculum tailored to their developmental stage." },
+      { "q": "How many days per week are training sessions?", "a": "Academy training runs 6 days a week. Specific batch timings vary by venue and age group — contact us for the schedule at your nearest centre." },
+      { "q": "Are the coaches certified?", "a": "Yes. All BSSFC coaches hold AFC or AIFF coaching licences and undergo regular CPD training." }
+    ]
   },
   {
     "slug": "school_university",
     "title": "School / University Coaching And Scholarship Program",
     "shortTitle": "School & University",
-    "image": "/assets/imgs/clubs/news-pitch-sponsorship.jpg",
-    "imageAlt": "BSSFC School University Coaching session",
+    "image": "/assets/imgs/programs/school.jpg",
+    "imageAlt": "BSSFC School and University football coaching and scholarship program",
     "ageGroup": "Ages 6–22",
     "icon": "🎓",
-    "description": "BSSFC partners with schools and universities across Bangalore, Pondicherry, Chennai, Nilgiris and Karnataka to deliver high-quality football coaching programmes and scholarship opportunities for talented players. Our coaches integrate football development within the academic schedule, helping students balance education and sport.",
+    "description": "BSSFC partners with schools and universities across Bangalore, Pondicherry, Chennai, Nilgiris and Karnataka to deliver high-quality football coaching programmes and scholarship opportunities for talented players. Our coaches integrate football development within the academic schedule, helping students balance education and sport at the highest level. We identify gifted players early, nurture them through our academy system, and open pathways to state, national, and international competitions.",
     "features": [
       "School and university partnership model",
-      "Scholarship opportunities for talented players",
-      "Integration with academic timetable",
+      "Scholarship opportunities for talented and underprivileged players",
+      "Seamless integration with academic timetable",
+      "AIFF-aligned curriculum delivered on school/campus grounds",
       "State and national level competition exposure",
-      "Expansion across Pondicherry, Chennai, Nilgiris and Karnataka"
+      "Talent identification and scouting pathway",
+      "Expansion across Pondicherry, Chennai, Nilgiris and Karnataka",
+      "Residential coaching programmes available"
     ],
-    "heroImage": "/assets/imgs/clubs/news-pathways.jpg"
+    "highlights": [
+      { "icon": "🏫", "label": "Partners", "value": "20+ Schools & Universities" },
+      { "icon": "🎓", "label": "Scholarships", "value": "Merit & Need based" },
+      { "icon": "🌍", "label": "Regions", "value": "Bangalore, Pondicherry, Chennai, Nilgiris, Karnataka" },
+      { "icon": "📋", "label": "Program Type", "value": "In-campus coaching" }
+    ],
+    "process": [
+      { "step": "1", "title": "Partnership", "desc": "BSSFC signs a coaching partnership with your school or university to provide structured football within the campus." },
+      { "step": "2", "title": "Talent Identification", "desc": "Our scouts assess all interested students and identify players for intensive development." },
+      { "step": "3", "title": "Coaching & Development", "desc": "Licensed coaches deliver sessions on campus, coordinated around the academic calendar." },
+      { "step": "4", "title": "Competition & Scholarships", "desc": "Top performers are entered into state/national competitions, with scholarship packages offered to deserving players." }
+    ],
+    "heroImage": "/assets/imgs/clubs/news-pathways.jpg",
+    "faqs": [
+      { "q": "How does BSSFC partner with our school?", "a": "We sign a formal coaching partnership agreement. Our coaches visit your campus on agreed days and conduct structured sessions for your students at no disruption to academic schedules." },
+      { "q": "Who is eligible for a scholarship?", "a": "Scholarships are awarded on a merit and/or need basis to talented players identified through our scouting process. Both boys and girls are eligible." },
+      { "q": "Which cities do you operate in?", "a": "We currently operate across Bangalore, Pondicherry, Chennai, Nilgiris and Karnataka, with new locations being added regularly." }
+    ]
   },
   {
     "slug": "agewise_progression",
     "title": "Age Wise Progression",
     "shortTitle": "Age Wise Progression",
-    "image": "/assets/imgs/clubs/news-player-development.jpg",
-    "imageAlt": "BSSFC Age Wise Progression training",
+    "image": "/assets/imgs/programs/agewise.jpg",
+    "imageAlt": "BSSFC Age Wise Progression framework from U7 to senior football",
     "ageGroup": "Ages 5–25",
     "icon": "📈",
-    "description": "BSSFC's Age Wise Progression framework ensures every player develops at the right pace for their age and ability. The programme is structured in age bands — U7, U9, U11, U13, U15, U17, U20 and senior — each with its own technical, tactical and physical goals aligned with AIFF and KSFA guidelines.",
+    "description": "BSSFC's Age Wise Progression framework ensures every player develops at the right pace for their age and ability. The programme is structured in age bands — U7, U9, U11, U13, U15, U17, U20 and Senior — each with its own technical, tactical, physical and psychological goals aligned with AIFF and KSFA guidelines. This structured pathway is what separates hobbyists from future professionals: a clear, measurable roadmap from a child's first touch to competitive senior football.",
     "features": [
-      "Structured age band curriculum (U7 to Senior)",
-      "Individual player development plans",
-      "Regular assessment and promotion",
+      "Structured age band curriculum (U7 through Senior)",
+      "Individual player development plans (IDP)",
+      "Regular assessment, grading and promotion",
       "AIFF and KSFA aligned programme",
-      "Pathway to senior and professional football"
+      "Goalkeeping-specific development track",
+      "Dedicated women's progression pathway",
+      "Physical literacy benchmarks per age group",
+      "Pathway to senior, state, and professional football"
     ],
-    "heroImage": "/assets/imgs/clubs/training-2.jpg"
+    "highlights": [
+      { "icon": "👦", "label": "Age Bands", "value": "U7 / U9 / U11 / U13 / U15 / U17 / U20 / Senior" },
+      { "icon": "📋", "label": "Framework", "value": "AIFF & KSFA Aligned" },
+      { "icon": "📊", "label": "Assessment", "value": "Quarterly reviews" },
+      { "icon": "🏟️", "label": "Goal", "value": "State & National level competition" }
+    ],
+    "ageGroups": [
+      { "band": "Under 7", "age": "5–6 yrs", "focus": "Ball familiarity, fun & movement. Building love for the game." },
+      { "band": "Under 9", "age": "7–8 yrs", "focus": "1v1 skills, basic dribbling, coordination and teamwork." },
+      { "band": "Under 11", "age": "9–10 yrs", "focus": "Passing, receiving, small-sided games, positional awareness." },
+      { "band": "Under 13", "age": "11–12 yrs", "focus": "Tactical understanding, set-pieces, fitness and competitive play." },
+      { "band": "Under 15", "age": "13–14 yrs", "focus": "Technical mastery, physical development, state competition prep." },
+      { "band": "Under 17", "age": "15–16 yrs", "focus": "High-performance training, elite fitness, national level pathways." },
+      { "band": "Under 20", "age": "17–19 yrs", "focus": "Semi-professional development, strength & conditioning, trials." },
+      { "band": "Senior", "age": "20+ yrs", "focus": "Competitive senior football, league play and professional pathways." }
+    ],
+    "process": [
+      { "step": "1", "title": "Entry Assessment", "desc": "New players are assessed and placed in the correct age band regardless of previous experience." },
+      { "step": "2", "title": "IDP Creation", "desc": "An Individual Development Plan is created for each player, tracking technical, tactical, physical and mental goals." },
+      { "step": "3", "title": "Structured Training", "desc": "Band-specific curriculum delivered by coaches certified for that age group." },
+      { "step": "4", "title": "Promotion", "desc": "Players are reviewed quarterly and promoted to the next band when ready, based on performance benchmarks." }
+    ],
+    "heroImage": "/assets/imgs/clubs/training-2.jpg",
+    "faqs": [
+      { "q": "What if my child is older but new to football?", "a": "We assess each player individually. A late-starter may train with a younger age band initially and progress quickly based on their development." },
+      { "q": "Is there a women's progression pathway?", "a": "Yes. BSSFC runs a dedicated women's development programme aligned to the same age-band framework, with women's league participation." },
+      { "q": "How often are players assessed?", "a": "Formal assessments happen quarterly. Coaches also monitor progress continuously during training sessions." }
+    ]
   },
   {
     "slug": "summer_camp",
     "title": "Summer Camp",
     "shortTitle": "Summer Camp",
-    "image": "/assets/imgs/clubs/news-underpriv-camp.jpg",
-    "imageAlt": "BSSFC Summer Football Camp",
+    "image": "/assets/imgs/programs/summer.jpg",
+    "imageAlt": "BSSFC Summer Football Camp with young players",
     "ageGroup": "Ages 5–18",
     "icon": "☀️",
-    "description": "Intensive summer camps running across multiple centres in Bangalore during school vacation periods. Combines technical skill workshops, 5-a-side mini leagues, agility circuits, and fun football activities designed to keep young players active, engaged, and improving throughout the summer.",
+    "description": "BSSFC Summer Football Camps run across multiple centres in Bangalore during school vacation periods. Combining technical skill workshops, 5-a-side mini leagues, agility circuits, and fun football activities, the camp is designed to keep young players active, engaged, and improving throughout the summer. All skill levels are welcome — from complete beginners to academy players wanting extra reps during the holidays.",
     "features": [
       "Morning and evening batch options",
+      "Open to all skill levels — beginners to advanced",
+      "Technical skill workshops by certified coaches",
+      "5-a-side mini leagues every week",
+      "Agility, speed and coordination circuits",
+      "Fun football challenges and activities",
+      "Goalkeeping-specific workshops",
       "Certificate of completion for all participants",
       "Talent scouting opportunities for the academy",
-      "Goalkeeping-specific workshops",
       "Fun mini-tournaments every Friday"
     ],
-    "heroImage": "/assets/imgs/clubs/news-grassroots.jpg"
+    "highlights": [
+      { "icon": "☀️", "label": "Duration", "value": "2–4 weeks (summer holidays)" },
+      { "icon": "🕗", "label": "Batches", "value": "Morning (7–9 AM) & Evening (5–7 PM)" },
+      { "icon": "👦", "label": "Ages", "value": "5 to 18 years" },
+      { "icon": "📍", "label": "Venues", "value": "Multiple centres across Bangalore" }
+    ],
+    "process": [
+      { "step": "1", "title": "Register", "desc": "Register online or at any BSSFC centre. Batch allocation is based on age and skill level." },
+      { "step": "2", "title": "Skill Workshops", "desc": "Daily structured coaching sessions focusing on a different technical theme each day." },
+      { "step": "3", "title": "Mini Leagues & Games", "desc": "Evening sessions include fun 5-a-side leagues to apply skills in a match setting." },
+      { "step": "4", "title": "Friday Tournaments", "desc": "Every Friday features a mini-tournament with awards, certificates and an end-of-camp celebration." }
+    ],
+    "heroImage": "/assets/imgs/clubs/news-grassroots.jpg",
+    "faqs": [
+      { "q": "When do summer camps run?", "a": "Summer camps typically run in April–May and October–November to coincide with school vacation periods in Bangalore. Register early as spots fill fast." },
+      { "q": "Can beginners join?", "a": "Absolutely. The camp welcomes all levels from complete beginners to competitive academy players. Groups are split by age and ability for appropriate coaching." },
+      { "q": "What does my child need to bring?", "a": "Football boots (or sports shoes for beginners), shin guards, a water bottle, and comfortable sports clothing. Balls are provided." }
+    ]
   }
 ]
